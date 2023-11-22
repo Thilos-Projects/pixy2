@@ -1,0 +1,564 @@
+L 1 "src\equeue.c"
+N//
+N// begin license header
+N//
+N// This file is part of Pixy CMUcam5 or "Pixy" for short
+N//
+N// All Pixy source code is provided under the terms of the
+N// GNU General Public License v2 (http://www.gnu.org/licenses/gpl-2.0.html).
+N// Those wishing to use Pixy source code, software and/or
+N// technologies under different licensing terms should contact us at
+N// cmucam@cs.cmu.edu. Such licensing terms are available for
+N// all portions of the Pixy codebase presented here.
+N//
+N// end license header
+N//
+N
+N#include "equeue.h"
+L 1 "..\..\common\inc\equeue.h" 1
+N//
+N// begin license header
+N//
+N// This file is part of Pixy CMUcam5 or "Pixy" for short
+N//
+N// All Pixy source code is provided under the terms of the
+N// GNU General Public License v2 (http://www.gnu.org/licenses/gpl-2.0.html).
+N// Those wishing to use Pixy source code, software and/or
+N// technologies under different licensing terms should contact us at
+N// cmucam@cs.cmu.edu. Such licensing terms are available for
+N// all portions of the Pixy codebase presented here.
+N//
+N// end license header
+N//
+N#ifndef _EQUEUE_H
+N#define _EQUEUE_H
+N#include <stdint.h>
+L 1 "E:\Keil\Core\ARM\Arm_Compiler_5.06u7\Bin\..\include\stdint.h" 1
+N/* Copyright (C) ARM Ltd., 1999,2014 */
+N/* All rights reserved */
+N
+N/*
+N * RCS $Revision$
+N * Checkin $Date$
+N * Revising $Author: agrant $
+N */
+N
+N#ifndef __stdint_h
+N#define __stdint_h
+N#define __ARMCLIB_VERSION 5060044
+N
+N  #ifdef __INT64_TYPE__
+S    /* armclang predefines '__INT64_TYPE__' and '__INT64_C_SUFFIX__' */
+S    #define __INT64 __INT64_TYPE__
+N  #else
+N    /* armcc has builtin '__int64' which can be used in --strict mode */
+N    #define __INT64 __int64
+N    #define __INT64_C_SUFFIX__ ll
+N  #endif
+N  #define __PASTE2(x, y) x ## y
+N  #define __PASTE(x, y) __PASTE2(x, y)
+N  #define __INT64_C(x)  __ESCAPE__(__PASTE(x, __INT64_C_SUFFIX__))
+N  #define __UINT64_C(x)  __ESCAPE__(__PASTE(x ## u, __INT64_C_SUFFIX__))
+N  #if defined(__clang__) || (defined(__ARMCC_VERSION) && !defined(__STRICT_ANSI__))
+X  #if 0L || (1L && !0L)
+N    /* armclang and non-strict armcc allow 'long long' in system headers */
+N    #define __LONGLONG long long
+N  #else
+S    /* strict armcc has '__int64' */
+S    #define __LONGLONG __int64
+N  #endif
+N
+N  #ifndef __STDINT_DECLS
+N  #define __STDINT_DECLS
+N
+N    #undef __CLIBNS
+N
+N    #ifdef __cplusplus
+S      namespace std {
+S          #define __CLIBNS std::
+S          extern "C" {
+N    #else
+N      #define __CLIBNS
+N    #endif  /* __cplusplus */
+N
+N
+N/*
+N * 'signed' is redundant below, except for 'signed char' and if
+N * the typedef is used to declare a bitfield.
+N */
+N
+N    /* 7.18.1.1 */
+N
+N    /* exact-width signed integer types */
+Ntypedef   signed          char int8_t;
+Ntypedef   signed short     int int16_t;
+Ntypedef   signed           int int32_t;
+Ntypedef   signed       __INT64 int64_t;
+Xtypedef   signed       __int64 int64_t;
+N
+N    /* exact-width unsigned integer types */
+Ntypedef unsigned          char uint8_t;
+Ntypedef unsigned short     int uint16_t;
+Ntypedef unsigned           int uint32_t;
+Ntypedef unsigned       __INT64 uint64_t;
+Xtypedef unsigned       __int64 uint64_t;
+N
+N    /* 7.18.1.2 */
+N
+N    /* smallest type of at least n bits */
+N    /* minimum-width signed integer types */
+Ntypedef   signed          char int_least8_t;
+Ntypedef   signed short     int int_least16_t;
+Ntypedef   signed           int int_least32_t;
+Ntypedef   signed       __INT64 int_least64_t;
+Xtypedef   signed       __int64 int_least64_t;
+N
+N    /* minimum-width unsigned integer types */
+Ntypedef unsigned          char uint_least8_t;
+Ntypedef unsigned short     int uint_least16_t;
+Ntypedef unsigned           int uint_least32_t;
+Ntypedef unsigned       __INT64 uint_least64_t;
+Xtypedef unsigned       __int64 uint_least64_t;
+N
+N    /* 7.18.1.3 */
+N
+N    /* fastest minimum-width signed integer types */
+Ntypedef   signed           int int_fast8_t;
+Ntypedef   signed           int int_fast16_t;
+Ntypedef   signed           int int_fast32_t;
+Ntypedef   signed       __INT64 int_fast64_t;
+Xtypedef   signed       __int64 int_fast64_t;
+N
+N    /* fastest minimum-width unsigned integer types */
+Ntypedef unsigned           int uint_fast8_t;
+Ntypedef unsigned           int uint_fast16_t;
+Ntypedef unsigned           int uint_fast32_t;
+Ntypedef unsigned       __INT64 uint_fast64_t;
+Xtypedef unsigned       __int64 uint_fast64_t;
+N
+N    /* 7.18.1.4 integer types capable of holding object pointers */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+Stypedef   signed       __INT64 intptr_t;
+Stypedef unsigned       __INT64 uintptr_t;
+N#else
+Ntypedef   signed           int intptr_t;
+Ntypedef unsigned           int uintptr_t;
+N#endif
+N
+N    /* 7.18.1.5 greatest-width integer types */
+Ntypedef   signed     __LONGLONG intmax_t;
+Xtypedef   signed     long long intmax_t;
+Ntypedef unsigned     __LONGLONG uintmax_t;
+Xtypedef unsigned     long long uintmax_t;
+N
+N
+N#if !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS)
+X#if !0L || 0L
+N
+N    /* 7.18.2.1 */
+N
+N    /* minimum values of exact-width signed integer types */
+N#define INT8_MIN                   -128
+N#define INT16_MIN                -32768
+N#define INT32_MIN          (~0x7fffffff)   /* -2147483648 is unsigned */
+N#define INT64_MIN  __INT64_C(~0x7fffffffffffffff) /* -9223372036854775808 is unsigned */
+N
+N    /* maximum values of exact-width signed integer types */
+N#define INT8_MAX                    127
+N#define INT16_MAX                 32767
+N#define INT32_MAX            2147483647
+N#define INT64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of exact-width unsigned integer types */
+N#define UINT8_MAX                   255
+N#define UINT16_MAX                65535
+N#define UINT32_MAX           4294967295u
+N#define UINT64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.2 */
+N
+N    /* minimum values of minimum-width signed integer types */
+N#define INT_LEAST8_MIN                   -128
+N#define INT_LEAST16_MIN                -32768
+N#define INT_LEAST32_MIN          (~0x7fffffff)
+N#define INT_LEAST64_MIN  __INT64_C(~0x7fffffffffffffff)
+N
+N    /* maximum values of minimum-width signed integer types */
+N#define INT_LEAST8_MAX                    127
+N#define INT_LEAST16_MAX                 32767
+N#define INT_LEAST32_MAX            2147483647
+N#define INT_LEAST64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of minimum-width unsigned integer types */
+N#define UINT_LEAST8_MAX                   255
+N#define UINT_LEAST16_MAX                65535
+N#define UINT_LEAST32_MAX           4294967295u
+N#define UINT_LEAST64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.3 */
+N
+N    /* minimum values of fastest minimum-width signed integer types */
+N#define INT_FAST8_MIN           (~0x7fffffff)
+N#define INT_FAST16_MIN          (~0x7fffffff)
+N#define INT_FAST32_MIN          (~0x7fffffff)
+N#define INT_FAST64_MIN  __INT64_C(~0x7fffffffffffffff)
+N
+N    /* maximum values of fastest minimum-width signed integer types */
+N#define INT_FAST8_MAX             2147483647
+N#define INT_FAST16_MAX            2147483647
+N#define INT_FAST32_MAX            2147483647
+N#define INT_FAST64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of fastest minimum-width unsigned integer types */
+N#define UINT_FAST8_MAX            4294967295u
+N#define UINT_FAST16_MAX           4294967295u
+N#define UINT_FAST32_MAX           4294967295u
+N#define UINT_FAST64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.4 */
+N
+N    /* minimum value of pointer-holding signed integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define INTPTR_MIN INT64_MIN
+N#else
+N#define INTPTR_MIN INT32_MIN
+N#endif
+N
+N    /* maximum value of pointer-holding signed integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define INTPTR_MAX INT64_MAX
+N#else
+N#define INTPTR_MAX INT32_MAX
+N#endif
+N
+N    /* maximum value of pointer-holding unsigned integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define UINTPTR_MAX UINT64_MAX
+N#else
+N#define UINTPTR_MAX UINT32_MAX
+N#endif
+N
+N    /* 7.18.2.5 */
+N
+N    /* minimum value of greatest-width signed integer type */
+N#define INTMAX_MIN  __ESCAPE__(~0x7fffffffffffffffll)
+N
+N    /* maximum value of greatest-width signed integer type */
+N#define INTMAX_MAX  __ESCAPE__(9223372036854775807ll)
+N
+N    /* maximum value of greatest-width unsigned integer type */
+N#define UINTMAX_MAX __ESCAPE__(18446744073709551615ull)
+N
+N    /* 7.18.3 */
+N
+N    /* limits of ptrdiff_t */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define PTRDIFF_MIN INT64_MIN
+S#define PTRDIFF_MAX INT64_MAX
+N#else
+N#define PTRDIFF_MIN INT32_MIN
+N#define PTRDIFF_MAX INT32_MAX
+N#endif
+N
+N    /* limits of sig_atomic_t */
+N#define SIG_ATOMIC_MIN (~0x7fffffff)
+N#define SIG_ATOMIC_MAX   2147483647
+N
+N    /* limit of size_t */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define SIZE_MAX UINT64_MAX
+N#else
+N#define SIZE_MAX UINT32_MAX
+N#endif
+N
+N    /* limits of wchar_t */
+N    /* NB we have to undef and redef because they're defined in both
+N     * stdint.h and wchar.h */
+N#undef WCHAR_MIN
+N#undef WCHAR_MAX
+N
+N#if defined(__WCHAR32) || (defined(__ARM_SIZEOF_WCHAR_T) && __ARM_SIZEOF_WCHAR_T == 4)
+X#if 0L || (0L && __ARM_SIZEOF_WCHAR_T == 4)
+S  #define WCHAR_MIN   0
+S  #define WCHAR_MAX   0xffffffffU
+N#else
+N  #define WCHAR_MIN   0
+N  #define WCHAR_MAX   65535
+N#endif
+N
+N    /* limits of wint_t */
+N#define WINT_MIN (~0x7fffffff)
+N#define WINT_MAX 2147483647
+N
+N#endif /* __STDC_LIMIT_MACROS */
+N
+N#if !defined(__cplusplus) || defined(__STDC_CONSTANT_MACROS)
+X#if !0L || 0L
+N
+N    /* 7.18.4.1 macros for minimum-width integer constants */
+N#define INT8_C(x)   (x)
+N#define INT16_C(x)  (x)
+N#define INT32_C(x)  (x)
+N#define INT64_C(x)  __INT64_C(x)
+N
+N#define UINT8_C(x)  (x ## u)
+N#define UINT16_C(x) (x ## u)
+N#define UINT32_C(x) (x ## u)
+N#define UINT64_C(x) __UINT64_C(x)
+N
+N    /* 7.18.4.2 macros for greatest-width integer constants */
+N#define INTMAX_C(x)  __ESCAPE__(x ## ll)
+N#define UINTMAX_C(x) __ESCAPE__(x ## ull)
+N
+N#endif /* __STDC_CONSTANT_MACROS */
+N
+N    #ifdef __cplusplus
+S         }  /* extern "C" */
+S      }  /* namespace std */
+N    #endif /* __cplusplus */
+N  #endif /* __STDINT_DECLS */
+N
+N  #ifdef __cplusplus
+S    #ifndef __STDINT_NO_EXPORTS
+S      using ::std::int8_t;
+S      using ::std::int16_t;
+S      using ::std::int32_t;
+S      using ::std::int64_t;
+S      using ::std::uint8_t;
+S      using ::std::uint16_t;
+S      using ::std::uint32_t;
+S      using ::std::uint64_t;
+S      using ::std::int_least8_t;
+S      using ::std::int_least16_t;
+S      using ::std::int_least32_t;
+S      using ::std::int_least64_t;
+S      using ::std::uint_least8_t;
+S      using ::std::uint_least16_t;
+S      using ::std::uint_least32_t;
+S      using ::std::uint_least64_t;
+S      using ::std::int_fast8_t;
+S      using ::std::int_fast16_t;
+S      using ::std::int_fast32_t;
+S      using ::std::int_fast64_t;
+S      using ::std::uint_fast8_t;
+S      using ::std::uint_fast16_t;
+S      using ::std::uint_fast32_t;
+S      using ::std::uint_fast64_t;
+S      using ::std::intptr_t;
+S      using ::std::uintptr_t;
+S      using ::std::intmax_t;
+S      using ::std::uintmax_t;
+S    #endif
+N  #endif /* __cplusplus */
+N
+N#undef __INT64
+N#undef __LONGLONG
+N
+N#endif /* __stdint_h */
+N
+N/* end of stdint.h */
+L 18 "..\..\common\inc\equeue.h" 2
+N
+N#define EQ_LOC        SRAM4_LOC
+N#define EQ_SIZE       0x3c00
+N
+N#define EQ_MEM_SIZE  ((EQ_SIZE-sizeof(struct EqueueFields)+sizeof(uint16_t))/sizeof(uint16_t))
+N
+N#define EQ_HSCAN_LINE_START 0xff00
+N#define EQ_VSCAN_LINE_START 0xff01
+N#define EQ_ERROR            0xfffe
+N#define EQ_FRAME_END        0xffff
+N#define EQ_NEGATIVE         0x8000
+N
+N#define EQ_STREAM_EDGES     0x0001
+N#define EQ_STREAM_LINES	    0x0002
+N
+N#define EQ_NODE_SIZE        12
+N
+N#define EQ_NODE_FLAG_HLINE  0x0400
+N#define EQ_NODE_FLAG_VLINE  0x0800
+N
+N
+Ntypedef int16_t LineSegIndex;
+N
+N#ifdef __cplusplus
+Sstruct Point
+S{
+S	Point()
+S	{
+S	}
+S	
+S	Point(uint8_t x, uint8_t y)
+S	{
+S		m_x = x;
+S		m_y = y;
+S	}
+S	
+S	bool equals(const Point &p) const
+S	{
+S		return p.m_x==m_x && p.m_y==m_y;
+S	}
+S	
+S	uint16_t dist2(const Point &p) const
+S	{
+S		int16_t diffx, diffy;
+S		
+S		diffx = p.m_x - m_x;
+S		diffy = p.m_y - m_y;
+S		
+S		return diffx*diffx + diffy*diffy;
+S	}
+S	
+S	void avg(const Point &p)
+S	{
+S		m_x = (m_x+p.m_x)>>1;
+S		m_y = (m_y+p.m_y)>>1;
+S	}
+S	
+S	uint8_t m_x;
+S	uint8_t m_y;
+S};
+S
+Sstruct LineSeg;
+S
+Sstruct LineSeg
+S{
+S	void reset()
+S	{
+S		m_ls0 = m_ls1 = -1;
+S		m_line = 0;
+S	}
+S		
+S	uint16_t length2() const
+S	{
+S		int16_t diffx, diffy;
+S		
+S		diffx = m_p1.m_x - m_p0.m_x;
+S		diffy = m_p1.m_y - m_p0.m_y;
+S		
+S		return diffx*diffx + diffy*diffy;
+S	}
+S
+S	Point m_p0; 
+S	Point m_p1;
+S	LineSegIndex m_ls0;
+S	LineSegIndex m_ls1;
+S	uint8_t m_line;
+S};
+S
+N#endif
+N
+N
+Nstruct EqueueFields
+N{
+N    volatile uint16_t readIndex;
+N    volatile uint16_t writeIndex;
+N
+N    volatile uint16_t produced;
+N    volatile uint16_t consumed;
+N
+N    // (array size below doesn't matter-- we're just going to cast a pointer to this struct)
+N    uint16_t data[1]; // data
+N};
+N
+N#ifdef __cplusplus  // M4 is C++ and the "consumer" of data
+S
+Sclass Equeue
+S{
+Spublic:
+S	Equeue();
+S	~Equeue();
+S
+S	void reset();
+S	uint32_t dequeue(uint16_t *val);
+S	uint32_t queued()
+S	{
+S		return m_fields->produced - m_fields->consumed;
+S	}
+S
+S	uint32_t readLine(uint16_t *mem, uint32_t size, bool *eof, bool *error);
+S	void flush();
+S
+S	EqueueFields *m_fields;
+S};
+S
+N#else //  M0 is C and the "producer" of data (Qvals)
+N
+Nuint32_t eq_enqueue(uint16_t val);
+Nuint16_t eq_free(void);
+N
+Nextern struct EqueueFields *g_equeue;
+N
+N#endif
+N
+N#endif
+L 17 "src\equeue.c" 2
+N#include "pixyvals.h"
+L 1 "..\common\inc\pixyvals.h" 1
+N//
+N// begin license header
+N//
+N// This file is part of Pixy CMUcam5 or "Pixy" for short
+N//
+N// All Pixy source code is provided under the terms of the
+N// GNU General Public License v2 (http://www.gnu.org/licenses/gpl-2.0.html).
+N// Those wishing to use Pixy source code, software and/or
+N// technologies under different licensing terms should contact us at
+N// cmucam@cs.cmu.edu. Such licensing terms are available for
+N// all portions of the Pixy codebase presented here.
+N//
+N// end license header
+N//
+N
+N#ifndef PIXYVALS_H
+N#define PIXYVALS_H
+N
+N#define XTALFREQ                 12000000
+N#define CLKFREQ                  204000000
+N#define CLKFREQ_MS               (CLKFREQ/1000)
+N#define CLKFREQ_US               (CLKFREQ/1000000)
+N
+N// SRAM banks
+N#define SRAM0_LOC                0x10000000
+N#define SRAM0_SIZE               0x20000
+N#define SRAM1_LOC                0x10080000
+N#define SRAM1_SIZE               0x12000
+N#define SRAM2_LOC                0x20000000
+N#define SRAM2_SIZE               0x8000
+N#define SRAM3_LOC                0x20008000
+N#define SRAM3_SIZE               0x4000
+N#define SRAM4_LOC                0x2000c000
+N#define SRAM4_SIZE               0x4000
+N
+N#endif
+L 18 "src\equeue.c" 2
+N
+Nstruct EqueueFields *g_equeue = (struct EqueueFields *)EQ_LOC;
+Xstruct EqueueFields *g_equeue = (struct EqueueFields *)0x2000c000;
+N
+Nuint32_t eq_enqueue(uint16_t val)
+N{
+N    if (eq_free()>0)
+N    {
+N        g_equeue->data[g_equeue->writeIndex++] = val;
+N        g_equeue->produced++;
+N		if (g_equeue->writeIndex==EQ_MEM_SIZE)
+X		if (g_equeue->writeIndex==((0x3c00-sizeof(struct EqueueFields)+sizeof(uint16_t))/sizeof(uint16_t)))
+N			g_equeue->writeIndex = 0;
+N        return 1;
+N    }
+N    return 0;
+N}
+N
+Nuint16_t eq_free(void)
+N{
+N    uint16_t len = g_equeue->produced - g_equeue->consumed;
+N	return EQ_MEM_SIZE-len;
+X	return ((0x3c00-sizeof(struct EqueueFields)+sizeof(uint16_t))/sizeof(uint16_t))-len;
+N} 

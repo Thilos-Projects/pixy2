@@ -1,0 +1,11 @@
+--create .\libpixy_m0.lib
+.\chirp.o
+.\debug.o
+.\exec_m0.o
+.\frame_m0.o
+.\rls_m0.o
+.\smlink.o
+.\debug_frmwrk.o
+.\ipc_mbx.o
+.\lpc43xx_uart.o
+.\qqueue.o

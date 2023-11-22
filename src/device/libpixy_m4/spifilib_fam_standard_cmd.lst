@@ -1,0 +1,3872 @@
+L 1 "src\spifilib_fam_standard_cmd.c"
+N/*
+N * @brief Common Command Set Family driver
+N *
+N * @note
+N * Copyright(C) NXP Semiconductors, 2014
+N * All rights reserved.
+N *
+N * @par
+N * Software that is described herein is for illustrative purposes only
+N * which provides customers with programming information regarding the
+N * LPC products.  This software is supplied "AS IS" without any warranties of
+N * any kind, and NXP Semiconductors and its licenser disclaim any and
+N * all warranties, express or implied, including all implied warranties of
+N * merchantability, fitness for a particular purpose and non-infringement of
+N * intellectual property rights.  NXP Semiconductors assumes no responsibility
+N * or liability for the use of the software, conveys no license or rights under any
+N * patent, copyright, mask work right, or any other intellectual property rights in
+N * or to any products. NXP Semiconductors reserves the right to make changes
+N * in the software without notification. NXP Semiconductors also makes no
+N * representation or warranty that such application will be suitable for the
+N * specified use without further testing or modification.
+N *
+N * @par
+N * Permission to use, copy, modify, and distribute this software and its
+N * documentation is hereby granted, under NXP Semiconductors' and its
+N * licensor's relevant copyrights in the software, without fee, provided that it
+N * is used in conjunction with NXP Semiconductors microcontrollers.  This
+N * copyright, permission, and disclaimer notice must appear in all copies of
+N * this code.
+N */
+N#include <string.h>
+L 1 "E:\Keil\Core\ARM\Arm_Compiler_5.06u7\Bin\..\include\string.h" 1
+N/* string.h: ANSI 'C' (X3J11 Oct 88) library header, section 4.11 */
+N/* Copyright (C) Codemist Ltd., 1988-1993.                        */
+N/* Copyright 1991-1993 ARM Limited. All rights reserved.          */
+N/* version 0.04 */
+N
+N/*
+N * RCS $Revision$
+N * Checkin $Date$
+N */
+N
+N/*
+N * string.h declares one type and several functions, and defines one macro
+N * useful for manipulating character arrays and other objects treated as
+N * character arrays. Various methods are used for determining the lengths of
+N * the arrays, but in all cases a char * or void * argument points to the
+N * initial (lowest addresses) character of the array. If an array is written
+N * beyond the end of an object, the behaviour is undefined.
+N */
+N
+N#ifndef __string_h
+N#define __string_h
+N#define __ARMCLIB_VERSION 5060044
+N
+N#define _ARMABI __declspec(__nothrow)
+N
+N  #ifndef __STRING_DECLS
+N  #define __STRING_DECLS
+N
+N    #undef __CLIBNS
+N
+N    #ifdef __cplusplus
+S        namespace std {
+S        #define __CLIBNS std::
+S        extern "C" {
+N    #else
+N      #define __CLIBNS
+N    #endif  /* __cplusplus */
+N
+N#if defined(__cplusplus) || !defined(__STRICT_ANSI__)
+X#if 0L || !0L
+N /* unconditional in C++ and non-strict C for consistency of debug info */
+N  #if __sizeof_ptr == 8
+X  #if 4 == 8
+S    typedef unsigned long size_t;   /* see <stddef.h> */
+N  #else
+N    typedef unsigned int size_t;   /* see <stddef.h> */
+N  #endif
+N#elif !defined(__size_t)
+S  #define __size_t 1
+S  #if __sizeof_ptr == 8
+S    typedef unsigned long size_t;   /* see <stddef.h> */
+S  #else
+S    typedef unsigned int size_t;   /* see <stddef.h> */
+S  #endif
+N#endif
+N
+N#undef NULL
+N#define NULL 0                   /* see <stddef.h> */
+N
+Nextern _ARMABI void *memcpy(void * __restrict /*s1*/,
+Xextern __declspec(__nothrow) void *memcpy(void * __restrict  ,
+N                    const void * __restrict /*s2*/, size_t /*n*/) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * copies n characters from the object pointed to by s2 into the object
+N    * pointed to by s1. If copying takes place between objects that overlap,
+N    * the behaviour is undefined.
+N    * Returns: the value of s1.
+N    */
+Nextern _ARMABI void *memmove(void * /*s1*/,
+Xextern __declspec(__nothrow) void *memmove(void *  ,
+N                    const void * /*s2*/, size_t /*n*/) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * copies n characters from the object pointed to by s2 into the object
+N    * pointed to by s1. Copying takes place as if the n characters from the
+N    * object pointed to by s2 are first copied into a temporary array of n
+N    * characters that does not overlap the objects pointed to by s1 and s2,
+N    * and then the n characters from the temporary array are copied into the
+N    * object pointed to by s1.
+N    * Returns: the value of s1.
+N    */
+Nextern _ARMABI char *strcpy(char * __restrict /*s1*/, const char * __restrict /*s2*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) char *strcpy(char * __restrict  , const char * __restrict  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * copies the string pointed to by s2 (including the terminating nul
+N    * character) into the array pointed to by s1. If copying takes place
+N    * between objects that overlap, the behaviour is undefined.
+N    * Returns: the value of s1.
+N    */
+Nextern _ARMABI char *strncpy(char * __restrict /*s1*/, const char * __restrict /*s2*/, size_t /*n*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) char *strncpy(char * __restrict  , const char * __restrict  , size_t  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * copies not more than n characters (characters that follow a null
+N    * character are not copied) from the array pointed to by s2 into the array
+N    * pointed to by s1. If copying takes place between objects that overlap,
+N    * the behaviour is undefined.
+N    * Returns: the value of s1.
+N    */
+N
+Nextern _ARMABI char *strcat(char * __restrict /*s1*/, const char * __restrict /*s2*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) char *strcat(char * __restrict  , const char * __restrict  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * appends a copy of the string pointed to by s2 (including the terminating
+N    * null character) to the end of the string pointed to by s1. The initial
+N    * character of s2 overwrites the null character at the end of s1.
+N    * Returns: the value of s1.
+N    */
+Nextern _ARMABI char *strncat(char * __restrict /*s1*/, const char * __restrict /*s2*/, size_t /*n*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) char *strncat(char * __restrict  , const char * __restrict  , size_t  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * appends not more than n characters (a null character and characters that
+N    * follow it are not appended) from the array pointed to by s2 to the end of
+N    * the string pointed to by s1. The initial character of s2 overwrites the
+N    * null character at the end of s1. A terminating null character is always
+N    * appended to the result.
+N    * Returns: the value of s1.
+N    */
+N
+N/*
+N * The sign of a nonzero value returned by the comparison functions is
+N * determined by the sign of the difference between the values of the first
+N * pair of characters (both interpreted as unsigned char) that differ in the
+N * objects being compared.
+N */
+N
+Nextern _ARMABI int memcmp(const void * /*s1*/, const void * /*s2*/, size_t /*n*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) int memcmp(const void *  , const void *  , size_t  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * compares the first n characters of the object pointed to by s1 to the
+N    * first n characters of the object pointed to by s2.
+N    * Returns: an integer greater than, equal to, or less than zero, according
+N    *          as the object pointed to by s1 is greater than, equal to, or
+N    *          less than the object pointed to by s2.
+N    */
+Nextern _ARMABI int strcmp(const char * /*s1*/, const char * /*s2*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) int strcmp(const char *  , const char *  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * compares the string pointed to by s1 to the string pointed to by s2.
+N    * Returns: an integer greater than, equal to, or less than zero, according
+N    *          as the string pointed to by s1 is greater than, equal to, or
+N    *          less than the string pointed to by s2.
+N    */
+Nextern _ARMABI int strncmp(const char * /*s1*/, const char * /*s2*/, size_t /*n*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) int strncmp(const char *  , const char *  , size_t  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * compares not more than n characters (characters that follow a null
+N    * character are not compared) from the array pointed to by s1 to the array
+N    * pointed to by s2.
+N    * Returns: an integer greater than, equal to, or less than zero, according
+N    *          as the string pointed to by s1 is greater than, equal to, or
+N    *          less than the string pointed to by s2.
+N    */
+Nextern _ARMABI int strcasecmp(const char * /*s1*/, const char * /*s2*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) int strcasecmp(const char *  , const char *  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * compares the string pointed to by s1 to the string pointed to by s2,
+N    * case-insensitively as defined by the current locale.
+N    * Returns: an integer greater than, equal to, or less than zero, according
+N    *          as the string pointed to by s1 is greater than, equal to, or
+N    *          less than the string pointed to by s2.
+N    */
+Nextern _ARMABI int strncasecmp(const char * /*s1*/, const char * /*s2*/, size_t /*n*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) int strncasecmp(const char *  , const char *  , size_t  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * compares not more than n characters (characters that follow a null
+N    * character are not compared) from the array pointed to by s1 to the array
+N    * pointed to by s2, case-insensitively as defined by the current locale.
+N    * Returns: an integer greater than, equal to, or less than zero, according
+N    *          as the string pointed to by s1 is greater than, equal to, or
+N    *          less than the string pointed to by s2.
+N    */
+Nextern _ARMABI int strcoll(const char * /*s1*/, const char * /*s2*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) int strcoll(const char *  , const char *  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * compares the string pointed to by s1 to the string pointed to by s2, both
+N    * interpreted as appropriate to the LC_COLLATE category of the current
+N    * locale.
+N    * Returns: an integer greater than, equal to, or less than zero, according
+N    *          as the string pointed to by s1 is greater than, equal to, or
+N    *          less than the string pointed to by s2 when both are interpreted
+N    *          as appropriate to the current locale.
+N    */
+N
+Nextern _ARMABI size_t strxfrm(char * __restrict /*s1*/, const char * __restrict /*s2*/, size_t /*n*/) __attribute__((__nonnull__(2)));
+Xextern __declspec(__nothrow) size_t strxfrm(char * __restrict  , const char * __restrict  , size_t  ) __attribute__((__nonnull__(2)));
+N   /*
+N    * transforms the string pointed to by s2 and places the resulting string
+N    * into the array pointed to by s1. The transformation function is such that
+N    * if the strcmp function is applied to two transformed strings, it returns
+N    * a value greater than, equal to or less than zero, corresponding to the
+N    * result of the strcoll function applied to the same two original strings.
+N    * No more than n characters are placed into the resulting array pointed to
+N    * by s1, including the terminating null character. If n is zero, s1 is
+N    * permitted to be a null pointer. If copying takes place between objects
+N    * that overlap, the behaviour is undefined.
+N    * Returns: The length of the transformed string is returned (not including
+N    *          the terminating null character). If the value returned is n or
+N    *          more, the contents of the array pointed to by s1 are
+N    *          indeterminate.
+N    */
+N
+N
+N#ifdef __cplusplus
+Sextern _ARMABI const void *memchr(const void * /*s*/, int /*c*/, size_t /*n*/) __attribute__((__nonnull__(1)));
+Sextern "C++" void *memchr(void * __s, int __c, size_t __n) __attribute__((__nonnull__(1)));
+Sextern "C++" inline void *memchr(void * __s, int __c, size_t __n)
+S    { return const_cast<void *>(memchr(const_cast<const void *>(__s), __c, __n)); }
+N#else
+Nextern _ARMABI void *memchr(const void * /*s*/, int /*c*/, size_t /*n*/) __attribute__((__nonnull__(1)));
+Xextern __declspec(__nothrow) void *memchr(const void *  , int  , size_t  ) __attribute__((__nonnull__(1)));
+N#endif
+N   /*
+N    * locates the first occurence of c (converted to an unsigned char) in the
+N    * initial n characters (each interpreted as unsigned char) of the object
+N    * pointed to by s.
+N    * Returns: a pointer to the located character, or a null pointer if the
+N    *          character does not occur in the object.
+N    */
+N
+N#ifdef __cplusplus
+Sextern _ARMABI const char *strchr(const char * /*s*/, int /*c*/) __attribute__((__nonnull__(1)));
+Sextern "C++" char *strchr(char * __s, int __c) __attribute__((__nonnull__(1)));
+Sextern "C++" inline char *strchr(char * __s, int __c)
+S    { return const_cast<char *>(strchr(const_cast<const char *>(__s), __c)); }
+N#else
+Nextern _ARMABI char *strchr(const char * /*s*/, int /*c*/) __attribute__((__nonnull__(1)));
+Xextern __declspec(__nothrow) char *strchr(const char *  , int  ) __attribute__((__nonnull__(1)));
+N#endif
+N   /*
+N    * locates the first occurence of c (converted to an char) in the string
+N    * pointed to by s (including the terminating null character).
+N    * Returns: a pointer to the located character, or a null pointer if the
+N    *          character does not occur in the string.
+N    */
+N
+Nextern _ARMABI size_t strcspn(const char * /*s1*/, const char * /*s2*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) size_t strcspn(const char *  , const char *  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * computes the length of the initial segment of the string pointed to by s1
+N    * which consists entirely of characters not from the string pointed to by
+N    * s2. The terminating null character is not considered part of s2.
+N    * Returns: the length of the segment.
+N    */
+N
+N#ifdef __cplusplus
+Sextern _ARMABI const char *strpbrk(const char * /*s1*/, const char * /*s2*/) __attribute__((__nonnull__(1,2)));
+Sextern "C++" char *strpbrk(char * __s1, const char * __s2) __attribute__((__nonnull__(1,2)));
+Sextern "C++" inline char *strpbrk(char * __s1, const char * __s2)
+S    { return const_cast<char *>(strpbrk(const_cast<const char *>(__s1), __s2)); }
+N#else
+Nextern _ARMABI char *strpbrk(const char * /*s1*/, const char * /*s2*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) char *strpbrk(const char *  , const char *  ) __attribute__((__nonnull__(1,2)));
+N#endif
+N   /*
+N    * locates the first occurence in the string pointed to by s1 of any
+N    * character from the string pointed to by s2.
+N    * Returns: returns a pointer to the character, or a null pointer if no
+N    *          character form s2 occurs in s1.
+N    */
+N
+N#ifdef __cplusplus
+Sextern _ARMABI const char *strrchr(const char * /*s*/, int /*c*/) __attribute__((__nonnull__(1)));
+Sextern "C++" char *strrchr(char * __s, int __c) __attribute__((__nonnull__(1)));
+Sextern "C++" inline char *strrchr(char * __s, int __c)
+S    { return const_cast<char *>(strrchr(const_cast<const char *>(__s), __c)); }
+N#else
+Nextern _ARMABI char *strrchr(const char * /*s*/, int /*c*/) __attribute__((__nonnull__(1)));
+Xextern __declspec(__nothrow) char *strrchr(const char *  , int  ) __attribute__((__nonnull__(1)));
+N#endif
+N   /*
+N    * locates the last occurence of c (converted to a char) in the string
+N    * pointed to by s. The terminating null character is considered part of
+N    * the string.
+N    * Returns: returns a pointer to the character, or a null pointer if c does
+N    *          not occur in the string.
+N    */
+N
+Nextern _ARMABI size_t strspn(const char * /*s1*/, const char * /*s2*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) size_t strspn(const char *  , const char *  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * computes the length of the initial segment of the string pointed to by s1
+N    * which consists entirely of characters from the string pointed to by S2
+N    * Returns: the length of the segment.
+N    */
+N
+N#ifdef __cplusplus
+Sextern _ARMABI const char *strstr(const char * /*s1*/, const char * /*s2*/) __attribute__((__nonnull__(1,2)));
+Sextern "C++" char *strstr(char * __s1, const char * __s2) __attribute__((__nonnull__(1,2)));
+Sextern "C++" inline char *strstr(char * __s1, const char * __s2)
+S    { return const_cast<char *>(strstr(const_cast<const char *>(__s1), __s2)); }
+N#else
+Nextern _ARMABI char *strstr(const char * /*s1*/, const char * /*s2*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) char *strstr(const char *  , const char *  ) __attribute__((__nonnull__(1,2)));
+N#endif
+N   /*
+N    * locates the first occurence in the string pointed to by s1 of the
+N    * sequence of characters (excluding the terminating null character) in the
+N    * string pointed to by s2.
+N    * Returns: a pointer to the located string, or a null pointer if the string
+N    *          is not found.
+N    */
+N
+Nextern _ARMABI char *strtok(char * __restrict /*s1*/, const char * __restrict /*s2*/) __attribute__((__nonnull__(2)));
+Xextern __declspec(__nothrow) char *strtok(char * __restrict  , const char * __restrict  ) __attribute__((__nonnull__(2)));
+Nextern _ARMABI char *_strtok_r(char * /*s1*/, const char * /*s2*/, char ** /*ptr*/) __attribute__((__nonnull__(2,3)));
+Xextern __declspec(__nothrow) char *_strtok_r(char *  , const char *  , char **  ) __attribute__((__nonnull__(2,3)));
+N#ifndef __STRICT_ANSI__
+Nextern _ARMABI char *strtok_r(char * /*s1*/, const char * /*s2*/, char ** /*ptr*/) __attribute__((__nonnull__(2,3)));
+Xextern __declspec(__nothrow) char *strtok_r(char *  , const char *  , char **  ) __attribute__((__nonnull__(2,3)));
+N#endif
+N   /*
+N    * A sequence of calls to the strtok function breaks the string pointed to
+N    * by s1 into a sequence of tokens, each of which is delimited by a
+N    * character from the string pointed to by s2. The first call in the
+N    * sequence has s1 as its first argument, and is followed by calls with a
+N    * null pointer as their first argument. The separator string pointed to by
+N    * s2 may be different from call to call.
+N    * The first call in the sequence searches for the first character that is
+N    * not contained in the current separator string s2. If no such character
+N    * is found, then there are no tokens in s1 and the strtok function returns
+N    * a null pointer. If such a character is found, it is the start of the
+N    * first token.
+N    * The strtok function then searches from there for a character that is
+N    * contained in the current separator string. If no such character is found,
+N    * the current token extends to the end of the string pointed to by s1, and
+N    * subsequent searches for a token will fail. If such a character is found,
+N    * it is overwritten by a null character, which terminates the current
+N    * token. The strtok function saves a pointer to the following character,
+N    * from which the next search for a token will start.
+N    * Each subsequent call, with a null pointer as the value for the first
+N    * argument, starts searching from the saved pointer and behaves as
+N    * described above.
+N    * Returns: pointer to the first character of a token, or a null pointer if
+N    *          there is no token.
+N    *
+N    * strtok_r() is a common extension which works exactly like
+N    * strtok(), but instead of storing its state in a hidden
+N    * library variable, requires the user to pass in a pointer to a
+N    * char * variable which will be used instead. Any sequence of
+N    * calls to strtok_r() passing the same char ** pointer should
+N    * behave exactly like the corresponding sequence of calls to
+N    * strtok(). This means that strtok_r() can safely be used in
+N    * multi-threaded programs, and also that you can tokenise two
+N    * strings in parallel.
+N    */
+N
+Nextern _ARMABI void *memset(void * /*s*/, int /*c*/, size_t /*n*/) __attribute__((__nonnull__(1)));
+Xextern __declspec(__nothrow) void *memset(void *  , int  , size_t  ) __attribute__((__nonnull__(1)));
+N   /*
+N    * copies the value of c (converted to an unsigned char) into each of the
+N    * first n charactes of the object pointed to by s.
+N    * Returns: the value of s.
+N    */
+Nextern _ARMABI char *strerror(int /*errnum*/);
+Xextern __declspec(__nothrow) char *strerror(int  );
+N   /*
+N    * maps the error number in errnum to an error message string.
+N    * Returns: a pointer to the string, the contents of which are
+N    *          implementation-defined. The array pointed to shall not be
+N    *          modified by the program, but may be overwritten by a
+N    *          subsequent call to the strerror function.
+N    */
+Nextern _ARMABI size_t strlen(const char * /*s*/) __attribute__((__nonnull__(1)));
+Xextern __declspec(__nothrow) size_t strlen(const char *  ) __attribute__((__nonnull__(1)));
+N   /*
+N    * computes the length of the string pointed to by s.
+N    * Returns: the number of characters that precede the terminating null
+N    *          character.
+N    */
+N
+Nextern _ARMABI size_t strlcpy(char * /*dst*/, const char * /*src*/, size_t /*len*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) size_t strlcpy(char *  , const char *  , size_t  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * copies the string src into the string dst, using no more than
+N    * len bytes of dst. Always null-terminates dst _within the
+N    * length len (i.e. will copy at most len-1 bytes of string plus
+N    * a NUL), unless len is actually zero.
+N    * 
+N    * Return value is the length of the string that _would_ have
+N    * been written, i.e. the length of src. Thus, the operation
+N    * succeeded without truncation if and only if ret < len;
+N    * otherwise, the value in ret tells you how big to make dst if
+N    * you decide to reallocate it. (That value does _not_ include
+N    * the NUL.)
+N    * 
+N    * This is a BSD-derived library extension, which we are
+N    * permitted to declare in a standard header because ISO defines
+N    * function names beginning with 'str' as reserved for future
+N    * expansion of <string.h>.
+N    */
+N
+Nextern _ARMABI size_t strlcat(char * /*dst*/, const char * /*src*/, size_t /*len*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) size_t strlcat(char *  , const char *  , size_t  ) __attribute__((__nonnull__(1,2)));
+N   /*
+N    * concatenates the string src to the string dst, using no more
+N    * than len bytes of dst. Always null-terminates dst _within the
+N    * length len (i.e. will copy at most len-1 bytes of string plus
+N    * a NUL), unless len is actually zero.
+N    * 
+N    * Return value is the length of the string that _would_ have
+N    * been written, i.e. the length of src plus the original length
+N    * of dst. Thus, the operation succeeded without truncation if
+N    * and only if ret < len; otherwise, the value in ret tells you
+N    * how big to make dst if you decide to reallocate it. (That
+N    * value does _not_ include the NUL.)
+N    * 
+N    * If no NUL is encountered within the first len bytes of dst,
+N    * then the length of dst is considered to have been equal to
+N    * len for the purposes of the return value (as if there were a
+N    * NUL at dst[len]). Thus, the return value in this case is len
+N    * + strlen(src).
+N    * 
+N    * This is a BSD-derived library extension, which we are
+N    * permitted to declare in a standard header because ISO defines
+N    * function names beginning with 'str' as reserved for future
+N    * expansion of <string.h>.
+N    */
+N
+Nextern _ARMABI void _membitcpybl(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitcpybl(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+Nextern _ARMABI void _membitcpybb(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitcpybb(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+Nextern _ARMABI void _membitcpyhl(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitcpyhl(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+Nextern _ARMABI void _membitcpyhb(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitcpyhb(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+Nextern _ARMABI void _membitcpywl(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitcpywl(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+Nextern _ARMABI void _membitcpywb(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitcpywb(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+Nextern _ARMABI void _membitmovebl(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitmovebl(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+Nextern _ARMABI void _membitmovebb(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitmovebb(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+Nextern _ARMABI void _membitmovehl(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitmovehl(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+Nextern _ARMABI void _membitmovehb(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitmovehb(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+Nextern _ARMABI void _membitmovewl(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitmovewl(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+Nextern _ARMABI void _membitmovewb(void * /*dest*/, const void * /*src*/, int /*destoffset*/, int /*srcoffset*/, size_t /*nbits*/) __attribute__((__nonnull__(1,2)));
+Xextern __declspec(__nothrow) void _membitmovewb(void *  , const void *  , int  , int  , size_t  ) __attribute__((__nonnull__(1,2)));
+N    /*
+N     * Copies or moves a piece of memory from one place to another,
+N     * with one-bit granularity. So you can start or finish a copy
+N     * part way through a byte, and you can copy between regions
+N     * with different alignment within a byte.
+N     * 
+N     * All these functions have the same prototype: two void *
+N     * pointers for destination and source, then two integers
+N     * giving the bit offset from those pointers, and finally the
+N     * number of bits to copy.
+N     * 
+N     * Just like memcpy and memmove, the "cpy" functions copy as
+N     * fast as they can in the assumption that the memory regions
+N     * do not overlap, while the "move" functions cope correctly
+N     * with overlap.
+N     *
+N     * Treating memory as a stream of individual bits requires
+N     * defining a convention about what order those bits are
+N     * considered to be arranged in. The above functions support
+N     * multiple conventions:
+N     * 
+N     *  - the "bl" functions consider the unit of memory to be the
+N     *    byte, and consider the bits within each byte to be
+N     *    arranged in little-endian fashion, so that the LSB comes
+N     *    first. (For example, membitcpybl(a,b,0,7,1) would copy
+N     *    the MSB of the byte at b to the LSB of the byte at a.)
+N     * 
+N     *  - the "bb" functions consider the unit of memory to be the
+N     *    byte, and consider the bits within each byte to be
+N     *    arranged in big-endian fashion, so that the MSB comes
+N     *    first.
+N     * 
+N     *  - the "hl" functions consider the unit of memory to be the
+N     *    16-bit halfword, and consider the bits within each word
+N     *    to be arranged in little-endian fashion.
+N     * 
+N     *  - the "hb" functions consider the unit of memory to be the
+N     *    16-bit halfword, and consider the bits within each word
+N     *    to be arranged in big-endian fashion.
+N     * 
+N     *  - the "wl" functions consider the unit of memory to be the
+N     *    32-bit word, and consider the bits within each word to be
+N     *    arranged in little-endian fashion.
+N     * 
+N     *  - the "wb" functions consider the unit of memory to be the
+N     *    32-bit word, and consider the bits within each word to be
+N     *    arranged in big-endian fashion.
+N     */
+N
+N    #ifdef __cplusplus
+S         }  /* extern "C" */
+S      }  /* namespace std */
+N    #endif /* __cplusplus */
+N  #endif /* __STRING_DECLS */
+N
+N  #ifdef __cplusplus
+S    #ifndef __STRING_NO_EXPORTS
+S      using ::std::size_t;
+S      using ::std::memcpy;
+S      using ::std::memmove;
+S      using ::std::strcpy;
+S      using ::std::strncpy;
+S      using ::std::strcat;
+S      using ::std::strncat;
+S      using ::std::memcmp;
+S      using ::std::strcmp;
+S      using ::std::strncmp;
+S      using ::std::strcasecmp;
+S      using ::std::strncasecmp;
+S      using ::std::strcoll;
+S      using ::std::strxfrm;
+S      using ::std::memchr;
+S      using ::std::strchr;
+S      using ::std::strcspn;
+S      using ::std::strpbrk;
+S      using ::std::strrchr;
+S      using ::std::strspn;
+S      using ::std::strstr;
+S      using ::std::strtok;
+S#ifndef __STRICT_ANSI__
+S      using ::std::strtok_r;
+S#endif
+S      using ::std::_strtok_r;
+S      using ::std::memset;
+S      using ::std::strerror;
+S      using ::std::strlen;
+S      using ::std::strlcpy;
+S      using ::std::strlcat;
+S      using ::std::_membitcpybl;
+S      using ::std::_membitcpybb;
+S      using ::std::_membitcpyhl;
+S      using ::std::_membitcpyhb;
+S      using ::std::_membitcpywl;
+S      using ::std::_membitcpywb;
+S      using ::std::_membitmovebl;
+S      using ::std::_membitmovebb;
+S      using ::std::_membitmovehl;
+S      using ::std::_membitmovehb;
+S      using ::std::_membitmovewl;
+S      using ::std::_membitmovewb;
+S    #endif /* __STRING_NO_EXPORTS */
+N  #endif /* __cplusplus */
+N
+N#endif
+N
+N/* end of string.h */
+N
+L 32 "src\spifilib_fam_standard_cmd.c" 2
+N
+N#include "spifilib_dev.h"
+L 1 "inc\spifilib_dev.h" 1
+N/*
+N * @brief LPCSPIFILIB FLASH library device specific functions
+N *
+N * @note
+N * Copyright(C) NXP Semiconductors, 2014
+N * All rights reserved.
+N *
+N * @par
+N * Software that is described herein is for illustrative purposes only
+N * which provides customers with programming information regarding the
+N * LPC products.  This software is supplied "AS IS" without any warranties of
+N * any kind, and NXP Semiconductors and its licenser disclaim any and
+N * all warranties, express or implied, including all implied warranties of
+N * merchantability, fitness for a particular purpose and non-infringement of
+N * intellectual property rights.  NXP Semiconductors assumes no responsibility
+N * or liability for the use of the software, conveys no license or rights under any
+N * patent, copyright, mask work right, or any other intellectual property rights in
+N * or to any products. NXP Semiconductors reserves the right to make changes
+N * in the software without notification. NXP Semiconductors also makes no
+N * representation or warranty that such application will be suitable for the
+N * specified use without further testing or modification.
+N *
+N * @par
+N * Permission to use, copy, modify, and distribute this software and its
+N * documentation is hereby granted, under NXP Semiconductors' and its
+N * licensor's relevant copyrights in the software, without fee, provided that it
+N * is used in conjunction with NXP Semiconductors microcontrollers.  This
+N * copyright, permission, and disclaimer notice must appear in all copies of
+N * this code.
+N */
+N
+N#ifndef __SPIFILIB_DEV_H_
+N#define __SPIFILIB_DEV_H_
+N
+N#include <stdint.h>
+L 1 "E:\Keil\Core\ARM\Arm_Compiler_5.06u7\Bin\..\include\stdint.h" 1
+N/* Copyright (C) ARM Ltd., 1999,2014 */
+N/* All rights reserved */
+N
+N/*
+N * RCS $Revision$
+N * Checkin $Date$
+N * Revising $Author: agrant $
+N */
+N
+N#ifndef __stdint_h
+N#define __stdint_h
+N#define __ARMCLIB_VERSION 5060044
+N
+N  #ifdef __INT64_TYPE__
+S    /* armclang predefines '__INT64_TYPE__' and '__INT64_C_SUFFIX__' */
+S    #define __INT64 __INT64_TYPE__
+N  #else
+N    /* armcc has builtin '__int64' which can be used in --strict mode */
+N    #define __INT64 __int64
+N    #define __INT64_C_SUFFIX__ ll
+N  #endif
+N  #define __PASTE2(x, y) x ## y
+N  #define __PASTE(x, y) __PASTE2(x, y)
+N  #define __INT64_C(x)  __ESCAPE__(__PASTE(x, __INT64_C_SUFFIX__))
+N  #define __UINT64_C(x)  __ESCAPE__(__PASTE(x ## u, __INT64_C_SUFFIX__))
+N  #if defined(__clang__) || (defined(__ARMCC_VERSION) && !defined(__STRICT_ANSI__))
+X  #if 0L || (1L && !0L)
+N    /* armclang and non-strict armcc allow 'long long' in system headers */
+N    #define __LONGLONG long long
+N  #else
+S    /* strict armcc has '__int64' */
+S    #define __LONGLONG __int64
+N  #endif
+N
+N  #ifndef __STDINT_DECLS
+N  #define __STDINT_DECLS
+N
+N    #undef __CLIBNS
+N
+N    #ifdef __cplusplus
+S      namespace std {
+S          #define __CLIBNS std::
+S          extern "C" {
+N    #else
+N      #define __CLIBNS
+N    #endif  /* __cplusplus */
+N
+N
+N/*
+N * 'signed' is redundant below, except for 'signed char' and if
+N * the typedef is used to declare a bitfield.
+N */
+N
+N    /* 7.18.1.1 */
+N
+N    /* exact-width signed integer types */
+Ntypedef   signed          char int8_t;
+Ntypedef   signed short     int int16_t;
+Ntypedef   signed           int int32_t;
+Ntypedef   signed       __INT64 int64_t;
+Xtypedef   signed       __int64 int64_t;
+N
+N    /* exact-width unsigned integer types */
+Ntypedef unsigned          char uint8_t;
+Ntypedef unsigned short     int uint16_t;
+Ntypedef unsigned           int uint32_t;
+Ntypedef unsigned       __INT64 uint64_t;
+Xtypedef unsigned       __int64 uint64_t;
+N
+N    /* 7.18.1.2 */
+N
+N    /* smallest type of at least n bits */
+N    /* minimum-width signed integer types */
+Ntypedef   signed          char int_least8_t;
+Ntypedef   signed short     int int_least16_t;
+Ntypedef   signed           int int_least32_t;
+Ntypedef   signed       __INT64 int_least64_t;
+Xtypedef   signed       __int64 int_least64_t;
+N
+N    /* minimum-width unsigned integer types */
+Ntypedef unsigned          char uint_least8_t;
+Ntypedef unsigned short     int uint_least16_t;
+Ntypedef unsigned           int uint_least32_t;
+Ntypedef unsigned       __INT64 uint_least64_t;
+Xtypedef unsigned       __int64 uint_least64_t;
+N
+N    /* 7.18.1.3 */
+N
+N    /* fastest minimum-width signed integer types */
+Ntypedef   signed           int int_fast8_t;
+Ntypedef   signed           int int_fast16_t;
+Ntypedef   signed           int int_fast32_t;
+Ntypedef   signed       __INT64 int_fast64_t;
+Xtypedef   signed       __int64 int_fast64_t;
+N
+N    /* fastest minimum-width unsigned integer types */
+Ntypedef unsigned           int uint_fast8_t;
+Ntypedef unsigned           int uint_fast16_t;
+Ntypedef unsigned           int uint_fast32_t;
+Ntypedef unsigned       __INT64 uint_fast64_t;
+Xtypedef unsigned       __int64 uint_fast64_t;
+N
+N    /* 7.18.1.4 integer types capable of holding object pointers */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+Stypedef   signed       __INT64 intptr_t;
+Stypedef unsigned       __INT64 uintptr_t;
+N#else
+Ntypedef   signed           int intptr_t;
+Ntypedef unsigned           int uintptr_t;
+N#endif
+N
+N    /* 7.18.1.5 greatest-width integer types */
+Ntypedef   signed     __LONGLONG intmax_t;
+Xtypedef   signed     long long intmax_t;
+Ntypedef unsigned     __LONGLONG uintmax_t;
+Xtypedef unsigned     long long uintmax_t;
+N
+N
+N#if !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS)
+X#if !0L || 0L
+N
+N    /* 7.18.2.1 */
+N
+N    /* minimum values of exact-width signed integer types */
+N#define INT8_MIN                   -128
+N#define INT16_MIN                -32768
+N#define INT32_MIN          (~0x7fffffff)   /* -2147483648 is unsigned */
+N#define INT64_MIN  __INT64_C(~0x7fffffffffffffff) /* -9223372036854775808 is unsigned */
+N
+N    /* maximum values of exact-width signed integer types */
+N#define INT8_MAX                    127
+N#define INT16_MAX                 32767
+N#define INT32_MAX            2147483647
+N#define INT64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of exact-width unsigned integer types */
+N#define UINT8_MAX                   255
+N#define UINT16_MAX                65535
+N#define UINT32_MAX           4294967295u
+N#define UINT64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.2 */
+N
+N    /* minimum values of minimum-width signed integer types */
+N#define INT_LEAST8_MIN                   -128
+N#define INT_LEAST16_MIN                -32768
+N#define INT_LEAST32_MIN          (~0x7fffffff)
+N#define INT_LEAST64_MIN  __INT64_C(~0x7fffffffffffffff)
+N
+N    /* maximum values of minimum-width signed integer types */
+N#define INT_LEAST8_MAX                    127
+N#define INT_LEAST16_MAX                 32767
+N#define INT_LEAST32_MAX            2147483647
+N#define INT_LEAST64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of minimum-width unsigned integer types */
+N#define UINT_LEAST8_MAX                   255
+N#define UINT_LEAST16_MAX                65535
+N#define UINT_LEAST32_MAX           4294967295u
+N#define UINT_LEAST64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.3 */
+N
+N    /* minimum values of fastest minimum-width signed integer types */
+N#define INT_FAST8_MIN           (~0x7fffffff)
+N#define INT_FAST16_MIN          (~0x7fffffff)
+N#define INT_FAST32_MIN          (~0x7fffffff)
+N#define INT_FAST64_MIN  __INT64_C(~0x7fffffffffffffff)
+N
+N    /* maximum values of fastest minimum-width signed integer types */
+N#define INT_FAST8_MAX             2147483647
+N#define INT_FAST16_MAX            2147483647
+N#define INT_FAST32_MAX            2147483647
+N#define INT_FAST64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of fastest minimum-width unsigned integer types */
+N#define UINT_FAST8_MAX            4294967295u
+N#define UINT_FAST16_MAX           4294967295u
+N#define UINT_FAST32_MAX           4294967295u
+N#define UINT_FAST64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.4 */
+N
+N    /* minimum value of pointer-holding signed integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define INTPTR_MIN INT64_MIN
+N#else
+N#define INTPTR_MIN INT32_MIN
+N#endif
+N
+N    /* maximum value of pointer-holding signed integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define INTPTR_MAX INT64_MAX
+N#else
+N#define INTPTR_MAX INT32_MAX
+N#endif
+N
+N    /* maximum value of pointer-holding unsigned integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define UINTPTR_MAX UINT64_MAX
+N#else
+N#define UINTPTR_MAX UINT32_MAX
+N#endif
+N
+N    /* 7.18.2.5 */
+N
+N    /* minimum value of greatest-width signed integer type */
+N#define INTMAX_MIN  __ESCAPE__(~0x7fffffffffffffffll)
+N
+N    /* maximum value of greatest-width signed integer type */
+N#define INTMAX_MAX  __ESCAPE__(9223372036854775807ll)
+N
+N    /* maximum value of greatest-width unsigned integer type */
+N#define UINTMAX_MAX __ESCAPE__(18446744073709551615ull)
+N
+N    /* 7.18.3 */
+N
+N    /* limits of ptrdiff_t */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define PTRDIFF_MIN INT64_MIN
+S#define PTRDIFF_MAX INT64_MAX
+N#else
+N#define PTRDIFF_MIN INT32_MIN
+N#define PTRDIFF_MAX INT32_MAX
+N#endif
+N
+N    /* limits of sig_atomic_t */
+N#define SIG_ATOMIC_MIN (~0x7fffffff)
+N#define SIG_ATOMIC_MAX   2147483647
+N
+N    /* limit of size_t */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define SIZE_MAX UINT64_MAX
+N#else
+N#define SIZE_MAX UINT32_MAX
+N#endif
+N
+N    /* limits of wchar_t */
+N    /* NB we have to undef and redef because they're defined in both
+N     * stdint.h and wchar.h */
+N#undef WCHAR_MIN
+N#undef WCHAR_MAX
+N
+N#if defined(__WCHAR32) || (defined(__ARM_SIZEOF_WCHAR_T) && __ARM_SIZEOF_WCHAR_T == 4)
+X#if 0L || (0L && __ARM_SIZEOF_WCHAR_T == 4)
+S  #define WCHAR_MIN   0
+S  #define WCHAR_MAX   0xffffffffU
+N#else
+N  #define WCHAR_MIN   0
+N  #define WCHAR_MAX   65535
+N#endif
+N
+N    /* limits of wint_t */
+N#define WINT_MIN (~0x7fffffff)
+N#define WINT_MAX 2147483647
+N
+N#endif /* __STDC_LIMIT_MACROS */
+N
+N#if !defined(__cplusplus) || defined(__STDC_CONSTANT_MACROS)
+X#if !0L || 0L
+N
+N    /* 7.18.4.1 macros for minimum-width integer constants */
+N#define INT8_C(x)   (x)
+N#define INT16_C(x)  (x)
+N#define INT32_C(x)  (x)
+N#define INT64_C(x)  __INT64_C(x)
+N
+N#define UINT8_C(x)  (x ## u)
+N#define UINT16_C(x) (x ## u)
+N#define UINT32_C(x) (x ## u)
+N#define UINT64_C(x) __UINT64_C(x)
+N
+N    /* 7.18.4.2 macros for greatest-width integer constants */
+N#define INTMAX_C(x)  __ESCAPE__(x ## ll)
+N#define UINTMAX_C(x) __ESCAPE__(x ## ull)
+N
+N#endif /* __STDC_CONSTANT_MACROS */
+N
+N    #ifdef __cplusplus
+S         }  /* extern "C" */
+S      }  /* namespace std */
+N    #endif /* __cplusplus */
+N  #endif /* __STDINT_DECLS */
+N
+N  #ifdef __cplusplus
+S    #ifndef __STDINT_NO_EXPORTS
+S      using ::std::int8_t;
+S      using ::std::int16_t;
+S      using ::std::int32_t;
+S      using ::std::int64_t;
+S      using ::std::uint8_t;
+S      using ::std::uint16_t;
+S      using ::std::uint32_t;
+S      using ::std::uint64_t;
+S      using ::std::int_least8_t;
+S      using ::std::int_least16_t;
+S      using ::std::int_least32_t;
+S      using ::std::int_least64_t;
+S      using ::std::uint_least8_t;
+S      using ::std::uint_least16_t;
+S      using ::std::uint_least32_t;
+S      using ::std::uint_least64_t;
+S      using ::std::int_fast8_t;
+S      using ::std::int_fast16_t;
+S      using ::std::int_fast32_t;
+S      using ::std::int_fast64_t;
+S      using ::std::uint_fast8_t;
+S      using ::std::uint_fast16_t;
+S      using ::std::uint_fast32_t;
+S      using ::std::uint_fast64_t;
+S      using ::std::intptr_t;
+S      using ::std::uintptr_t;
+S      using ::std::intmax_t;
+S      using ::std::uintmax_t;
+S    #endif
+N  #endif /* __cplusplus */
+N
+N#undef __INT64
+N#undef __LONGLONG
+N
+N#endif /* __stdint_h */
+N
+N/* end of stdint.h */
+L 36 "inc\spifilib_dev.h" 2
+N
+N#ifdef __cplusplus
+Sextern "C" {
+N#endif
+N
+N/* Define for inline functions */
+N#ifndef INLINE
+N#ifdef __CC_ARM
+N#define INLINE  __inline
+N#else
+S#define INLINE inline
+N#endif /* __CC_ARM */
+N#endif /* !INLINE */
+N
+N/** @defgroup LPCSPIFILIB_DEV LPCSPIFILIB device driver API functions
+N * @ingroup LPCSPIFILIB
+N * @{
+N */
+N/**
+N * @brief Possible error codes that can be returned from functions
+N */
+Ntypedef enum {
+N	SPIFI_ERR_NONE = 0,							/**< No error */
+N	SPIFI_ERR_BUSY,									/**< Device is busy */
+N	SPIFI_ERR_GEN,									/**< General error */
+N	SPIFI_ERR_NOTSUPPORTED,					/**< Capability not supported */
+N	SPIFI_ERR_ALIGNERR,							/**< Attempted to do an operation on an unaligned section of the device */
+N	SPIFI_ERR_LOCKED,								/**< Device was locked and a program/erase operation was attempted */
+N	SPIFI_ERR_PROGERR,							/**< Error programming device (blocking mode only) */
+N	SPIFI_ERR_ERASEERR,							/**< Erase error (blocking mode only) */
+N	SPIFI_ERR_NOTBLANK,							/**< Program operation on block that is not blank */
+N	SPIFI_ERR_PAGESIZE,							/**< PageProgram write size exceeds page size */
+N	SPIFI_ERR_VAL,									/**< Program operation failed validation or readback compare */
+N	SPIFI_ERR_RANGE,								/**< Range error, bad block number, address out of range, etc. */
+N	SPIFI_ERR_MEMMODE,							/**< Library calls not allowed while in memory mode. */
+N	/** @cond INTERNAL */
+N	SPIFI_ERR_LASTINDEX							/* Internal use to count number of errors */
+N	/** @endcond */
+N} SPIFI_ERR_T;
+N
+N/**
+N * @brief Possible device capabilities returned from getInfo()
+N */
+N#define SPIFI_CAP_DUAL_READ         (1 << 0)		/**< Supports DUAL read mode */
+N#define SPIFI_CAP_DUAL_WRITE        (1 << 1)		/**< Supports DUAL write mode */
+N#define SPIFI_CAP_QUAD_READ         (1 << 2)		/**< Supports QUAD read mode */
+N#define SPIFI_CAP_QUAD_WRITE        (1 << 3)		/**< Supports QUAD write mode */
+N#define SPIFI_CAP_FULLLOCK          (1 << 4)		/**< Full device lock supported */
+N#define SPIFI_CAP_BLOCKLOCK         (1 << 5)		/**< Individual block device lock supported */
+N#define SPIFI_CAP_SUBBLKERASE       (1 << 6)		/**< Sub-block erase supported */
+N#define SPIFI_CAP_4BYTE_ADDR		(1 << 7)		/**< Supports 4 Byte addressing */
+N#define SPIFI_CAP_NOBLOCK           (1 << 16)		/**< Non-blocking mode supported */
+N
+N/**
+N * @brief Possible driver options, may not be supported by all drivers
+N */
+N#define SPIFI_OPT_USE_DUAL      (3 << 0)			/**< Enable DUAL read / write if option is supported */
+N#define SPIFI_OPT_USE_QUAD      (3 << 2)			/**< Enable QUAD read / write if option is supported */
+N#define SPIFI_OPT_NOBLOCK       (1 << 16)			/**< Will not block on program and erase operations, poll device status manually */
+N
+N/**
+N * @brief Possible device statuses returned from getInfo()
+N */
+N#define SPIFI_STAT_BUSY     (1 << 0)			/**< Device is busy erasing or programming */
+N#define SPIFI_STAT_ISWP     (1 << 1)			/**< Device is write protected (software or hardware) */
+N#define SPIFI_STAT_FULLLOCK (1 << 2)			/**< Device is fully locked */
+N#define SPIFI_STAT_PARTLOCK (1 << 3)			/**< Device is partially locked (device specific) */
+N#define SPIFI_STAT_PROGERR  (1 << 4)			/**< Device status shows a program error (non-blocking mode only) */
+N#define SPIFI_STAT_ERASEERR (1 << 5)			/**< Device status shows a erase error (non-blocking mode only) */
+N
+N/**
+N * @brief Possible info lookup requests
+N */
+Ntypedef enum {
+N	SPIFI_INFO_BASE_ADDRESS = 0,				/**< Device physical memory address */
+N	SPIFI_INFO_DEVSIZE,							/**< Device size in Bytes */
+N	SPIFI_INFO_ERASE_BLOCKS,					/**< Number of erase blocks */
+N	SPIFI_INFO_ERASE_BLOCKSIZE,					/**< Size of erase blocks */
+N	SPIFI_INFO_ERASE_SUBBLOCKS,					/**< Number of erase sub-blocks */
+N	SPIFI_INFO_ERASE_SUBBLOCKSIZE,				/**< Size of erase sub-blocks */
+N	SPIFI_INFO_PAGESIZE,						/**< Size of a page, page write size limit */
+N	SPIFI_INFO_MAXREADSIZE,						/**< Maximum read size, read size limit in bytes */
+N	SPIFI_INFO_MAXCLOCK,						/**< Maximum device speed in Hz */
+N	SPIFI_INFO_MAX_READ_CLOCK,					/**< Maximum device speed for read cmd in Hz */
+N	SPIFI_INFO_MAX_HSREAD_CLOCK,				/**< Maximum device speed for quad / dual read cmd in Hz */
+N	SPIFI_INFO_MAX_PROG_CLOCK,					/**< Maximum device speed for program cmd in Hz */
+N	SPIFI_INFO_MAX_HSPROG_CLOCK,				/**< Maximum device speed for quad program cmd in Hz */
+N	SPIFI_INFO_CAPS,							/**< Device capabilities, OR'ed SPIFI_CAP_* values */
+N	SPIFI_INFO_STATUS,							/**< Or'ed SPIFI_STAT_xxx values. Any persistent hardware bits will be cleared  */
+N	SPIFI_INFO_STATUS_RETAIN,					/**< Or'ed SPIFI_STAT_xxx values. Any persistent hardware bits will be retained */
+N	SPIFI_INFO_OPTIONS,							/**< Device capabilities, Or'ed SPIFI_OPT_* values */
+N
+N	SPIFI_INFO_LASTINDEX
+N} SPIFI_INFO_ID_T;
+N
+N/**
+N * @brief SPIFI_INFO_QUADREAD_CLOCK Depricated! Do NOT use for new development
+N */
+N#define SPIFI_INFO_QUADREAD_CLOCK SPIFI_INFO_MAX_HSREAD_CLOCK
+N
+N/**
+N * @brief SPIFI_INFO_QUADPROG_CLOCK Depricated! Do NOT use for new development
+N */
+N#define SPIFI_INFO_QUADPROG_CLOCK SPIFI_INFO_MAX_HSPROG_CLOCK
+N/**
+N * @brief Possible device specific lock / un-lock commands
+N */
+Ntypedef enum {
+N	SPIFI_PCMD_UNLOCK_DEVICE = 0,			/**< unlock device */
+N	SPIFI_PCMD_LOCK_DEVICE,					/**< lock device */
+N	SPIFI_PCMD_UNLOCK_BLOCK,				/**< unlock specified block */
+N	SPIFI_PCMD_LOCK_BLOCK					/**< lock specified block */
+N
+N} SPIFI_PCMD_LOCK_UNLOCK_T;
+N
+N/**
+N * @brief Possible device specific sub-block commands
+N */
+Ntypedef enum {
+N	SPIFI_PCMD_ADDR_TO_SUB_BLOCK = 0,			/**< Convert address to a sub-block */
+N	SPIFI_PCMD_SUB_BLOCK_TO_ADDR,				/**< Convert sub-block to address */
+N	SPIFI_PCMD_BLOCK_TO_SUB_BLOCK				/**< Convert block to sub-block */
+N
+N} SPIFI_PCMD_SUBBLK_T;
+N
+N/**
+N * @brief Enumeration of device specific functions.
+N */
+Ntypedef enum {
+N	FX_spifiDeviceDataInitDeinit = 0,			/**< Generic device init / de-init function */
+N	FX_spifiDeviceDataInitDeinitS25FL164K,		/**< S25FL164K specific device init / de-init function */
+N
+N	FX_spifiDeviceDataClearStatusNone,			/**< General do nothing I.e no status bits to clear */
+N	FX_spifiDeviceDataClearStatusS25FL032P,		/**< S25FL032P (and similar) clear status bits function */
+N
+N	FX_spifiDeviceDataGetStatusS25FL032P,		/**< S25FL032P (and similar) get status function */
+N	FX_spifiDeviceDataGetStatusS25FL164K,		/**< S25FL164K (and similar) get status function */
+N	FX_spifiDeviceDataGetStatusMX25L3235E,		/**< MX25L3235E (and similar) get status function */
+N	FX_spifiDeviceDataGetStatusW25Q80BV,		/**< W25Q80BV (and similar) get status function */
+N
+N	FX_spifiDeviceDataSetStatusS25FL032P,		/**< S25FL032P (and similar) set status function */
+N	FX_spifiDeviceDataSetStatusS25FL164K,		/**< S25FL164K (and similar) set status function */
+N	FX_spifiDeviceDataSetStatusMX25L3235E,		/**< MX25L3235E (and similar) set sttus function */
+N
+N	FX_spifiDeviceDataSetOptsQuadModeBit9,		/**< Set bit 9 when enabling Quad mode */
+N	FX_spifiDeviceDataSetOptsQuadModeBit6,		/**< Set bit 6 when enabling Quad mode */
+N
+N	FX_spifiDeviceInitReadCommand,				/**< General return cmdReg value for read */
+N	FX_spifiDevice4BInitReadCommand,			/**< General return cmdReg value for read w/ 4Byte address */
+N
+N	FX_spifiDeviceInitWriteCommand,				/**< General return cmdReg value for write */
+N	FX_spifiDevice4BInitWriteCommand,			/**< General return cmdReg value for write w/ 4Byte address */
+N	FX_spifiDeviceInitWriteCommandMacronix		/**< Macronix return cmdReg value for write */
+N
+N} SPIFI_DEVFX_T;
+N
+N/* Forward type declaration */
+Nstruct SPIFI_HANDLE;
+N
+Nstruct SPIFI_DEVICE_DATA;
+N
+Nstruct SPIFI_FAM_DESC;
+N
+Nstruct SPIFI_DEVICE_ID;
+N
+N/**
+N * @brief LPCSPIFILIB family data.
+N */
+Ntypedef struct SPIFI_FAM_NODE {
+N	const struct SPIFI_FAM_DESC *pDesc;					/**< Pointer to device descriptor */
+N
+N	struct SPIFI_FAM_NODE *pNext;						/**< Reserved list pointer */
+N
+N} SPIFI_FAM_NODE_T;
+N
+N/**
+N * @brief LPCSPIFILIB family descriptor, used to describe devices to non-device specific functions
+N */
+Ntypedef struct SPIFI_FAM_DESC {
+N	const char              *pFamName;						/**< (required) Pointer to generic family name */
+N	struct SPIFI_DEV_NODE   *pDevList;						/**< (required) Pointer to device list */
+N
+N	uint32_t                prvContextSize;				/**< Number of bytes needed for driver context allocation */
+N	uint32_t                *pDevCount;						/**< (required) Pointer to device count */
+N	void (*pPrvDevGetID)(uint32_t baseAddr, struct SPIFI_DEVICE_ID *pID);								/**< (NULL allowed) Pointer to method that queries deviceID */
+N
+N	SPIFI_ERR_T (*pPrvDevSetup)(struct SPIFI_HANDLE *pHandle, uint32_t spifiCtrlAddr, uint32_t baseAddr);	/**< (required) Pointer to device specific device initialization */
+N
+N} SPIFI_FAM_DESC_T;
+N
+N/**
+N * @brief Register device data node
+N */
+Ntypedef struct SPIFI_DEV_NODE {
+N	const struct SPIFI_DEVICE_DATA *pDevData;	/**< (required) Pointer to device specific data */
+N
+N	struct SPIFI_DEV_NODE *pNext;				/**< Reserved */
+N
+N} SPIFI_DEV_NODE_T;
+N
+Ntypedef SPIFI_ERR_T (*deviceInitDeInitFx)(const struct SPIFI_HANDLE *, uint32_t);	/**< Fx* to handle init / de-init */
+N
+Ntypedef void (*devClearStatusFx)(const struct SPIFI_HANDLE *);						/**< Fx* to clear status */
+N
+Ntypedef uint32_t (*devGetStatusFx)(const struct SPIFI_HANDLE *);					/**< Fx* to get status */
+N
+Ntypedef void (*devSetStatusFx)(const struct SPIFI_HANDLE *, uint32_t);				/**< Fx* to set status */
+N
+Ntypedef SPIFI_ERR_T (*devSetOptsFx)(const struct SPIFI_HANDLE *, uint32_t, uint32_t);	/**< Fx* to set options */
+N
+Ntypedef void (*devGetReadCmdFx)(const struct SPIFI_HANDLE *, uint8_t, uint32_t *, uint32_t *);	/**< Fx* to return read commandReg value */
+N
+Ntypedef void (*devGetWriteCmdFx)(const struct SPIFI_HANDLE *, uint32_t *);			/**< Fx* to return write commandReg value */
+N
+N/**
+N * @brief Device specific function pointers
+N */
+Ntypedef struct SPIFI_FAM_FX {
+N	/* Device init and de-initialization */
+N
+N	SPIFI_ERR_T (*lockCmd)(const struct SPIFI_HANDLE *, SPIFI_PCMD_LOCK_UNLOCK_T, uint32_t);	/**< (required) Lock / unlock handler */
+N
+N	SPIFI_ERR_T (*eraseAll)(const struct SPIFI_HANDLE *);										/**< (required) Full device erase */
+N
+N	SPIFI_ERR_T (*eraseBlock)(const struct SPIFI_HANDLE *, uint32_t);							/**< (required) Erase a block by block number */
+N
+N	SPIFI_ERR_T (*eraseSubBlock)(const struct SPIFI_HANDLE *, uint32_t);						/**< (required) Erase a sub-block by block number */
+N
+N	SPIFI_ERR_T (*pageProgram)(const struct SPIFI_HANDLE *, uint32_t, const uint32_t *, uint32_t);	/**< (required) Program up to a page of data at an address */
+N
+N	SPIFI_ERR_T (*read)(const struct SPIFI_HANDLE *, uint32_t, uint32_t *, uint32_t);			/**< (required) Read an address range */
+N
+N	SPIFI_ERR_T (*reset)(const struct SPIFI_HANDLE *);										/**< (required) Reset SPIFI device */
+N
+N	/* Info query functions */
+N	uint32_t (*getStatus)(const struct SPIFI_HANDLE *, uint8_t);								/**< (required) Returns device status */
+N
+N	uint32_t (*subBlockCmd)(const struct SPIFI_HANDLE *, SPIFI_PCMD_SUBBLK_T, uint32_t);		/**< (NULL allowed) Performs specified cmd */
+N
+N	/* Device specific functions */
+N	deviceInitDeInitFx devInitDeInit;	/**< run-time assigned Fx* device init de-init */
+N	devClearStatusFx devClearStatus;	/**< run-time assigned Fx* to clear status */
+N	devGetStatusFx devGetStatus;		/**< run-time assigned Fx* to get status */
+N	devSetStatusFx devSetStatus;		/**< run-time assigned Fx* to set status */
+N	devSetOptsFx devSetOpts;			/**< run-time assigned Fx* to set quad mode */
+N	devGetReadCmdFx devGetReadCmd;		/**< run-time assigned Fx* to return read cmd */
+N	devGetWriteCmdFx devGetWriteCmd;	/**< run-time assigned Fx* to return write cmd */
+N} SPIFI_FAM_FX_T;
+N
+N/**
+N * @brief Device identification data
+N */
+Ntypedef struct SPIFI_DEVICE_ID {
+N	uint8_t mfgId[3];							/**< JEDEC ID data */
+N	uint8_t extCount;							/**< Number of extended bytes to check */
+N	uint8_t extId[8];							/**< extended data */
+N} SPIFI_DEVICE_ID_T;
+N
+N/**
+N * @brief Register device data.
+N */
+Ntypedef struct SPIFI_DEVICE_DATA {
+N	const char *pDevName;						/**< (required) Device friendly name */
+N	SPIFI_DEVICE_ID_T id;						/**< Device id structure */
+N	uint32_t caps;								/**< capabilities supported */
+N	uint16_t blks;								/**< # of blocks */
+N	uint32_t blkSize;							/**< size of block */
+N	uint16_t subBlks;							/**< # of sub-blocks */
+N	uint16_t subBlkSize;						/**< size of sub-block */
+N	uint16_t pageSize;							/**< page size */
+N	uint32_t maxReadSize;						/**< max read allowed in one operation */
+N	uint8_t maxClkRate;							/**< (in Mhz) maximum clock rate (max common speed) */
+N	uint8_t maxReadRate;						/**< (in Mhz) max clock rate for read (driver may utilize fast read) */
+N	uint8_t maxHSReadRate;						/**< (in Mhz) max clock rate for quad / dual read */
+N	uint8_t maxProgramRate;						/**< (in Mhz) max clock rate for program */
+N	uint8_t maxHSProgramRate;					/**< (in Mhz) max clock rate for quad program */
+N	uint8_t initDeInitFxId;					/**< init/DeInit fx_id */
+N	uint8_t clearStatusFxId;					/**< clearStatus fx_id */
+N	uint8_t getStatusFxId;					/**< getStatus fx_id */
+N	uint8_t setStatusFxId;					/**< setStatus fx_id */
+N	uint8_t setOptionsFxId;					/**< setOptions fx_id */
+N	uint8_t getReadCmdFxId;					/**< getReadCommand fx_id */
+N	uint8_t getWriteCmdFxId;					/**< getWriteCommand fx_id */
+N} SPIFI_DEVICE_DATA_T;
+N
+N/**
+N * @brief LPCSPIFILIB device handle, used with all device and info functions
+N */
+Ntypedef struct SPIFI_HANDLE {
+N	const struct SPIFI_FAM_FX *pFamFx;			/**< (required) Pointer to device specific functions */
+N
+N	struct SPIFI_INFODATA   *pInfoData;			/**< (required) Pointer to info data area */
+N
+N	void                    *pDevContext;		/**< (NULL allowed) Pointer to device context (used by device functions) */
+N} SPIFI_HANDLE_T;
+N
+N/**
+N * @brief Common data applicable to all devices
+N */
+Ntypedef struct SPIFI_INFODATA {
+N	uint32_t        spifiCtrlAddr;				/**< SPIFI controller base address */
+N	uint32_t        baseAddr;					/**< Physical base address for the device */
+N	uint32_t        numBlocks;					/**< Number of blocks on the device */
+N	uint32_t        blockSize;					/**< Size of blocks on the device */
+N	uint32_t        numSubBlocks;				/**< Number of sub-blocks on the device */
+N	uint32_t        subBlockSize;				/**< Size of sub-blocks on the device */
+N	uint32_t        pageSize;					/**< Size of a page, usually denotes maximum write size in bytes for a single write operation */
+N	uint32_t        maxReadSize;				/**< Maximum read size in bytes for a single read operation */
+N	const struct SPIFI_DEVICE_DATA *pDeviceData;	/**< (required) Pointer to device specific data */
+N
+N	uint32_t        opts;						/**< Device options of values SPIFI_OPT_* */
+N	const char      *pDevName;					/**< (required) Pointer to device name */
+N	SPIFI_ERR_T     lastErr;					/**< Last error for the driver */
+N	const SPIFI_DEVICE_ID_T *pId;				/**< (required) Device id structure (JEDEC ID etc) */
+N} SPIFI_INFODATA_T;
+N
+N/**
+N * @brief Context for enumerating devices
+N */
+Ntypedef struct SPIFI_DEV_ENUMERATOR {
+N	SPIFI_FAM_NODE_T *pFamily;					/**< pointer to family node  */
+N	SPIFI_DEV_NODE_T *pDevice;					/**< pointer to device structure */
+N} SPIFI_DEV_ENUMERATOR_T;
+N
+N/**
+N * @}
+N */
+N
+N/** @defgroup LPCSPIFILIB_REGISTERHELPER LPCSPIFILIB family registration functions
+N * @ingroup LPCSPIFILIB
+N * @{
+N */
+N
+N/**
+N * @brief	Family registration function
+N * @return	A pointer to a persistent SPIFI_DEV_FAMILY_T initialized for family.
+N * @note	This function constructs and returns a non-volitile SPIFI_DEV_FAMILY_T
+N * structure that contains family specific information needed to register family.
+N * This function MUST NOT be called directly and should only be passed to the
+N * registration function spifiRegisterFamily()
+N */
+NSPIFI_FAM_NODE_T *spifi_REG_FAMILY_CommonCommandSet(void);
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_Spansion_2Byte_PStatus Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_Spansion_2Byte_PStatus spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_Spansion_3Byte_Status Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_Spansion_3Byte_Status spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_Macronix_2Byte_Status Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_Macronix_2Byte_Status spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_SpansionS25FLP Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_SpansionS25FLP spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_SpansionS25FL1 Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_SpansionS25FL1 spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_MacronixMX25L Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_MacronixMX25L spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @}
+N */
+N#ifdef __cplusplus
+S}
+N#endif
+N
+N#endif /* __SPIFILIB_DEV_H_ */
+L 34 "src\spifilib_fam_standard_cmd.c" 2
+N#include "spifilib_chiphw.h"
+L 1 "inc\spifilib_chiphw.h" 1
+N/*
+N * @brief LPCSPIFILIB hardware definitions and functions
+N *
+N * @note
+N * Copyright(C) NXP Semiconductors, 2014
+N * All rights reserved.
+N *
+N * @par
+N * Software that is described herein is for illustrative purposes only
+N * which provides customers with programming information regarding the
+N * LPC products.  This software is supplied "AS IS" without any warranties of
+N * any kind, and NXP Semiconductors and its licenser disclaim any and
+N * all warranties, express or implied, including all implied warranties of
+N * merchantability, fitness for a particular purpose and non-infringement of
+N * intellectual property rights.  NXP Semiconductors assumes no responsibility
+N * or liability for the use of the software, conveys no license or rights under any
+N * patent, copyright, mask work right, or any other intellectual property rights in
+N * or to any products. NXP Semiconductors reserves the right to make changes
+N * in the software without notification. NXP Semiconductors also makes no
+N * representation or warranty that such application will be suitable for the
+N * specified use without further testing or modification.
+N *
+N * @par
+N * Permission to use, copy, modify, and distribute this software and its
+N * documentation is hereby granted, under NXP Semiconductors' and its
+N * licensor's relevant copyrights in the software, without fee, provided that it
+N * is used in conjunction with NXP Semiconductors microcontrollers.  This
+N * copyright, permission, and disclaimer notice must appear in all copies of
+N * this code.
+N */
+N
+N#ifndef __SPIFILIB_CHIPHW_H_
+N#define __SPIFILIB_CHIPHW_H_
+N
+N#include <stdint.h>
+N
+N#ifdef __cplusplus
+Sextern "C" {
+N#endif
+N
+N/* Define for inline */
+N#ifndef INLINE
+S#ifdef __CC_ARM
+S#define INLINE  __inline
+S#else
+S#define INLINE inline
+S#endif /* __CC_ARM */
+N#endif /* !INLINE */
+N
+N#ifdef __CC_ARM
+N#pragma anon_unions
+N#endif
+N/** @defgroup LPCSPIFILIB_HW_API LPCSPIFILIB hardware definitions and API functions
+N * @ingroup LPCSPIFILIB
+N * @{
+N */
+N
+N/**
+N * @brief	SPIFI controller hardware register structure
+N */
+N
+Ntypedef struct LPC_SPIFI_CHIPHW {
+N	volatile    uint32_t CTRL;				/**< SPIFI control register */
+N	volatile    uint32_t CMD;					/**< SPIFI command register */
+N	volatile    uint32_t ADDR;				/**< SPIFI address register */
+N	volatile    uint32_t DATINTM;			/**< SPIFI intermediate data register */
+N	volatile    uint32_t CACHELIMIT;	/**< SPIFI cache limit register */
+N	union {
+N		volatile    uint8_t DAT8;				/**< SPIFI 8 bit data */
+N		volatile    uint16_t DAT16;			/**< SPIFI 16 bit data */
+N		volatile    uint32_t DAT32;			/**< SPIFI 32 bit data */
+N	};
+N
+N	volatile    uint32_t MEMCMD;			/**< SPIFI memory command register */
+N	volatile    uint32_t STAT;				/**< SPIFI status register */
+N} LPC_SPIFI_CHIPHW_T;
+N
+N/** @defgroup LPCSPIFILIB_HW_PRIM LPCSPIFILIB primative API functions
+N * @{
+N */
+N
+N/**
+N * @brief SPIFI controller control register bit definitions
+N */
+N#define SPIFI_CTRL_TO(t)        ((t) << 0)		/**< SPIFI timeout */
+N#define SPIFI_CTRL_CSHI(c)      ((c) << 16)		/**< SPIFI chip select minimum high time */
+N#define SPIFI_CTRL_DATA_PREFETCH_DISABLE(d) ((d) << 21)	/**< SPIFI memMode prefetch enable*/
+N#define SPIFI_CTRL_INTEN(i)     ((i) << 22)		/**< SPIFI cmdComplete irq enable */
+N#define SPIFI_CTRL_MODE3(m)     ((m) << 23)		/**< SPIFI mode3 config */
+N#define SPIFI_CTRL_PREFETCH_DISABLE(d) ((d) << 27)	/**< SPIFI cache prefetch enable */
+N#define SPIFI_CTRL_DUAL(d)      ((d) << 28)		/**< SPIFI enable dual */
+N#define SPIFI_CTRL_RFCLK(m)     ((m) << 29)		/**< SPIFI clock edge config */
+N#define SPIFI_CTRL_FBCLK(m)     ((m) << 30)		/**< SPIFI feedback clock select */
+N#define SPIFI_CTRL_DMAEN(m)     ((m) << 31)		/**< SPIFI dma enable */
+N
+N/**
+N * @brief	Write SPIFI controller control register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	ctrl	: Control value to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetCtrl(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t ctrl)
+Xstatic __inline void spifi_HW_SetCtrl(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t ctrl)
+N{
+N	pSpifi->CTRL = ctrl;
+N}
+N
+N/**
+N * @brief	Read SPIFI controller control register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	Current CTRL register values
+N */
+Nstatic INLINE uint32_t spifi_HW_GetCtrl(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint32_t spifi_HW_GetCtrl(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->CTRL;
+N}
+N
+N/**
+N * @brief SPIFI controller status register bit definitions
+N */
+N#define SPIFI_STAT_RESET        (1 << 4)		/**< SPIFI reset */
+N#define SPIFI_STAT_INTRQ        (1 << 5)		/**< SPIFI interrupt request */
+N#define SPIFI_STAT_CMD          (1 << 1)		/**< SPIFI command in progress */
+N#define SPIFI_STAT_MCINIT               (1)					/**< SPIFI MCINIT */
+N
+N/**
+N * @brief	Write SPIFI controller status register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	stat	: Status bits to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetStat(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t stat)
+Xstatic __inline void spifi_HW_SetStat(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t stat)
+N{
+N	pSpifi->STAT = stat;
+N}
+N
+N/**
+N * @brief	Read SPIFI controller status register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	Current STAT register values
+N */
+Nstatic INLINE uint32_t spifi_HW_GetStat(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint32_t spifi_HW_GetStat(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->STAT;
+N}
+N
+N/**
+N * @brief SPIFI controller command register bit definitions
+N */
+N#define SPIFI_CMD_DATALEN(l)    ((l) << 0)		/**< SPIFI bytes to send or receive */
+N#define SPIFI_CMD_POLLRS(p)     ((p) << 14)		/**< SPIFI enable poll */
+N#define SPIFI_CMD_DOUT(d)       ((d) << 15)		/**< SPIFI data direction is out */
+N#define SPIFI_CMD_INTER(i)      ((i) << 16)		/**< SPIFI intermediate bit length */
+N#define SPIFI_CMD_FIELDFORM(p)  ((p) << 19)		/**< SPIFI 2 bit data/cmd mode control */
+N#define SPIFI_CMD_FRAMEFORM(f)  ((f) << 21)		/**< SPIFI op and adr field config */
+N#define SPIFI_CMD_OPCODE(o)     ((uint32_t) (o) << 24)	/**< SPIFI 8-bit command code */
+N
+N/**
+N * @brief frame form definitions
+N */
+Ntypedef enum {
+N	SPIFI_FRAMEFORM_OP              = 1,
+N	SPIFI_FRAMEFORM_OP_1ADDRESS     = 2,
+N	SPIFI_FRAMEFORM_OP_2ADDRESS     = 3,
+N	SPIFI_FRAMEFORM_OP_3ADDRESS     = 4,
+N	SPIFI_FRAMEFORM_OP_4ADDRESS     = 5,
+N	SPIFI_FRAMEFORM_NOOP_3ADDRESS   = 6,
+N	SPIFI_FRAMEFORM_NOOP_4ADDRESS   = 7
+N} SPIFI_FRAMEFORM_T;
+N
+N/**
+N * @brief serial type definitions
+N */
+Ntypedef enum {
+N	SPIFI_FIELDFORM_ALL_SERIAL             = 0,
+N	SPIFI_FIELDFORM_SERIAL_OPCODE_ADDRESS  = 1,
+N	SPIFI_FIELDFORM_SERIAL_OPCODE          = 2,
+N	SPIFI_FIELDFORM_NO_SERIAL              = 3
+N} SPIFI_FIELDFORM_T;
+N
+N/**
+N * @brief	Read SPIFI controller command register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	32-bit value read from the command register
+N */
+Nstatic INLINE uint32_t spifi_HW_GetCmd(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint32_t spifi_HW_GetCmd(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->CMD;
+N}
+N
+N/**
+N * @brief	Write SPIFI controller command register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	cmd		: Command to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetCmd(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t cmd)
+Xstatic __inline void spifi_HW_SetCmd(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t cmd)
+N{
+N	pSpifi->CMD = cmd;
+N}
+N
+N/**
+N * @brief	Write SPIFI controller address register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	addr	: address (offset) to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetAddr(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t addr)
+Xstatic __inline void spifi_HW_SetAddr(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t addr)
+N{
+N	pSpifi->ADDR = addr;
+N}
+N
+N/**
+N * @brief	Read an 8-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	8-bit value read from the data register
+N */
+Nstatic INLINE uint8_t spifi_HW_GetData8(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint8_t spifi_HW_GetData8(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->DAT8;
+N}
+N
+N/**
+N * @brief	Read an 16-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	16-bit value read from the data register
+N */
+Nstatic INLINE uint16_t spifi_HW_GetData16(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint16_t spifi_HW_GetData16(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->DAT16;
+N}
+N
+N/**
+N * @brief	Read an 32-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	32-bit value read from the data register
+N */
+Nstatic INLINE uint32_t spifi_HW_GetData32(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint32_t spifi_HW_GetData32(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->DAT32;
+N}
+N
+N/**
+N * @brief	Write an 8-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	data	: 8-bit data value to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetData8(LPC_SPIFI_CHIPHW_T *pSpifi, uint8_t data)
+Xstatic __inline void spifi_HW_SetData8(LPC_SPIFI_CHIPHW_T *pSpifi, uint8_t data)
+N{
+N	pSpifi->DAT8 = data;
+N}
+N
+N/**
+N * @brief	Write an 16-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	data	: 16-bit data value to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetData16(LPC_SPIFI_CHIPHW_T *pSpifi, uint16_t data)
+Xstatic __inline void spifi_HW_SetData16(LPC_SPIFI_CHIPHW_T *pSpifi, uint16_t data)
+N{
+N	pSpifi->DAT16 = data;
+N}
+N
+N/**
+N * @brief	Write an 32-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	data	: 32-bit data value to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetData32(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t data)
+Xstatic __inline void spifi_HW_SetData32(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t data)
+N{
+N	pSpifi->DAT32 = data;
+N}
+N
+N/**
+N * @brief	Write IDATA register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	mode	: value to write. Used to specify value used for intermediate
+N                                    data value when enabled.
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetIDATA(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t mode)
+Xstatic __inline void spifi_HW_SetIDATA(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t mode)
+N{
+N	pSpifi->DATINTM = mode;
+N}
+N
+N/**
+N * @brief	Write MEMCMD register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	cmd		: Command value to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetMEMCMD(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t cmd)
+Xstatic __inline void spifi_HW_SetMEMCMD(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t cmd)
+N{
+N	pSpifi->MEMCMD = cmd;
+N}
+N
+N/**
+N * @}
+N */
+N
+N/** @defgroup LPCSPIFILIB_HW_L2 LPCSPIFILIB hardware support API functions
+N * @{
+N */
+N
+N/**
+N * @brief	Reset SPIFI controller
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_ResetController(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline void spifi_HW_ResetController(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	pSpifi->STAT = SPIFI_STAT_RESET;
+X	pSpifi->STAT = (1 << 4);
+N	while ((pSpifi->STAT & SPIFI_STAT_RESET) != 0) {}
+X	while ((pSpifi->STAT & (1 << 4)) != 0) {}
+N}
+N
+N/**
+N * @brief	Wait for a command to complete
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_WaitCMD(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline void spifi_HW_WaitCMD(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	while ((spifi_HW_GetStat(pSpifi) & SPIFI_STAT_CMD) != 0) {}
+X	while ((spifi_HW_GetStat(pSpifi) & (1 << 1)) != 0) {}
+N}
+N
+N/**
+N * @brief	Wait for a RESET bit to clear
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_WaitRESET(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline void spifi_HW_WaitRESET(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	while ((spifi_HW_GetStat(pSpifi) & SPIFI_STAT_RESET) != 0) {}
+X	while ((spifi_HW_GetStat(pSpifi) & (1 << 4)) != 0) {}
+N}
+N
+N/**
+N * @}
+N */
+N
+N/**
+N * @}
+N */
+N
+N#ifdef __cplusplus
+S}
+N#endif
+N
+N#endif /* __SPIFILIB_CHIPHW_H_ */
+L 35 "src\spifilib_fam_standard_cmd.c" 2
+N
+N/* need access to the device register Fx without importing the whole API */
+Nextern SPIFI_ERR_T spifiDevRegister(SPIFI_FAM_NODE_T *pFamily, SPIFI_DEV_NODE_T *pDevData);
+N
+N/** @defgroup LPCSPIFILIB_CONFIG_STANDARD_CMD_SET LPCSPIFILIB Common Command set driver
+N * @ingroup LPCSPIFILIB_DRIVERS
+N * This driver includes support for the following devices. (Clones within {} brackets).<br>
+N * S25FL016K {W25Q16DV}<br>
+N * S25FL032P<br>
+N * S25FL064P<br>
+N * S25FL129P 64k Sector<br>
+N * S25FL129P 256k Sector {S25FL128S}<br>
+N * S25FL164K<br>
+N * S25FL256S<br>
+N * S25FL512S<br>
+N * MX25L1635E<br>
+N * MX25L3235E<br>
+N * MX25L6435E<br>
+N * MX25L8035E<br>
+N * W25Q32FV<br>
+N * W25Q64FV<br>
+N * W25Q80BV {W25Q80DV}<br>
+N *
+N * Driver Feature Specifics:<br>
+N * - common command set<br>
+N *
+N * Optimization: Ram / code size optimizations can be enabled by enabling specific
+N * devices in lieu of the default (all devices enabled). Change the setting of
+N * SPIFI_DEVICE_ALL to 0 and enable specific devices by changing the setting
+N * of the appropriate SPIFI_DEVICE_XXX to 1.
+N * @{
+N */
+N
+N/**
+N * @}
+N */
+N
+N/*****************************************************************************
+N * Private types/enumerations/variables
+N ****************************************************************************/
+N/**
+N * @brief The following set of defines allows fine tuning where specific device support
+N * can be pre determined and space is at a premium.  To Reduce code / iRam requirements
+N * change the SPIFI_DEVICE_ALL to 0 and change the desired device definition(s) to 1
+N */
+N#define SPIFI_DEVICE_ALL                1		/**< Enables all devices in family */
+N#define SPIFI_DEVICE_S25FL016K          0		/**< Enables Spansion S25FL016K device */
+N#define SPIFI_DEVICE_S25FL032P          0		/**< Enables Spansion S25FL032P device */
+N#define SPIFI_DEVICE_S25FL064P          0		/**< Enables Spansion S25FL064P device */
+N#define SPIFI_DEVICE_S25FL129P_64K      0		/**< Enables Spansion S25FL129P (64K block) device */
+N#define SPIFI_DEVICE_S25FL129P_256K     0		/**< Enables Spansion S25FL129P (256K block) device */
+N#define SPIFI_DEVICE_S25FL164K          0		/**< Enables Spansion S25FL164K device */
+N#define SPIFI_DEVICE_S25FL256S_64K      0		/**< Enables Spansion S25FL256S (64K block) device */
+N#define SPIFI_DEVICE_S25FL256S_256K     0		/**< Enables Spansion S25FL256S (256K block) device */
+N#define SPIFI_DEVICE_S25FL512S          0		/**< Enables Spansion S25FL512S device */
+N#define SPIFI_DEVICE_MX25L1635E         0		/**< Enables Macronix MX25L1635E device */
+N#define SPIFI_DEVICE_MX25L3235E         0		/**< Enables Macronix MX25L3235E device */
+N#define SPIFI_DEVICE_MX25L8035E         0		/**< Enables Macronix MX25L8035E device */
+N#define SPIFI_DEVICE_MX25L6435E         0		/**< Enables Macronix MX25L6435E device */
+N#define SPIFI_DEVICE_W25Q32FV           0		/**< Enables Winbond W25Q32FV device */
+N#define SPIFI_DEVICE_W25Q64FV           0		/**< Enables Winbond W25Q32V device */
+N#define SPIFI_DEVICE_W25Q80BV           0		/**< Enables Winbond W25Q80BV device */
+N
+N/* Required private data size for this family */
+N#define PRVDATASIZE 0
+N
+N#define MAX_SINGLE_READ             16128
+N
+N/* Command definitions. Only used commands are defined. */
+N#define CMD_0B_FAST_READ            0x0B		/**< Read Data bytes at Fast Speed */
+N#define CMD_BB_DIOR                 0xBB		/**< Dual IORead (all dual except op code( */
+N#define CMD_EB_QIOR                 0xEB		/**< Quad IORead (all quad except op code) */
+N#define CMD_0C_FAST_READ            0x0C		/**< Read Data (4B addr) bytes at Fast Speed */
+N#define CMD_BC_DIOR                 0xBC		/**< Dual IORead (4B addr) (all dual except op code( */
+N#define CMD_EC_QIOR                 0xEC		/**< Quad IORead (4B addr) (all quad except op code) */
+N#define CMD_06_WREN                 0x06		/**< Write Enable */
+N#define CMD_20_P4E                  0x20		/**< 4 KB Parameter Sector Erase */
+N#define CMD_C7_BE                   0xC7		/**< Bulk Erase */
+N#define CMD_D8_SE                   0xD8		/**< Sector Erase */
+N#define CMD_DC_SE					0xDC		/**< Sector erase (4B addr) */
+N#define CMD_02_PP                   0x02		/**< Page Programming */
+N#define CMD_12_PP                   0x12		/**< Page Programming (4B addr) */
+N#define CMD_05_RDSR1                0x05		/**< Read Status Register 1 */
+N#define CMD_35_RDSR2                0x35		/**< Read Status Register 2 */
+N#define CMD_33_RDSR3                0x33		/**< Read Status Register 3 */
+N#define CMD_01_WSR                  0x01		/**< Write Status Registers */
+N#define CMD_30_CSR                  0x30		/**< Reset the Erase and Program Fail Flag (SR5 and SR6) and restore normal operation) */
+N#define CMD_32_QPP                  0x32		/**< Quad Page Programming */
+N#define CMD_34_QPP                  0x34		/**< Quad Page Programming (4B addr) */
+N#define CMD_38_QPP_MACRONIX         0x38		/**< Quad Page Programming for 25L3235E */
+N
+N/* Common status register definitions */
+N/* Status Register Write Disable,
+N   1 = Protects when W# is low,
+N   0 = No protection, even when W# is low */
+N#define STATUS_SRWD                   (1 << 7)
+N
+N/* Block protect bits,
+N   Protects upper half of address range in 5 sizes */
+N#define STATUS_BPMASK                 (7 << 2)
+N/* Write Enable Latch,
+N   1 = Device accepts Write Status Register, program, or erase commands,
+N   0 = Ignores Write Status Register, program, or erase commands */
+N#define STATUS_WEL                    (1 << 1)
+N/* Write in Progress,
+N   1 = Device Busy. A Write Status Register, program, or erase,
+N   0 = Ready. Device is in standby mode and can accept commands. */
+N#define STATUS_WIP                    (1 << 0)
+N
+N/* Virtual status bits
+N   (i.e moved to byte 4 so they don't conflict with bits in lower 3 bytes */
+N/* Programming Error Occurred,
+N   0 = No Error,
+N   1 = Error occurred */
+N#define STATUS_P_ERR                  (1 << 24)
+N/* Erase Error Occurred,
+N   0 = No Error,
+N   1 = Error occurred */
+N#define STATUS_W_ERR                  (1 << 25)
+N
+N/* Functions used macro definitions */
+N/* Macros to control conditional use functions */
+N#define NEED_spifiDeviceDataGetStatusS25FL032P (SPIFI_DEVICE_ALL | \
+N												SPIFI_DEVICE_S25FL016K | \
+N												SPIFI_DEVICE_S25FL032P | \
+N												SPIFI_DEVICE_S25FL064P | \
+N												SPIFI_DEVICE_S25FL129P_64K | \
+N												SPIFI_DEVICE_S25FL129P_256K | \
+N												SPIFI_DEVICE_S25FL256S_64K | \
+N												SPIFI_DEVICE_S25FL256S_256K | \
+N												SPIFI_DEVICE_S25FL512S)
+X#define NEED_spifiDeviceDataGetStatusS25FL032P (SPIFI_DEVICE_ALL | 												SPIFI_DEVICE_S25FL016K | 												SPIFI_DEVICE_S25FL032P | 												SPIFI_DEVICE_S25FL064P | 												SPIFI_DEVICE_S25FL129P_64K | 												SPIFI_DEVICE_S25FL129P_256K | 												SPIFI_DEVICE_S25FL256S_64K | 												SPIFI_DEVICE_S25FL256S_256K | 												SPIFI_DEVICE_S25FL512S)
+N
+N#define NEED_spifiDeviceDataGetStatusS25FL164K (SPIFI_DEVICE_ALL | \
+N												SPIFI_DEVICE_S25FL164K)
+X#define NEED_spifiDeviceDataGetStatusS25FL164K (SPIFI_DEVICE_ALL | 												SPIFI_DEVICE_S25FL164K)
+N
+N#define NEED_spifiDeviceDataGetStatusMX25L3235E (SPIFI_DEVICE_ALL |	\
+N												 SPIFI_DEVICE_MX25L1635E | \
+N												 SPIFI_DEVICE_MX25L3235E | \
+N												 SPIFI_DEVICE_MX25L8035E | \
+N												 SPIFI_DEVICE_MX25L6435E)
+X#define NEED_spifiDeviceDataGetStatusMX25L3235E (SPIFI_DEVICE_ALL |													 SPIFI_DEVICE_MX25L1635E | 												 SPIFI_DEVICE_MX25L3235E | 												 SPIFI_DEVICE_MX25L8035E | 												 SPIFI_DEVICE_MX25L6435E)
+N
+N#define NEED_spifiDeviceDataGetStatusW25Q80BV (SPIFI_DEVICE_ALL | \
+N											   SPIFI_DEVICE_W25Q80BV | \
+N											   SPIFI_DEVICE_W25Q32FV | \
+N											   SPIFI_DEVICE_W25Q64FV)
+X#define NEED_spifiDeviceDataGetStatusW25Q80BV (SPIFI_DEVICE_ALL | 											   SPIFI_DEVICE_W25Q80BV | 											   SPIFI_DEVICE_W25Q32FV | 											   SPIFI_DEVICE_W25Q64FV)
+N
+N#define NEED_spifiDeviceDataClearStatusNone (SPIFI_DEVICE_ALL |	\
+N											 SPIFI_DEVICE_W25Q80BV | \
+N											 SPIFI_DEVICE_W25Q32FV | \
+N											 SPIFI_DEVICE_W25Q64FV | \
+N											 SPIFI_DEVICE_MX25L1635E | \
+N											 SPIFI_DEVICE_MX25L3235E | \
+N											 SPIFI_DEVICE_MX25L8035E | \
+N											 SPIFI_DEVICE_MX25L6435E)
+X#define NEED_spifiDeviceDataClearStatusNone (SPIFI_DEVICE_ALL |												 SPIFI_DEVICE_W25Q80BV | 											 SPIFI_DEVICE_W25Q32FV | 											 SPIFI_DEVICE_W25Q64FV | 											 SPIFI_DEVICE_MX25L1635E | 											 SPIFI_DEVICE_MX25L3235E | 											 SPIFI_DEVICE_MX25L8035E | 											 SPIFI_DEVICE_MX25L6435E)
+N
+N#define NEED_spifiDeviceDataClearStatusS25FL032P (SPIFI_DEVICE_ALL | \
+N												  SPIFI_DEVICE_S25FL016K | \
+N												  SPIFI_DEVICE_S25FL032P | \
+N												  SPIFI_DEVICE_S25FL064P | \
+N												  SPIFI_DEVICE_S25FL129P_64K | \
+N												  SPIFI_DEVICE_S25FL129P_256K |	\
+N												  SPIFI_DEVICE_S25FL164K | \
+N												  SPIFI_DEVICE_S25FL256S_64K | \
+N												  SPIFI_DEVICE_S25FL256S_256K |	\
+N												  SPIFI_DEVICE_S25FL512S)
+X#define NEED_spifiDeviceDataClearStatusS25FL032P (SPIFI_DEVICE_ALL | 												  SPIFI_DEVICE_S25FL016K | 												  SPIFI_DEVICE_S25FL032P | 												  SPIFI_DEVICE_S25FL064P | 												  SPIFI_DEVICE_S25FL129P_64K | 												  SPIFI_DEVICE_S25FL129P_256K |													  SPIFI_DEVICE_S25FL164K | 												  SPIFI_DEVICE_S25FL256S_64K | 												  SPIFI_DEVICE_S25FL256S_256K |													  SPIFI_DEVICE_S25FL512S)
+N
+N#define NEED_spifiDeviceDataSetStatusS25FL032P (SPIFI_DEVICE_ALL |	\
+N												SPIFI_DEVICE_S25FL016K | \
+N												SPIFI_DEVICE_S25FL032P | \
+N												SPIFI_DEVICE_S25FL064P | \
+N												SPIFI_DEVICE_S25FL129P_64K | \
+N												SPIFI_DEVICE_S25FL129P_256K | \
+N												SPIFI_DEVICE_S25FL256S_64K | \
+N												SPIFI_DEVICE_S25FL256S_256K | \
+N												SPIFI_DEVICE_S25FL512S | \
+N												SPIFI_DEVICE_W25Q80BV |	\
+N												SPIFI_DEVICE_W25Q32FV |	\
+N												SPIFI_DEVICE_W25Q64FV)
+X#define NEED_spifiDeviceDataSetStatusS25FL032P (SPIFI_DEVICE_ALL |													SPIFI_DEVICE_S25FL016K | 												SPIFI_DEVICE_S25FL032P | 												SPIFI_DEVICE_S25FL064P | 												SPIFI_DEVICE_S25FL129P_64K | 												SPIFI_DEVICE_S25FL129P_256K | 												SPIFI_DEVICE_S25FL256S_64K | 												SPIFI_DEVICE_S25FL256S_256K | 												SPIFI_DEVICE_S25FL512S | 												SPIFI_DEVICE_W25Q80BV |													SPIFI_DEVICE_W25Q32FV |													SPIFI_DEVICE_W25Q64FV)
+N
+N#define NEED_spifiDeviceDataSetStatusS25FL164K (SPIFI_DEVICE_ALL |	\
+N												SPIFI_DEVICE_S25FL164K)
+X#define NEED_spifiDeviceDataSetStatusS25FL164K (SPIFI_DEVICE_ALL |													SPIFI_DEVICE_S25FL164K)
+N
+N#define NEED_spifiDeviceDataSetStatusMX25L3235E (SPIFI_DEVICE_ALL |	\
+N												 SPIFI_DEVICE_MX25L1635E | \
+N												 SPIFI_DEVICE_MX25L3235E | \
+N												 SPIFI_DEVICE_MX25L8035E | \
+N												 SPIFI_DEVICE_MX25L6435E)
+X#define NEED_spifiDeviceDataSetStatusMX25L3235E (SPIFI_DEVICE_ALL |													 SPIFI_DEVICE_MX25L1635E | 												 SPIFI_DEVICE_MX25L3235E | 												 SPIFI_DEVICE_MX25L8035E | 												 SPIFI_DEVICE_MX25L6435E)
+N
+N#define NEED_spifiDeviceDataSetOptsQuadModeBit6 (SPIFI_DEVICE_ALL |	\
+N												 SPIFI_DEVICE_MX25L1635E | \
+N												 SPIFI_DEVICE_MX25L3235E | \
+N												 SPIFI_DEVICE_MX25L8035E | \
+N												 SPIFI_DEVICE_MX25L6435E)
+X#define NEED_spifiDeviceDataSetOptsQuadModeBit6 (SPIFI_DEVICE_ALL |													 SPIFI_DEVICE_MX25L1635E | 												 SPIFI_DEVICE_MX25L3235E | 												 SPIFI_DEVICE_MX25L8035E | 												 SPIFI_DEVICE_MX25L6435E)
+N
+N#define NEED_spifiDeviceDataSetOptsQuadModeBit9 (SPIFI_DEVICE_ALL |	\
+N												 SPIFI_DEVICE_S25FL016K | \
+N												 SPIFI_DEVICE_S25FL032P | \
+N												 SPIFI_DEVICE_S25FL064P | \
+N												 SPIFI_DEVICE_S25FL129P_64K | \
+N												 SPIFI_DEVICE_S25FL129P_256K | \
+N												 SPIFI_DEVICE_S25FL164K | \
+N												 SPIFI_DEVICE_S25FL256S_64K | \
+N												 SPIFI_DEVICE_S25FL256S_256K | \
+N												 SPIFI_DEVICE_S25FL512S | \
+N												 SPIFI_DEVICE_W25Q80BV | \
+N												 SPIFI_DEVICE_W25Q32FV | \
+N												 SPIFI_DEVICE_W25Q64FV)
+X#define NEED_spifiDeviceDataSetOptsQuadModeBit9 (SPIFI_DEVICE_ALL |													 SPIFI_DEVICE_S25FL016K | 												 SPIFI_DEVICE_S25FL032P | 												 SPIFI_DEVICE_S25FL064P | 												 SPIFI_DEVICE_S25FL129P_64K | 												 SPIFI_DEVICE_S25FL129P_256K | 												 SPIFI_DEVICE_S25FL164K | 												 SPIFI_DEVICE_S25FL256S_64K | 												 SPIFI_DEVICE_S25FL256S_256K | 												 SPIFI_DEVICE_S25FL512S | 												 SPIFI_DEVICE_W25Q80BV | 												 SPIFI_DEVICE_W25Q32FV | 												 SPIFI_DEVICE_W25Q64FV)
+N
+N#define NEED_spifiDeviceDataInitDeinit (SPIFI_DEVICE_ALL |	\
+N										SPIFI_DEVICE_S25FL016K | \
+N										SPIFI_DEVICE_S25FL032P | \
+N										SPIFI_DEVICE_S25FL064P | \
+N										SPIFI_DEVICE_S25FL129P_64K | \
+N										SPIFI_DEVICE_S25FL129P_256K | \
+N										SPIFI_DEVICE_S25FL256S_64K | \
+N										SPIFI_DEVICE_S25FL256S_256K | \
+N										SPIFI_DEVICE_S25FL512S | \
+N										SPIFI_DEVICE_W25Q80BV |	\
+N										SPIFI_DEVICE_W25Q32FV |	\
+N										SPIFI_DEVICE_W25Q64FV |	\
+N										SPIFI_DEVICE_MX25L1635E | \
+N										SPIFI_DEVICE_MX25L3235E | \
+N										SPIFI_DEVICE_MX25L8035E | \
+N										SPIFI_DEVICE_MX25L6435E)
+X#define NEED_spifiDeviceDataInitDeinit (SPIFI_DEVICE_ALL |											SPIFI_DEVICE_S25FL016K | 										SPIFI_DEVICE_S25FL032P | 										SPIFI_DEVICE_S25FL064P | 										SPIFI_DEVICE_S25FL129P_64K | 										SPIFI_DEVICE_S25FL129P_256K | 										SPIFI_DEVICE_S25FL256S_64K | 										SPIFI_DEVICE_S25FL256S_256K | 										SPIFI_DEVICE_S25FL512S | 										SPIFI_DEVICE_W25Q80BV |											SPIFI_DEVICE_W25Q32FV |											SPIFI_DEVICE_W25Q64FV |											SPIFI_DEVICE_MX25L1635E | 										SPIFI_DEVICE_MX25L3235E | 										SPIFI_DEVICE_MX25L8035E | 										SPIFI_DEVICE_MX25L6435E)
+N
+N#define NEED_spifiDeviceDataInitDeinitS25FL164K (SPIFI_DEVICE_ALL |	\
+N												 SPIFI_DEVICE_S25FL164K)
+X#define NEED_spifiDeviceDataInitDeinitS25FL164K (SPIFI_DEVICE_ALL |													 SPIFI_DEVICE_S25FL164K)
+N
+N#define NEED_spifiDevice4BInitReadCommand (SPIFI_DEVICE_ALL |	\
+N												SPIFI_DEVICE_S25FL256S_64K | \
+N												SPIFI_DEVICE_S25FL256S_256K | \
+N												SPIFI_DEVICE_S25FL512S)
+X#define NEED_spifiDevice4BInitReadCommand (SPIFI_DEVICE_ALL |													SPIFI_DEVICE_S25FL256S_64K | 												SPIFI_DEVICE_S25FL256S_256K | 												SPIFI_DEVICE_S25FL512S)
+N
+N#define NEED_spifiDeviceInitReadCommand (SPIFI_DEVICE_ALL |	\
+N										 SPIFI_DEVICE_S25FL016K | \
+N										 SPIFI_DEVICE_S25FL032P | \
+N										 SPIFI_DEVICE_S25FL064P | \
+N										 SPIFI_DEVICE_S25FL129P_64K | \
+N										 SPIFI_DEVICE_S25FL129P_256K | \
+N										 SPIFI_DEVICE_S25FL164K | \
+N										 SPIFI_DEVICE_W25Q80BV | \
+N										 SPIFI_DEVICE_W25Q32FV | \
+N										 SPIFI_DEVICE_W25Q64FV | \
+N										 SPIFI_DEVICE_MX25L1635E | \
+N										 SPIFI_DEVICE_MX25L3235E | \
+N										 SPIFI_DEVICE_MX25L8035E | \
+N										 SPIFI_DEVICE_MX25L6435E)
+X#define NEED_spifiDeviceInitReadCommand (SPIFI_DEVICE_ALL |											 SPIFI_DEVICE_S25FL016K | 										 SPIFI_DEVICE_S25FL032P | 										 SPIFI_DEVICE_S25FL064P | 										 SPIFI_DEVICE_S25FL129P_64K | 										 SPIFI_DEVICE_S25FL129P_256K | 										 SPIFI_DEVICE_S25FL164K | 										 SPIFI_DEVICE_W25Q80BV | 										 SPIFI_DEVICE_W25Q32FV | 										 SPIFI_DEVICE_W25Q64FV | 										 SPIFI_DEVICE_MX25L1635E | 										 SPIFI_DEVICE_MX25L3235E | 										 SPIFI_DEVICE_MX25L8035E | 										 SPIFI_DEVICE_MX25L6435E)
+N
+N#define NEED_spifiDeviceInitWriteCommand (SPIFI_DEVICE_ALL |	\
+N										  SPIFI_DEVICE_S25FL016K | \
+N										  SPIFI_DEVICE_S25FL032P | \
+N										  SPIFI_DEVICE_S25FL064P | \
+N										  SPIFI_DEVICE_S25FL129P_64K | \
+N										  SPIFI_DEVICE_S25FL129P_256K |	\
+N										  SPIFI_DEVICE_S25FL164K | \
+N										  SPIFI_DEVICE_W25Q80BV | \
+N										  SPIFI_DEVICE_W25Q32FV | \
+N										  SPIFI_DEVICE_W25Q64FV | \
+N										  SPIFI_DEVICE_MX25L8035E)
+X#define NEED_spifiDeviceInitWriteCommand (SPIFI_DEVICE_ALL |											  SPIFI_DEVICE_S25FL016K | 										  SPIFI_DEVICE_S25FL032P | 										  SPIFI_DEVICE_S25FL064P | 										  SPIFI_DEVICE_S25FL129P_64K | 										  SPIFI_DEVICE_S25FL129P_256K |											  SPIFI_DEVICE_S25FL164K | 										  SPIFI_DEVICE_W25Q80BV | 										  SPIFI_DEVICE_W25Q32FV | 										  SPIFI_DEVICE_W25Q64FV | 										  SPIFI_DEVICE_MX25L8035E)
+N
+N#define NEED_spifiDevice4BInitWriteCommand (SPIFI_DEVICE_ALL |	\
+N											SPIFI_DEVICE_S25FL256S_64K | \
+N											SPIFI_DEVICE_S25FL256S_256K |	\
+N											SPIFI_DEVICE_S25FL512S)
+X#define NEED_spifiDevice4BInitWriteCommand (SPIFI_DEVICE_ALL |												SPIFI_DEVICE_S25FL256S_64K | 											SPIFI_DEVICE_S25FL256S_256K |												SPIFI_DEVICE_S25FL512S)
+N
+N#define NEED_spifiDeviceInitWriteCommandMacronix (SPIFI_DEVICE_ALL |	\
+N												  SPIFI_DEVICE_MX25L1635E |	\
+N												  SPIFI_DEVICE_MX25L3235E |	\
+N												  SPIFI_DEVICE_MX25L6435E)
+X#define NEED_spifiDeviceInitWriteCommandMacronix (SPIFI_DEVICE_ALL |													  SPIFI_DEVICE_MX25L1635E |													  SPIFI_DEVICE_MX25L3235E |													  SPIFI_DEVICE_MX25L6435E)
+N
+N/*****************************************************************************
+N * Public types/enumerations/variables
+N ****************************************************************************/
+N
+N/*****************************************************************************
+N * Private functions
+N ****************************************************************************/
+N
+N/* Software write Enable */
+Nstatic void spifiPrvSetWREN(LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr)
+N{
+N	spifi_HW_SetCmd(pSpifiCtrlAddr,
+N					(SPIFI_CMD_OPCODE(CMD_06_WREN) |
+X					(((uint32_t) (0x06) << 24) |
+N					 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X					 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N					 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP)));
+X					 ((SPIFI_FRAMEFORM_OP) << 21)));
+N
+N	spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N}
+N
+N/* Wait for device to complete operation (I.e not busy) */
+Nstatic void spifiPrvWaitUnBusy(const SPIFI_HANDLE_T *pHandle)
+N{
+N	/* Device wait for device to be ready */
+N	while ((pHandle->pFamFx->devGetStatus(pHandle) & STATUS_WIP) != 0) {}
+X	while ((pHandle->pFamFx->devGetStatus(pHandle) & (1 << 0)) != 0) {}
+N}
+N
+Nstatic void spifiPrvSetQuadModeBitPosition(const SPIFI_HANDLE_T *pHandle, uint32_t bitPosition, uint8_t enQuadMode)
+N{
+N	uint32_t statusRegs;
+N
+N	/* Read the device specific status bytes */
+N	statusRegs = pHandle->pFamFx->devGetStatus(pHandle);
+N
+N	/* Set / clear bit x */
+N	if (enQuadMode) {
+N		statusRegs |= (1 << bitPosition);
+N	}
+N	else {
+N		statusRegs &= ~(1 << bitPosition);
+N	}
+N
+N	/* Write status back out */
+N	pHandle->pFamFx->devSetStatus(pHandle, statusRegs);
+N}
+N
+N/* Checks to see if the device is writable and not busy */
+Nstatic SPIFI_ERR_T spifiPrvCheckWriteState(const SPIFI_HANDLE_T *pHandle)
+N{
+N	uint32_t stat;
+N
+N	/* Get status */
+N	stat = pHandle->pFamFx->devGetStatus(pHandle);
+N
+N	/* Exit if blocks are locked or WIP in progress */
+N	if ((stat & STATUS_BPMASK) != 0) {
+X	if ((stat & (7 << 2)) != 0) {
+N		return SPIFI_ERR_LOCKED;
+N	}
+N	else if ((stat & STATUS_WIP) != 0) {
+X	else if ((stat & (1 << 0)) != 0) {
+N		return SPIFI_ERR_BUSY;
+N	}
+N
+N	return SPIFI_ERR_NONE;
+N}
+N
+N/*****************************************************************************
+N * Semi-Private functions
+N * Functions may be assigned to SPIFI_DEVICE_DATA_T function pointers.
+N ****************************************************************************/
+N
+N/* Read the status bytes for the following device(s)... */
+N#if NEED_spifiDeviceDataGetStatusS25FL032P
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+Nstatic uint32_t spifiDeviceDataGetStatusS25FL032P(const SPIFI_HANDLE_T *pHandle)
+N{
+N	static const uint8_t spifiCmdOp[2] = {CMD_05_RDSR1, CMD_35_RDSR2};
+X	static const uint8_t spifiCmdOp[2] = {0x05, 0x35};
+N	uint32_t statusReg = 0;
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	uint32_t index;
+N
+N	/* Read the status bytes needed */
+N	for (index = 0; index < (sizeof(spifiCmdOp) / sizeof(spifiCmdOp[0])); ++index) {
+N
+N		spifi_HW_SetCmd(pSpifiCtrlAddr,
+N						(SPIFI_CMD_OPCODE(spifiCmdOp[index]) |
+X						(((uint32_t) (spifiCmdOp[index]) << 24) |
+N						 SPIFI_CMD_DATALEN(1) |
+X						 ((1) << 0) |
+N						 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X						 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N						 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP)));
+X						 ((SPIFI_FRAMEFORM_OP) << 21)));
+N
+N		statusReg |= (spifi_HW_GetData8(pSpifiCtrlAddr) << (8 * index));
+N
+N		/* Wait for command to complete */
+N		spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N	}
+N
+N	/* Move the error bits to generic location */
+N	if (statusReg & (1 << 5)) {
+N		statusReg |= STATUS_W_ERR;
+X		statusReg |= (1 << 25);
+N	}
+N	if (statusReg & (1 << 6)) {
+N		statusReg |= STATUS_P_ERR;
+X		statusReg |= (1 << 24);
+N	}
+N
+N	/* Finally remove the error bits from the original location */
+N	statusReg &= ~(3 << 5);
+N
+N	return statusReg;
+N}
+N
+N#endif
+N
+N/* Read the status bytes for the following device(s)... */
+N#if NEED_spifiDeviceDataGetStatusS25FL164K
+X#if (1 | 0)
+Nstatic uint32_t spifiDeviceDataGetStatusS25FL164K(const SPIFI_HANDLE_T *pHandle)
+N{
+N	static const uint8_t spifiCmdOp[3] = {CMD_05_RDSR1, CMD_35_RDSR2, CMD_33_RDSR3};
+X	static const uint8_t spifiCmdOp[3] = {0x05, 0x35, 0x33};
+N	uint32_t statusRegs = 0;
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N	uint32_t idx;
+N
+N	for (idx = 0; idx < sizeof(spifiCmdOp) / sizeof(spifiCmdOp[0]); ++idx) {
+N		spifi_HW_SetCmd(pSpifiCtrlAddr,
+N						(SPIFI_CMD_OPCODE(spifiCmdOp[idx]) |
+X						(((uint32_t) (spifiCmdOp[idx]) << 24) |
+N						 SPIFI_CMD_DATALEN(1) |
+X						 ((1) << 0) |
+N						 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X						 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N						 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP)));
+X						 ((SPIFI_FRAMEFORM_OP) << 21)));
+N
+N		statusRegs |= (spifi_HW_GetData8(pSpifiCtrlAddr) << (8 * idx));
+N
+N		/* Wait for command to complete */
+N		spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N	}
+N
+N	return statusRegs;
+N}
+N
+N#endif
+N
+N/* Read the status bytes for the following device(s)... */
+N#if NEED_spifiDeviceDataGetStatusMX25L3235E
+X#if (1 | 0 | 0 | 0 | 0)
+Nstatic uint32_t spifiDeviceDataGetStatusMX25L3235E(const SPIFI_HANDLE_T *pHandle)
+N{
+N	uint32_t statRegister;
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	spifi_HW_SetCmd(pSpifiCtrlAddr,
+N					(SPIFI_CMD_OPCODE(CMD_05_RDSR1) |
+X					(((uint32_t) (0x05) << 24) |
+N					 SPIFI_CMD_DATALEN(1) |
+X					 ((1) << 0) |
+N					 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X					 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N					 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP)));
+X					 ((SPIFI_FRAMEFORM_OP) << 21)));
+N
+N	statRegister = spifi_HW_GetData8(pSpifiCtrlAddr);
+N
+N	/* Wait for command to complete */
+N	spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N
+N	return statRegister;
+N}
+N
+N#endif
+N
+N/* Read the status bytes for the following device(s)... */
+N#if NEED_spifiDeviceDataGetStatusW25Q80BV
+X#if (1 | 0 | 0 | 0)
+Nstatic uint32_t spifiDeviceDataGetStatusW25Q80BV(const SPIFI_HANDLE_T *pHandle)
+N{
+N	static const uint8_t spifiCmdOp[2] = {CMD_05_RDSR1, CMD_35_RDSR2};
+X	static const uint8_t spifiCmdOp[2] = {0x05, 0x35};
+N	uint32_t statusReg = 0;
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	uint32_t index;
+N
+N	/* Read the status bytes needed */
+N	for (index = 0; index < (sizeof(spifiCmdOp) / sizeof(spifiCmdOp[0])); ++index) {
+N
+N		spifi_HW_SetCmd(pSpifiCtrlAddr,
+N						(SPIFI_CMD_OPCODE(spifiCmdOp[index]) |
+X						(((uint32_t) (spifiCmdOp[index]) << 24) |
+N						 SPIFI_CMD_DATALEN(1) |
+X						 ((1) << 0) |
+N						 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X						 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N						 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP)));
+X						 ((SPIFI_FRAMEFORM_OP) << 21)));
+N
+N		statusReg |= (spifi_HW_GetData8(pSpifiCtrlAddr) << (8 * index));
+N
+N		/* Wait for command to complete */
+N		spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N	}
+N
+N	return statusReg;
+N}
+N
+N#endif
+N
+N/* Software clear status for the following device(s) */
+N#if NEED_spifiDeviceDataClearStatusNone
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+Nstatic void spifiDeviceDataClearStatusNone(const SPIFI_HANDLE_T *pHandle)
+N{
+N	/* Do nothing */
+N}
+N
+N#endif
+N
+N/* Software clear status for the following device(s) */
+N#if NEED_spifiDeviceDataClearStatusS25FL032P
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+Nstatic void spifiDeviceDataClearStatusS25FL032P(const SPIFI_HANDLE_T *pHandle)
+N{
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	spifi_HW_SetCmd(pSpifiCtrlAddr,
+N					(SPIFI_CMD_OPCODE(CMD_30_CSR) |
+X					(((uint32_t) (0x30) << 24) |
+N					 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X					 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N					 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP)));
+X					 ((SPIFI_FRAMEFORM_OP) << 21)));
+N
+N	spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N}
+N
+N#endif
+N
+N/* Write Status / Config Register for the following device(s) */
+N#if NEED_spifiDeviceDataSetStatusS25FL032P
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+Nstatic void spifiDeviceDataSetStatusS25FL032P(const SPIFI_HANDLE_T *pHandle, uint32_t status)
+N{
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	spifiPrvSetWREN(pSpifiCtrlAddr);
+N	spifi_HW_SetCmd(pSpifiCtrlAddr,
+N					(SPIFI_CMD_OPCODE(CMD_01_WSR) |
+X					(((uint32_t) (0x01) << 24) |
+N					 SPIFI_CMD_DATALEN(2) |
+X					 ((2) << 0) |
+N					 SPIFI_CMD_DOUT(1) |
+X					 ((1) << 15) |
+N					 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X					 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N					 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP)));
+X					 ((SPIFI_FRAMEFORM_OP) << 21)));
+N
+N	/* Write the data out. Don't worry about restoring error bits as they are read only anyway */
+N	spifi_HW_SetData8(pSpifiCtrlAddr, status);
+N	spifi_HW_SetData8(pSpifiCtrlAddr, (status >> 8));
+N
+N	/* Wait for Controller to finish command */
+N	spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N
+N	/* Wait for flash controller to finish command */
+N	spifiPrvWaitUnBusy(pHandle);
+N}
+N
+N#endif
+N
+N/* Write Status1, 2 and 3 Register for the following device(s) */
+N#if NEED_spifiDeviceDataSetStatusS25FL164K
+X#if (1 | 0)
+Nstatic void spifiDeviceDataSetStatusS25FL164K(const SPIFI_HANDLE_T *pHandle, uint32_t status)
+N{
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	spifiPrvSetWREN(pSpifiCtrlAddr);
+N	spifi_HW_SetCmd(pSpifiCtrlAddr,
+N					(SPIFI_CMD_OPCODE(CMD_01_WSR) |
+X					(((uint32_t) (0x01) << 24) |
+N					 SPIFI_CMD_DATALEN(3) |
+X					 ((3) << 0) |
+N					 SPIFI_CMD_DOUT(1) |
+X					 ((1) << 15) |
+N					 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X					 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N					 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP)));
+X					 ((SPIFI_FRAMEFORM_OP) << 21)));
+N
+N	/* Write the data out */
+N	spifi_HW_SetData8(pSpifiCtrlAddr, status);
+N	spifi_HW_SetData8(pSpifiCtrlAddr, (status >> 8));
+N	spifi_HW_SetData8(pSpifiCtrlAddr, (status >> 16));
+N
+N	/* Wait for Controller to finish command */
+N	spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N
+N	/* Wait for flash controller to finish command */
+N	spifiPrvWaitUnBusy(pHandle);
+N}
+N
+N#endif
+N
+N/* Write Status / Config Register for the following device(s)*/
+N#if NEED_spifiDeviceDataSetStatusMX25L3235E
+X#if (1 | 0 | 0 | 0 | 0)
+Nstatic void spifiDeviceDataSetStatusMX25L3235E(const SPIFI_HANDLE_T *pHandle, uint32_t status)
+N{
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	spifiPrvSetWREN(pSpifiCtrlAddr);
+N	spifi_HW_SetCmd(pSpifiCtrlAddr,
+N					(SPIFI_CMD_OPCODE(CMD_01_WSR) |
+X					(((uint32_t) (0x01) << 24) |
+N					 SPIFI_CMD_DATALEN(1) |
+X					 ((1) << 0) |
+N					 SPIFI_CMD_DOUT(1) |
+X					 ((1) << 15) |
+N					 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X					 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N					 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP)));
+X					 ((SPIFI_FRAMEFORM_OP) << 21)));
+N
+N	/* Write the data out */
+N	spifi_HW_SetData8(pSpifiCtrlAddr, status);
+N
+N	/* Wait for Controller to finish command */
+N	spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N
+N	/* Wait for flash controller to finish command */
+N	spifiPrvWaitUnBusy(pHandle);
+N}
+N
+N#endif
+N
+N/* Function to change bit 6 of status/config register for the following device(s) */
+N#if NEED_spifiDeviceDataSetOptsQuadModeBit6
+X#if (1 | 0 | 0 | 0 | 0)
+Nstatic SPIFI_ERR_T spifiDeviceDataSetOptsQuadModeBit6(const SPIFI_HANDLE_T *pHandle, uint32_t opts, uint32_t enMode)
+N{
+N	/* Do not attempt to set bit if option is not supported */
+N	if (opts & (SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE)) {
+X	if (opts & ((1 << 2) | (1 << 3))) {
+N		spifiPrvSetQuadModeBitPosition(pHandle, 6, enMode);
+N	}
+N	return SPIFI_ERR_NONE;
+N}
+N
+N#endif
+N
+N/* Function to change bit 9 of status/config register for the following device(s) */
+N#if NEED_spifiDeviceDataSetOptsQuadModeBit9
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+Nstatic SPIFI_ERR_T spifiDeviceDataSetOptsQuadModeBit9(const SPIFI_HANDLE_T *pHandle, uint32_t opts, uint32_t enMode)
+N{
+N	/* Do not attempt to set bit if option is not supported */
+N	if (opts & (SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE)) {
+X	if (opts & ((1 << 2) | (1 << 3))) {
+N		spifiPrvSetQuadModeBitPosition(pHandle, 9, enMode);
+N	}
+N	return SPIFI_ERR_NONE;
+N}
+N
+N#endif
+N
+N/* Initialize SPIFI device for the following device(s) */
+N#if NEED_spifiDeviceDataInitDeinit
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+Nstatic SPIFI_ERR_T spifiDeviceDataInitDeinit(const SPIFI_HANDLE_T *pHandle, uint32_t init)
+N{
+N	return SPIFI_ERR_NONE;
+N}
+N
+N#endif
+N
+N/* Initialize SPIFI device for the following device(s) */
+N#if NEED_spifiDeviceDataInitDeinitS25FL164K
+X#if (1 | 0)
+Nstatic SPIFI_ERR_T spifiDeviceDataInitDeinitS25FL164K(const SPIFI_HANDLE_T *pHandle, uint32_t init)
+N{
+N	uint32_t status;
+N
+N	/* Disable variable read latency */
+N	if (init) {
+N		status = pHandle->pFamFx->devGetStatus(pHandle);
+N		status &= ~(0xf << 16);	/* Latency control bits for this part */
+N		pHandle->pFamFx->devSetStatus(pHandle, status);
+N	}
+N
+N	return SPIFI_ERR_NONE;
+N}
+N
+N#endif
+N
+N/* Function to return spifi controller read cmd */
+N#if NEED_spifiDeviceInitReadCommand
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+Nstatic void spifiDeviceInitReadCommand(const SPIFI_HANDLE_T *pHandle, uint8_t enable,
+N								uint32_t *cmd, uint32_t *iData)
+N{
+N	if (iData) {
+N		*iData = 0xFF;
+N	}
+N
+N	if (pHandle->pInfoData->opts & SPIFI_CAP_QUAD_READ) {
+X	if (pHandle->pInfoData->opts & (1 << 2)) {
+N		*cmd =
+N			(SPIFI_CMD_OPCODE(CMD_EB_QIOR) |
+X			(((uint32_t) (0xEB) << 24) |
+N			 SPIFI_CMD_DOUT(0) |
+X			 ((0) << 15) |
+N			 SPIFI_CMD_INTER(3) |
+X			 ((3) << 16) |
+N			 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_SERIAL_OPCODE) |
+X			 ((SPIFI_FIELDFORM_SERIAL_OPCODE) << 19) |
+N			 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_3ADDRESS));
+X			 ((SPIFI_FRAMEFORM_OP_3ADDRESS) << 21));
+N	}
+N	else if (pHandle->pInfoData->opts & SPIFI_CAP_DUAL_READ) {
+X	else if (pHandle->pInfoData->opts & (1 << 0)) {
+N		*cmd =
+N			(SPIFI_CMD_OPCODE(CMD_BB_DIOR) |
+X			(((uint32_t) (0xBB) << 24) |
+N			 SPIFI_CMD_DOUT(0) |
+X			 ((0) << 15) |
+N			 SPIFI_CMD_INTER(1) |
+X			 ((1) << 16) |
+N			 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_SERIAL_OPCODE) |
+X			 ((SPIFI_FIELDFORM_SERIAL_OPCODE) << 19) |
+N			 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_3ADDRESS));
+X			 ((SPIFI_FRAMEFORM_OP_3ADDRESS) << 21));
+N	}
+N	/* Default to single lane mode if no other modes enabled */
+N	else {
+N		*cmd =
+N			(SPIFI_CMD_OPCODE(CMD_0B_FAST_READ) |
+X			(((uint32_t) (0x0B) << 24) |
+N			 SPIFI_CMD_DOUT(0) |
+X			 ((0) << 15) |
+N			 SPIFI_CMD_INTER(1) |
+X			 ((1) << 16) |
+N			 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X			 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N			 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_3ADDRESS));
+X			 ((SPIFI_FRAMEFORM_OP_3ADDRESS) << 21));
+N	}
+N}
+N
+N#endif
+N
+N/* Function to return spifi controller read cmd */
+N#if NEED_spifiDevice4BInitReadCommand
+X#if (1 | 0 | 0 | 0)
+Nstatic void spifiDevice4BInitReadCommand(const SPIFI_HANDLE_T *pHandle, uint8_t enable,
+N								uint32_t *cmd, uint32_t *iData)
+N{
+N	if (iData) {
+N		*iData = 0xFF;
+N	}
+N
+N	if (pHandle->pInfoData->opts & SPIFI_CAP_QUAD_READ) {
+X	if (pHandle->pInfoData->opts & (1 << 2)) {
+N		*cmd =
+N			(SPIFI_CMD_OPCODE(CMD_EC_QIOR) |
+X			(((uint32_t) (0xEC) << 24) |
+N			 SPIFI_CMD_DOUT(0) |
+X			 ((0) << 15) |
+N			 SPIFI_CMD_INTER(3) |
+X			 ((3) << 16) |
+N			 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_SERIAL_OPCODE) |
+X			 ((SPIFI_FIELDFORM_SERIAL_OPCODE) << 19) |
+N			 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_4ADDRESS));
+X			 ((SPIFI_FRAMEFORM_OP_4ADDRESS) << 21));
+N	}
+N	else if (pHandle->pInfoData->opts & SPIFI_CAP_DUAL_READ) {
+X	else if (pHandle->pInfoData->opts & (1 << 0)) {
+N		*cmd =
+N			(SPIFI_CMD_OPCODE(CMD_BC_DIOR) |
+X			(((uint32_t) (0xBC) << 24) |
+N			 SPIFI_CMD_DOUT(0) |
+X			 ((0) << 15) |
+N			 SPIFI_CMD_INTER(1) |
+X			 ((1) << 16) |
+N			 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_SERIAL_OPCODE) |
+X			 ((SPIFI_FIELDFORM_SERIAL_OPCODE) << 19) |
+N			 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_4ADDRESS));
+X			 ((SPIFI_FRAMEFORM_OP_4ADDRESS) << 21));
+N	}
+N	/* Default to single lane mode if no other modes enabled */
+N	else {
+N		*cmd =
+N			(SPIFI_CMD_OPCODE(CMD_0C_FAST_READ) |
+X			(((uint32_t) (0x0C) << 24) |
+N			 SPIFI_CMD_DOUT(0) |
+X			 ((0) << 15) |
+N			 SPIFI_CMD_INTER(1) |
+X			 ((1) << 16) |
+N			 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X			 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N			 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_4ADDRESS));
+X			 ((SPIFI_FRAMEFORM_OP_4ADDRESS) << 21));
+N	}
+N}
+N
+N#endif
+N
+N/* Function to return spifi controller write cmd */
+N#if NEED_spifiDeviceInitWriteCommand
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+Nstatic void spifiDeviceInitWriteCommand(const SPIFI_HANDLE_T *pHandle, uint32_t *cmd)
+N{
+N	if (pHandle->pInfoData->opts & SPIFI_CAP_QUAD_WRITE) {
+X	if (pHandle->pInfoData->opts & (1 << 3)) {
+N		*cmd = (SPIFI_CMD_OPCODE(CMD_32_QPP) |
+X		*cmd = (((uint32_t) (0x32) << 24) |
+N				SPIFI_CMD_DOUT(1) |
+X				((1) << 15) |
+N				SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_SERIAL_OPCODE_ADDRESS) |
+X				((SPIFI_FIELDFORM_SERIAL_OPCODE_ADDRESS) << 19) |
+N				SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_3ADDRESS));
+X				((SPIFI_FRAMEFORM_OP_3ADDRESS) << 21));
+N	}
+N	else {
+N		*cmd = (SPIFI_CMD_OPCODE(CMD_02_PP) |
+X		*cmd = (((uint32_t) (0x02) << 24) |
+N				SPIFI_CMD_DOUT(1) |
+X				((1) << 15) |
+N				SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X				((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N				SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_3ADDRESS));
+X				((SPIFI_FRAMEFORM_OP_3ADDRESS) << 21));
+N	}
+N}
+N
+N#endif
+N
+N#if NEED_spifiDevice4BInitWriteCommand
+X#if (1 | 0 | 0 | 0)
+Nstatic void spifiDevice4BInitWriteCommand(const SPIFI_HANDLE_T *pHandle, uint32_t *cmd)
+N{
+N	if (pHandle->pInfoData->opts & SPIFI_CAP_QUAD_WRITE) {
+X	if (pHandle->pInfoData->opts & (1 << 3)) {
+N		*cmd = (SPIFI_CMD_OPCODE(CMD_34_QPP) |
+X		*cmd = (((uint32_t) (0x34) << 24) |
+N				SPIFI_CMD_DOUT(1) |
+X				((1) << 15) |
+N				SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_SERIAL_OPCODE_ADDRESS) |
+X				((SPIFI_FIELDFORM_SERIAL_OPCODE_ADDRESS) << 19) |
+N				SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_4ADDRESS));
+X				((SPIFI_FRAMEFORM_OP_4ADDRESS) << 21));
+N	}
+N	else {
+N		*cmd = (SPIFI_CMD_OPCODE(CMD_12_PP) |
+X		*cmd = (((uint32_t) (0x12) << 24) |
+N				SPIFI_CMD_DOUT(1) |
+X				((1) << 15) |
+N				SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X				((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N				SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_4ADDRESS));
+X				((SPIFI_FRAMEFORM_OP_4ADDRESS) << 21));
+N	}
+N}
+N
+N#endif
+N
+N/* Function to return spifi controller write cmd */
+N#if NEED_spifiDeviceInitWriteCommandMacronix
+X#if (1 | 0 | 0 | 0)
+Nstatic void spifiDeviceInitWriteCommandMacronix(const SPIFI_HANDLE_T *pHandle, uint32_t *cmd)
+N{
+N	if (pHandle->pInfoData->opts & SPIFI_CAP_QUAD_WRITE) {
+X	if (pHandle->pInfoData->opts & (1 << 3)) {
+N		*cmd = (SPIFI_CMD_OPCODE(CMD_38_QPP_MACRONIX) |
+X		*cmd = (((uint32_t) (0x38) << 24) |
+N				SPIFI_CMD_DOUT(1) |
+X				((1) << 15) |
+N				SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_SERIAL_OPCODE) |
+X				((SPIFI_FIELDFORM_SERIAL_OPCODE) << 19) |
+N				SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_3ADDRESS));
+X				((SPIFI_FRAMEFORM_OP_3ADDRESS) << 21));
+N	}
+N	else {
+N		*cmd = (SPIFI_CMD_OPCODE(CMD_02_PP) |
+X		*cmd = (((uint32_t) (0x02) << 24) |
+N				SPIFI_CMD_DOUT(1) |
+X				((1) << 15) |
+N				SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X				((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N				SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_3ADDRESS));
+X				((SPIFI_FRAMEFORM_OP_3ADDRESS) << 21));
+N	}
+N}
+N
+N#endif
+N
+N/* Function to indicate configuration error */
+Nstatic void spifiDeviceFxError(void)
+N{
+N	while (1) {}
+N}
+N
+N/* Function to return Fx* for initialization */
+Nstatic deviceInitDeInitFx spifiDeviceAssignFxInitDeInit(SPIFI_HANDLE_T *pHandle)
+N{
+N	if (pHandle->pInfoData->pDeviceData->initDeInitFxId == FX_spifiDeviceDataInitDeinitS25FL164K) {
+N#if NEED_spifiDeviceDataInitDeinitS25FL164K
+X#if (1 | 0)
+N		return spifiDeviceDataInitDeinitS25FL164K;
+N#endif
+N	}
+N	else if (pHandle->pInfoData->pDeviceData->initDeInitFxId == FX_spifiDeviceDataInitDeinit ) {
+N#if NEED_spifiDeviceDataInitDeinit
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+N		return spifiDeviceDataInitDeinit;
+N#endif
+N	}
+N	return (deviceInitDeInitFx) spifiDeviceFxError;
+N}
+N
+N/* Function to return Fx* for clearing status */
+Nstatic devClearStatusFx spifiDeviceAssignFxClearStatus(SPIFI_HANDLE_T *pHandle)
+N{
+N	/* Initialize the device clearStatus Fx* */
+N	if (pHandle->pInfoData->pDeviceData->clearStatusFxId == FX_spifiDeviceDataClearStatusS25FL032P) {
+N#if NEED_spifiDeviceDataClearStatusS25FL032P
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+N		return spifiDeviceDataClearStatusS25FL032P;
+N#endif
+N	}
+N	else if (pHandle->pInfoData->pDeviceData->clearStatusFxId == FX_spifiDeviceDataClearStatusNone) {
+N#if NEED_spifiDeviceDataClearStatusNone
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+N		return spifiDeviceDataClearStatusNone;
+N#endif
+N	}
+N	return (devClearStatusFx) spifiDeviceFxError;
+N}
+N
+N/* Function to return Fx* for getting status */
+Nstatic devGetStatusFx spifiDeviceAssignFxGetStatus(SPIFI_HANDLE_T *pHandle)
+N{
+N	/* Initialize the device getStatus Fx* */
+N	if (pHandle->pInfoData->pDeviceData->getStatusFxId == FX_spifiDeviceDataGetStatusS25FL032P) {
+N#if NEED_spifiDeviceDataGetStatusS25FL032P
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+N		return spifiDeviceDataGetStatusS25FL032P;
+N#endif
+N	}
+N	else if (pHandle->pInfoData->pDeviceData->getStatusFxId == FX_spifiDeviceDataGetStatusS25FL164K) {
+N#if NEED_spifiDeviceDataGetStatusS25FL164K
+X#if (1 | 0)
+N		return spifiDeviceDataGetStatusS25FL164K;
+N#endif
+N	}
+N	else if (pHandle->pInfoData->pDeviceData->getStatusFxId == FX_spifiDeviceDataGetStatusMX25L3235E) {
+N#if NEED_spifiDeviceDataGetStatusMX25L3235E
+X#if (1 | 0 | 0 | 0 | 0)
+N		return spifiDeviceDataGetStatusMX25L3235E;
+N#endif
+N	}
+N	else if (pHandle->pInfoData->pDeviceData->getStatusFxId == FX_spifiDeviceDataGetStatusW25Q80BV) {
+N#if NEED_spifiDeviceDataGetStatusW25Q80BV
+X#if (1 | 0 | 0 | 0)
+N		return spifiDeviceDataGetStatusW25Q80BV;
+N#endif
+N	}
+N	return (devGetStatusFx) spifiDeviceFxError;
+N}
+N
+N/* Function for returning Fx* for setting status */
+Nstatic devSetStatusFx spifiDeviceAssignFxSetStatus(SPIFI_HANDLE_T *pHandle)
+N{
+N	/* Initialize the device setStatus Fx* */
+N	if (pHandle->pInfoData->pDeviceData->setStatusFxId == FX_spifiDeviceDataSetStatusS25FL032P) {
+N#if NEED_spifiDeviceDataSetStatusS25FL032P
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+N		return spifiDeviceDataSetStatusS25FL032P;
+N#endif
+N	}
+N	else if (pHandle->pInfoData->pDeviceData->setStatusFxId == FX_spifiDeviceDataSetStatusS25FL164K) {
+N#if NEED_spifiDeviceDataSetStatusS25FL164K
+X#if (1 | 0)
+N		return spifiDeviceDataSetStatusS25FL164K;
+N#endif
+N	}
+N	else if (pHandle->pInfoData->pDeviceData->setStatusFxId == FX_spifiDeviceDataSetStatusMX25L3235E) {
+N#if NEED_spifiDeviceDataSetStatusMX25L3235E
+X#if (1 | 0 | 0 | 0 | 0)
+N		return spifiDeviceDataSetStatusMX25L3235E;
+N#endif
+N	}
+N	return (devSetStatusFx) spifiDeviceFxError;
+N}
+N
+N/* Function for returning Fx* for setting options */
+Nstatic devSetOptsFx spifiDeviceAssignFxSetOptions(SPIFI_HANDLE_T *pHandle)
+N{
+N	/* Initialize the device setOptions Fx* */
+N	if (pHandle->pInfoData->pDeviceData->setOptionsFxId == FX_spifiDeviceDataSetOptsQuadModeBit9) {
+N#if NEED_spifiDeviceDataSetOptsQuadModeBit9
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+N		return spifiDeviceDataSetOptsQuadModeBit9;
+N#endif
+N	}
+N	else if (pHandle->pInfoData->pDeviceData->setOptionsFxId == FX_spifiDeviceDataSetOptsQuadModeBit6) {
+N#if NEED_spifiDeviceDataSetOptsQuadModeBit6
+X#if (1 | 0 | 0 | 0 | 0)
+N		return spifiDeviceDataSetOptsQuadModeBit6;
+N#endif
+N	}
+N	return (devSetOptsFx) spifiDeviceFxError;
+N}
+N
+N/* Function for returning Fx* for getting spifi controller read cmd */
+Nstatic devGetReadCmdFx spifiDeviceAssignFxReadCmd(SPIFI_HANDLE_T *pHandle)
+N{
+N	/* Initialize the device getReadCmd Fx* */
+N	if (pHandle->pInfoData->pDeviceData->getReadCmdFxId == FX_spifiDeviceInitReadCommand) {
+N#if NEED_spifiDeviceInitReadCommand
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+N		return spifiDeviceInitReadCommand;
+N#endif
+N	}
+N	else if (pHandle->pInfoData->pDeviceData->getReadCmdFxId == FX_spifiDevice4BInitReadCommand) {
+N#if NEED_spifiDevice4BInitReadCommand
+X#if (1 | 0 | 0 | 0)
+N		return spifiDevice4BInitReadCommand;
+N#endif
+N	}
+N	return (devGetReadCmdFx) spifiDeviceFxError;
+N}
+N
+N/* Function for returning Fx* for getting spifi controller write cmd */
+Nstatic devGetWriteCmdFx spifiDeviceAssignFxWriteCmd(SPIFI_HANDLE_T *pHandle)
+N{
+N	/* Initialize the device getWriteCmd Fx* */
+N	if (pHandle->pInfoData->pDeviceData->getWriteCmdFxId == FX_spifiDeviceInitWriteCommand) {
+N#if NEED_spifiDeviceInitWriteCommand
+X#if (1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0)
+N		return spifiDeviceInitWriteCommand;
+N#endif
+N	}
+N	else if (pHandle->pInfoData->pDeviceData->getWriteCmdFxId == FX_spifiDevice4BInitWriteCommand) {
+N	#if NEED_spifiDevice4BInitWriteCommand
+X	#if (1 | 0 | 0 | 0)
+N			return spifiDevice4BInitWriteCommand;
+N	#endif
+N	}
+N	else if (pHandle->pInfoData->pDeviceData->getWriteCmdFxId == FX_spifiDeviceInitWriteCommandMacronix) {
+N#if NEED_spifiDeviceInitWriteCommandMacronix
+X#if (1 | 0 | 0 | 0)
+N		return spifiDeviceInitWriteCommandMacronix;
+N#endif
+N	}
+N	return (devGetWriteCmdFx) spifiDeviceFxError;
+N}
+N
+N/*****************************************************************************
+N * Semi-Private family functions
+N * Functions may be assigned to SPIFI_FAM_FX_T function pointers.
+N ****************************************************************************/
+N/* Converts a device status to an OR'ed API status */
+Nstatic uint32_t spifiFamFxGetDeviceStatus(const SPIFI_HANDLE_T *pHandle, uint8_t clearStatus)
+N{
+N	uint32_t devStat;
+N	uint32_t status = 0;
+N
+N	/* Read device status word */
+N	devStat = pHandle->pFamFx->devGetStatus(pHandle);
+N
+N	/* Convert to standard status values */
+N	if ((devStat & (STATUS_P_ERR | STATUS_W_ERR)) != 0) {
+X	if ((devStat & ((1 << 24) | (1 << 25))) != 0) {
+N		if ((devStat & STATUS_P_ERR) != 0) {
+X		if ((devStat & (1 << 24)) != 0) {
+N			status |= SPIFI_STAT_PROGERR;
+X			status |= (1 << 4);
+N		}
+N		if ((devStat & STATUS_W_ERR) != 0) {
+X		if ((devStat & (1 << 25)) != 0) {
+N			status |= SPIFI_STAT_ERASEERR;
+X			status |= (1 << 5);
+N		}
+N
+N		/* Only clear status if necessary */
+N		if (clearStatus) {
+N			pHandle->pFamFx->devClearStatus(pHandle);
+N		}
+N	}
+N	if ((devStat & STATUS_BPMASK) != 0) {
+X	if ((devStat & (7 << 2)) != 0) {
+N		if ((devStat & STATUS_BPMASK) == STATUS_BPMASK) {
+X		if ((devStat & (7 << 2)) == (7 << 2)) {
+N			status |= SPIFI_STAT_FULLLOCK;
+X			status |= (1 << 2);
+N		}
+N		else {
+N			status |= SPIFI_STAT_PARTLOCK;
+X			status |= (1 << 3);
+N		}
+N	}
+N	if ((devStat & STATUS_WIP) != 0) {
+X	if ((devStat & (1 << 0)) != 0) {
+N		status |= SPIFI_STAT_BUSY;
+X		status |= (1 << 0);
+N	}
+N
+N	return status;
+N}
+N
+N/* lock/ unlock commands */
+Nstatic SPIFI_ERR_T spifiFamFxLockDeviceCmd(const SPIFI_HANDLE_T *pHandle, SPIFI_PCMD_LOCK_UNLOCK_T cmd, uint32_t data)
+N{
+N	SPIFI_ERR_T status = SPIFI_ERR_NOTSUPPORTED;
+N
+N	if ((cmd == SPIFI_PCMD_UNLOCK_DEVICE) || (cmd == SPIFI_PCMD_LOCK_DEVICE)) {
+N		uint32_t stat;
+N
+N		/* Get current status */
+N		stat = pHandle->pFamFx->devGetStatus(pHandle);
+N
+N		if (cmd == SPIFI_PCMD_UNLOCK_DEVICE) {
+N			/* Clear lock bits only if they are locked */
+N			if ((stat & STATUS_BPMASK) != 0) {
+X			if ((stat & (7 << 2)) != 0) {
+N				stat &= ~STATUS_BPMASK;
+X				stat &= ~(7 << 2);
+N				/* Write updated value back to status register */
+N				pHandle->pFamFx->devSetStatus(pHandle, stat);
+N			}
+N		}
+N		else {
+N			/* Clear lock bits only if they are locked */
+N			if ((stat & STATUS_BPMASK) != STATUS_BPMASK) {
+X			if ((stat & (7 << 2)) != (7 << 2)) {
+N				stat |= STATUS_BPMASK;
+X				stat |= (7 << 2);
+N				/* Write updated value back to status register */
+N				pHandle->pFamFx->devSetStatus(pHandle, stat);
+N			}
+N		}
+N		status = SPIFI_ERR_NONE;
+N	}
+N
+N	return status;
+N}
+N
+N/* Bulk Erase*/
+Nstatic SPIFI_ERR_T spifiFamFxEraseAll(const SPIFI_HANDLE_T *pHandle)
+N{
+N	SPIFI_ERR_T status;
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	status = spifiPrvCheckWriteState(pHandle);
+N	if (status == SPIFI_ERR_NONE) {
+N		spifiPrvSetWREN(pSpifiCtrlAddr);
+N		spifi_HW_SetCmd(pSpifiCtrlAddr,
+N						(SPIFI_CMD_OPCODE(CMD_C7_BE) |
+X						(((uint32_t) (0xC7) << 24) |
+N						 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X						 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N						 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP)));
+X						 ((SPIFI_FRAMEFORM_OP) << 21)));
+N
+N		spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N
+N		/* Device wait for device to become ready */
+N		spifiPrvWaitUnBusy(pHandle);
+N	}
+N
+N	return status;
+N}
+N
+N/* Erase a block by block number */
+Nstatic SPIFI_ERR_T spifiFamFxEraseBlock(const SPIFI_HANDLE_T *pHandle, uint32_t blockNum)
+N{
+N	uint16_t stat;
+N	uint32_t addr;
+N	SPIFI_ERR_T status = SPIFI_ERR_RANGE;
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	if (blockNum < pHandle->pInfoData->numBlocks) {
+N		status = spifiPrvCheckWriteState(pHandle);
+N		if (status == SPIFI_ERR_NONE) {
+N			addr = blockNum * pHandle->pInfoData->blockSize;
+N			/* Only clear status if necessary */
+N			pHandle->pFamFx->devClearStatus(pHandle);
+N
+N			spifiPrvSetWREN(pSpifiCtrlAddr);
+N
+N			spifi_HW_SetAddr(pSpifiCtrlAddr, addr);
+N			if (pHandle->pInfoData->pDeviceData->caps & SPIFI_CAP_4BYTE_ADDR) {
+X			if (pHandle->pInfoData->pDeviceData->caps & (1 << 7)) {
+N				spifi_HW_SetCmd(pSpifiCtrlAddr,
+N											(SPIFI_CMD_OPCODE(CMD_DC_SE) |
+X											(((uint32_t) (0xDC) << 24) |
+N											 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X											 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N											 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_4ADDRESS)));
+X											 ((SPIFI_FRAMEFORM_OP_4ADDRESS) << 21)));
+N			}
+N			else { /* Setup for a 3 Byte address erase */
+N				spifi_HW_SetCmd(pSpifiCtrlAddr,
+N							(SPIFI_CMD_OPCODE(CMD_D8_SE) |
+X							(((uint32_t) (0xD8) << 24) |
+N							 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X							 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N							 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_3ADDRESS)));
+X							 ((SPIFI_FRAMEFORM_OP_3ADDRESS) << 21)));
+N			}
+N			spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N
+N			/* If blocking is disabled, exit now */
+N			if ((pHandle->pInfoData->opts & SPIFI_OPT_NOBLOCK) == 0) {
+X			if ((pHandle->pInfoData->opts & (1 << 16)) == 0) {
+N				/* Device wait for device to become ready */
+N				spifiPrvWaitUnBusy(pHandle);
+N
+N				/* Read status and check error bits */
+N				stat = spifiFamFxGetDeviceStatus(pHandle, 0);
+N				if ((stat & SPIFI_STAT_ERASEERR) != 0) {
+X				if ((stat & (1 << 5)) != 0) {
+N					status = SPIFI_ERR_ERASEERR;
+N				}
+N			}
+N		}
+N	}
+N
+N	return status;
+N}
+N
+N/* Erase a block by sub-block number */
+Nstatic SPIFI_ERR_T spifiFamFxEraseSubBlock(const SPIFI_HANDLE_T *pHandle, uint32_t subBlockNum)
+N{
+N	uint16_t stat;
+N	uint32_t addr;
+N	SPIFI_ERR_T status = SPIFI_ERR_RANGE;
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	if (subBlockNum < pHandle->pInfoData->numSubBlocks) {
+N		status = spifiPrvCheckWriteState(pHandle);
+N		if (status == SPIFI_ERR_NONE) {
+N			addr = subBlockNum * pHandle->pInfoData->subBlockSize;
+N			/* Only clear status if necessary */
+N			pHandle->pFamFx->devClearStatus(pHandle);
+N
+N			spifiPrvSetWREN(pSpifiCtrlAddr);
+N
+N			spifi_HW_SetAddr(pSpifiCtrlAddr, addr);
+N
+N			spifi_HW_SetCmd(pSpifiCtrlAddr,
+N						(SPIFI_CMD_OPCODE(CMD_20_P4E) |
+X						(((uint32_t) (0x20) << 24) |
+N						 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X						 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N						 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP_3ADDRESS)));
+X						 ((SPIFI_FRAMEFORM_OP_3ADDRESS) << 21)));
+N
+N			spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N
+N			/* If blocking is disabled, exit now */
+N			if ((pHandle->pInfoData->opts & SPIFI_OPT_NOBLOCK) == 0) {
+X			if ((pHandle->pInfoData->opts & (1 << 16)) == 0) {
+N				/* Device wait for device to become ready */
+N				spifiPrvWaitUnBusy(pHandle);
+N
+N				/* Read status and check error bits */
+N				stat = spifiFamFxGetDeviceStatus(pHandle, 0);
+N				if ((stat & SPIFI_STAT_ERASEERR) != 0) {
+X				if ((stat & (1 << 5)) != 0) {
+N					status = SPIFI_ERR_ERASEERR;
+N				}
+N			}
+N		}
+N	}
+N
+N	return status;
+N}
+N
+N/* Program a region */
+Nstatic SPIFI_ERR_T spifiFamFxPageProgram(const SPIFI_HANDLE_T *pHandle,
+N										 uint32_t addr,
+N										 const uint32_t *writeBuff,
+N										 uint32_t bytes)
+N{
+N	uint16_t stat;
+N	uint8_t *writeBuff8;
+N	SPIFI_ERR_T status = SPIFI_ERR_PAGESIZE;
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N	uint32_t cmdOnlyValue;
+N	uint32_t dwords;
+N
+N	if (bytes <= pHandle->pInfoData->pageSize) {
+N		status = spifiPrvCheckWriteState(pHandle);
+N		if (status == SPIFI_ERR_NONE) {
+N			/* Get the program cmd value for this device */
+N			pHandle->pFamFx->devGetWriteCmd(pHandle, &cmdOnlyValue);
+N
+N			/* Get the number of dwords to write */
+N			dwords = bytes >> 2;
+N
+N			/* process by bytes if amount isn't even number of dwords */
+N			if (bytes & 0x3) {
+N
+N				writeBuff8 = (uint8_t *) writeBuff;
+N
+N				/* Only clear status if the device requires it and set write enable*/
+N				pHandle->pFamFx->devClearStatus(pHandle);
+N				spifiPrvSetWREN(pSpifiCtrlAddr);
+N
+N				spifi_HW_SetAddr(pSpifiCtrlAddr, addr);
+N				spifi_HW_SetCmd(pSpifiCtrlAddr, cmdOnlyValue | SPIFI_CMD_DATALEN(bytes));
+X				spifi_HW_SetCmd(pSpifiCtrlAddr, cmdOnlyValue | ((bytes) << 0));
+N				/* Write data */
+N				while (bytes) {
+N					spifi_HW_SetData8(pSpifiCtrlAddr, *writeBuff8);
+N					++writeBuff8;
+N					--bytes;
+N				}
+N				spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N			}
+N			else if (dwords) {
+N				uint32_t cmdValue = cmdOnlyValue | SPIFI_CMD_DATALEN(dwords << 2);
+X				uint32_t cmdValue = cmdOnlyValue | ((dwords << 2) << 0);
+N
+N				/* Only clear status if the device requires it and set write enable */
+N				pHandle->pFamFx->devClearStatus(pHandle);
+N				spifiPrvSetWREN(pSpifiCtrlAddr);
+N
+N				/* Set address and increment for any remaining */
+N				spifi_HW_SetAddr(pSpifiCtrlAddr, addr);
+N
+N				/* Finally send command and write the data */
+N				spifi_HW_SetCmd(pSpifiCtrlAddr, cmdValue);
+N				while (dwords) {
+N					spifi_HW_SetData32(pSpifiCtrlAddr, *writeBuff);
+N					++writeBuff;
+N					--dwords;
+N				}
+N				spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N			}
+N		}
+N
+N		/* If block is disabled, exit now */
+N		if ((pHandle->pInfoData->opts & SPIFI_OPT_NOBLOCK) == 0) {
+X		if ((pHandle->pInfoData->opts & (1 << 16)) == 0) {
+N			/* Device wait for device to become ready */
+N			spifiPrvWaitUnBusy(pHandle);
+N
+N			/* Read status and check error bits */
+N			stat = spifiFamFxGetDeviceStatus(pHandle, 0);
+N			if ((stat & SPIFI_STAT_PROGERR) != 0) {
+X			if ((stat & (1 << 4)) != 0) {
+N				status = SPIFI_ERR_PROGERR;
+N			}
+N		}
+N	}
+N
+N	return status;
+N}
+N
+N/* Read a region */
+Nstatic SPIFI_ERR_T spifiFamFxReadDevice(const SPIFI_HANDLE_T *pHandle,
+N										uint32_t addr,
+N										uint32_t *readBuff,
+N										uint32_t bytes)
+N{
+N	uint8_t *readBuff8 = (uint8_t *) readBuff;
+N	SPIFI_ERR_T status = SPIFI_ERR_RANGE;
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N	uint32_t cmdOnlyValue;
+N	uint32_t cmdValue;
+N	uint32_t dwords;
+N
+N	/* Limit read to controller data limit in bytes */
+N	if (bytes <= pHandle->pInfoData->maxReadSize) {
+N		/* Get the number of dwords to read */
+N		dwords = bytes >> 2;
+N		bytes -= (dwords << 2);
+N
+N		/* Get the command value to program the SPIFI controller */
+N		pHandle->pFamFx->devGetReadCmd(pHandle, 0, &cmdOnlyValue, NULL);
+X		pHandle->pFamFx->devGetReadCmd(pHandle, 0, &cmdOnlyValue, 0);
+N		if (dwords) {
+N			cmdValue = cmdOnlyValue | SPIFI_CMD_DATALEN(dwords << 2);
+X			cmdValue = cmdOnlyValue | ((dwords << 2) << 0);
+N
+N			/* Specify the intermediate data byte (turn off). */
+N			spifi_HW_SetIDATA(pSpifiCtrlAddr, 0xFF);
+N
+N			/* Set the address and increment for any remaining bytes */
+N			spifi_HW_SetAddr(pSpifiCtrlAddr, addr);
+N			addr += (dwords << 2);
+N
+N			spifi_HW_SetCmd(pSpifiCtrlAddr, cmdValue);
+N			while (dwords) {
+N				*readBuff = spifi_HW_GetData32(pSpifiCtrlAddr);
+N				++readBuff;
+N				--dwords;
+N			}
+N			spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N		}
+N
+N		if (bytes) {
+N			readBuff8 = (uint8_t *) readBuff;
+N			cmdValue = cmdOnlyValue | SPIFI_CMD_DATALEN(bytes);
+X			cmdValue = cmdOnlyValue | ((bytes) << 0);
+N
+N			/* Specify the intermediate data byte (turn off). */
+N			spifi_HW_SetIDATA(pSpifiCtrlAddr, 0xFF);
+N
+N			spifi_HW_SetAddr(pSpifiCtrlAddr, addr);
+N			spifi_HW_SetCmd(pSpifiCtrlAddr, cmdValue);
+N
+N			/* Read data */
+N			while (bytes) {
+N				*readBuff8 = spifi_HW_GetData8(pSpifiCtrlAddr);
+N				++readBuff8;
+N				--bytes;
+N			}
+N			spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N		}
+N		status = SPIFI_ERR_NONE;
+N	}
+N
+N	return status;
+N}
+N
+N/* Enable or disable software write protect state */
+Nstatic SPIFI_ERR_T spifiFamFxResetDevice(const SPIFI_HANDLE_T *pHandle)
+N{
+N	return SPIFI_ERR_NOTSUPPORTED;
+N}
+N
+N/* Setup a device */
+Nstatic SPIFI_ERR_T spifiFamFxDeviceSetup(SPIFI_HANDLE_T *pHandle, uint32_t spifiCtrlAddr, uint32_t baseAddr)
+N{
+N	/* Common Command Set family function table */
+N	static  SPIFI_FAM_FX_T fxTable;
+N
+N	fxTable.lockCmd = spifiFamFxLockDeviceCmd;
+N	fxTable.eraseAll = spifiFamFxEraseAll;
+N	fxTable.eraseBlock = spifiFamFxEraseBlock;
+N	fxTable.eraseSubBlock = spifiFamFxEraseSubBlock;
+N	fxTable.pageProgram = spifiFamFxPageProgram;
+N	fxTable.read = spifiFamFxReadDevice;
+N	fxTable.reset = spifiFamFxResetDevice;
+N	fxTable.getStatus = spifiFamFxGetDeviceStatus;
+N	fxTable.subBlockCmd = NULL;	/* Use generic handler in spifilib_dev_common.c */
+X	fxTable.subBlockCmd = 0;	 
+N
+N	/* Initialize the device specific function pointers */
+N	fxTable.devInitDeInit = spifiDeviceAssignFxInitDeInit(pHandle);
+N	fxTable.devClearStatus = spifiDeviceAssignFxClearStatus(pHandle);
+N	fxTable.devGetStatus = spifiDeviceAssignFxGetStatus(pHandle);
+N	fxTable.devSetStatus = spifiDeviceAssignFxSetStatus(pHandle);
+N	fxTable.devSetOpts = spifiDeviceAssignFxSetOptions(pHandle);
+N	fxTable.devGetReadCmd = spifiDeviceAssignFxReadCmd(pHandle);
+N	fxTable.devGetWriteCmd = spifiDeviceAssignFxWriteCmd(pHandle);
+N
+N	/* save pointer to family function table */
+N	pHandle->pFamFx = &fxTable;
+N
+N	return SPIFI_ERR_NONE;
+N}
+N
+N/*****************************************************************************
+N * Public functions
+N ****************************************************************************/
+NSPIFI_FAM_NODE_T *spifi_REG_FAMILY_CommonCommandSet(void)
+N{
+N	/* Variables declared static so they will persist after function returns. */
+N	/* All members are assigned at run-time so that position independent code
+N	   will know the address */
+N	static SPIFI_DEV_NODE_T devListBase = {0};	/* List base to hold devices */
+N	static SPIFI_FAM_NODE_T devFamily;			/* Family node to hold family descriptor */
+N	static SPIFI_FAM_DESC_T famDesc;			/* Family descriptor (holds all info about family) */
+N	static uint32_t devCount = 0;				/* Variable to keep track of # registered devices */
+N
+N	/* Protect against multiple calls to register the same family */
+N	if (devCount) {
+N		return NULL;
+X		return 0;
+N	}
+N
+N	/* Make sure that the base list is empty and the count reflects 0 */
+N	devListBase.pNext = NULL;
+X	devListBase.pNext = 0;
+N	devCount = 0;
+N
+N	/* Store the device specific info so it can be returned */
+N	famDesc.pFamName = "Common SPIFI Command Set";
+N
+N	/* Save the pointer to the device list and count */
+N	famDesc.pDevList = &devListBase;
+N	famDesc.pDevCount = &devCount;
+N
+N	famDesc.prvContextSize = 0;					/* Reserve space for private data (this family doesn't need any)*/
+N	famDesc.pPrvDevGetID = NULL;			/* Use the generic readID routine */
+X	famDesc.pPrvDevGetID = 0;			 
+N	famDesc.pPrvDevSetup = spifiFamFxDeviceSetup;		/* Provide Fx to handle setup */
+N
+N	/* Save the descriptor in the handle */
+N	devFamily.pDesc = &famDesc;
+N
+N	/* Begin Winbond devices */
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_W25Q80BV
+X	#if 1 || 0
+N	/* Add support for W25Q80BV */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"W25Q80BV",
+N			{{0xEF, 0x40, 0x14}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK |
+X			((1 << 0) | (1 << 2) | (1 << 3) | (1 << 4) |
+N			 SPIFI_CAP_NOBLOCK | SPIFI_CAP_SUBBLKERASE),
+X			 (1 << 16) | (1 << 6)),
+N			16,						/* # of blocks */
+N			0x10000,				/* block size */
+N			256,					/* # of sub-blocks */
+N			0x1000,					/* sub-block size */
+N			0x100,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			104,				/* max clock rate in Mhz */
+N			104,				/* max read clock rate in MHz */
+N			104,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			104,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusNone,	/* (Fx Id) Does not have persistent status */
+N			FX_spifiDeviceDataGetStatusW25Q80BV,	/* (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus (uses S25FL032P variant) */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,		/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_W25Q64FV
+X	#if 1 || 0
+N	/* Add support for W25Q64FV */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"W25Q64FV",
+N			{{0xEF, 0x40, 0x17}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ  | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK |
+X			((1 << 0) | (1 << 2)  | (1 << 3) | (1 << 4) |
+N			 SPIFI_CAP_NOBLOCK | SPIFI_CAP_SUBBLKERASE),
+X			 (1 << 16) | (1 << 6)),
+N			128,						/* # of blocks */
+N			0x10000,				/* block size */
+N			2048,					/* # of sub-blocks */
+N			0x1000,					/* sub-block size */
+N			0x100,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			104,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			104,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			104,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusNone,	/* (Fx Id) Does not have persistent status */
+N			FX_spifiDeviceDataGetStatusW25Q80BV,	/* (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus (uses S25FL032P variant) */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommand		/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_W25Q32FV
+X	#if 1 || 0
+N	/* Add support for W25Q32FV */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"W25Q32FV",
+N			{{0xEF, 0x40, 0x16}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK |
+X			((1 << 0) | (1 << 2) | (1 << 3) | (1 << 4) |
+N			 SPIFI_CAP_NOBLOCK | SPIFI_CAP_SUBBLKERASE),
+X			 (1 << 16) | (1 << 6)),
+N			64,						/* # of blocks */
+N			0x10000,				/* block size */
+N			1024,					/* # of sub-blocks */
+N			0x1000,					/* sub-block size */
+N			0x100,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			104,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			104,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			104,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusNone,	/* (Fx Id) Does not have persistent status */
+N			FX_spifiDeviceDataGetStatusW25Q80BV,	/* (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus (uses S25FL032P variant) */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommand		/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	/* Begin Spansion devices */
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_S25FL512S
+X	#if 1 || 0
+N	/* Add support for S25FL512S 256K Sector */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"S25FL512S",
+N			{{0x01, 0x02, 0x20}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_4BYTE_ADDR | SPIFI_CAP_DUAL_READ  | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK | SPIFI_CAP_NOBLOCK),
+X			((1 << 7) | (1 << 0)  | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 16)),
+N			256,						/* # of blocks */
+N			0x40000,				/* block size */
+N			0,						/* # of sub-blocks (Does NOT support full sub-block erase) */
+N			0,						/* sub-block size */
+N			512,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			80,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			80,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			80,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusS25FL032P,	/* (Fx Id) has persistent bits in status register */
+N			FX_spifiDeviceDataGetStatusS25FL032P,	/*  (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDevice4BInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDevice4BInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_S25FL256S_256K
+X	#if 1 || 0
+N	/* Add support for S25FL256S 256K Sector */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"S25FL256S 256kSec",
+N			{{0x01, 0x02, 0x19}, 2, {0x4D, 0x0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_4BYTE_ADDR | SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK | SPIFI_CAP_NOBLOCK),
+X			((1 << 7) | (1 << 0) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 16)),
+N			128,						/* # of blocks */
+N			0x40000,				/* block size */
+N			0,						/* # of sub-blocks (Does NOT support full sub-block erase) */
+N			0,						/* sub-block size */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			80,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			80,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			80,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusS25FL032P,	/* (Fx Id) has persistent bits in status register */
+N			FX_spifiDeviceDataGetStatusS25FL032P,	/*  (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDevice4BInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDevice4BInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_S25FL256S_64K
+X	#if 1 || 0
+N	/* Add support for S25FL256S 64k sector */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"S25FL256S 64kSec",
+N			{{0x01, 0x02, 0x19}, 2, {0x4D, 0x01}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_4BYTE_ADDR | SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK | SPIFI_CAP_NOBLOCK),
+X			((1 << 7) | (1 << 0) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 16)),
+N			512,					/* # of blocks */
+N			0x10000,				/* block size */
+N			0,						/* # of sub-blocks (Does NOT support full sub-block erase) */
+N			0,						/* sub-block size 0x1000 */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			80,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			80,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			80,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusS25FL032P,	/* (Fx Id) has persistent bits in status register */
+N			FX_spifiDeviceDataGetStatusS25FL032P,	/* (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDevice4BInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDevice4BInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_S25FL164K
+X	#if 1 || 0
+N	/* Add support for S25FL164K */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"S25FL164K",
+N			{{0x01, 0x40, 0x17}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_FULLLOCK | SPIFI_CAP_NOBLOCK | SPIFI_CAP_SUBBLKERASE),	/* does NOT support Quad Write */
+X			((1 << 0) | (1 << 2) | (1 << 4) | (1 << 16) | (1 << 6)),	 
+N			128,					/* # of blocks */
+N			0x10000,				/* block size */
+N			2048,					/* # of sub-blocks */
+N			0x1000,					/* sub-block size */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			50,				/* max clock rate in MHz */
+N			97,				/* max read clock rate in MHz */
+N			97,				/* max high speed read clock rate in MHz */
+N			97,				/* max program clock rate in MHz */
+N			97,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinitS25FL164K,	/* (Fx Id) device init / deInit */
+N			FX_spifiDeviceDataClearStatusNone,	/* (Fx Id) No persistent status */
+N			FX_spifiDeviceDataGetStatusS25FL164K,	/* (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL164K,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_S25FL116K
+X	#if 1 || SPIFI_DEVICE_S25FL116K
+N	/* Add support for S25FL116K */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"S25FL116K",
+N			{{0x01, 0x40, 0x15}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ  | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK |
+X			((1 << 0) | (1 << 2)  | (1 << 3) | (1 << 4) |
+N			 SPIFI_CAP_NOBLOCK | SPIFI_CAP_SUBBLKERASE),
+X			 (1 << 16) | (1 << 6)),
+N			32,						/* # of blocks */
+N			0x10000,				/* block size */
+N			512,					/* # of sub-blocks */
+N			0x1000,					/* sub-block size */
+N			0x100,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			104,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			104,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			104,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusS25FL032P,	/* (Fx Id) has persistent bits in status register */
+N			FX_spifiDeviceDataGetStatusS25FL032P,	/*  (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_AT25SF161
+X	#if 1 || SPIFI_DEVICE_AT25SF161
+N	/* Add support for AT25SF161 */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"AT25SF161",
+N			{{0x1F, 0x86, 0x01}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ  | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK |
+X			((1 << 0) | (1 << 2)  | (1 << 3) | (1 << 4) |
+N			 SPIFI_CAP_NOBLOCK | SPIFI_CAP_SUBBLKERASE),
+X			 (1 << 16) | (1 << 6)),
+N			32,						/* # of blocks */
+N			0x10000,				/* block size */
+N			512,					/* # of sub-blocks */
+N			0x1000,					/* sub-block size */
+N			0x100,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			104,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			104,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			104,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusNone,	/* (Fx Id) has persistent bits in status register */
+N			FX_spifiDeviceDataGetStatusW25Q80BV,	/*  (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_S25FL129P_256K
+X	#if 1 || 0
+N	/* Add support for S25FL129P 256K Sector. Clone: S25FL128S */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"S25FL129P 256kSec",
+N			{{0x01, 0x20, 0x18}, 2, {0x4D, 0x0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK | SPIFI_CAP_NOBLOCK),
+X			((1 << 0) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 16)),
+N			64,						/* # of blocks */
+N			0x40000,				/* block size */
+N			0,						/* # of sub-blocks (Does NOT support full sub-block erase) */
+N			0,						/* sub-block size */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			80,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			80,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			80,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusS25FL032P,	/* (Fx Id) has persistent bits in status register */
+N			FX_spifiDeviceDataGetStatusS25FL032P,	/*  (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_S25FL129P_64K
+X	#if 1 || 0
+N	/* Add support for S25FL129P 64k sector */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"S25FL129P 64kSec",
+N			{{0x01, 0x20, 0x18}, 2, {0x4D, 0x01}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK | SPIFI_CAP_NOBLOCK),
+X			((1 << 0) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 16)),
+N			256,					/* # of blocks */
+N			0x10000,				/* block size */
+N			0,						/* # of sub-blocks (Does NOT support full sub-block erase) */
+N			0,						/* sub-block size 0x1000 */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			80,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			80,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			80,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusS25FL032P,	/* (Fx Id) has persistent bits in status register */
+N			FX_spifiDeviceDataGetStatusS25FL032P,	/* (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_S25FL064P
+X	#if 1 || 0
+N	/* Add support for S25FL064P */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"S25FL064P",
+N			{{0x01, 0x02, 0x16}, 1, {0x4d}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK | SPIFI_CAP_NOBLOCK),	/* Capabilities */
+X			((1 << 0) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 16)),	 
+N			128,					/* # of blocks */
+N			0x10000,				/* block size */
+N			0,						/* # of sub-blocks  (Does NOT support full sub-block erase) */
+N			0,						/* sub-block size  0x1000 */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			80,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			80,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			80,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusS25FL032P,	/* (Fx Id) has persistent bits in status register */
+N			FX_spifiDeviceDataGetStatusS25FL032P,	/* (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_S25FL032P
+X	#if 1 || 0
+N	/* Add support for S25FL032P */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"S25FL032P",
+N			{{0x01, 0x02, 0x15}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK | SPIFI_CAP_NOBLOCK),	/* Capabilities */
+X			((1 << 0) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 16)),	 
+N			64,						/* # of blocks */
+N			0x10000,				/* block size */
+N			0,						/* # of sub-blocks  (Does NOT support full sub-block erase) */
+N			0,						/* sub-block size  0x1000 */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			80,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			80,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			80,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusS25FL032P,	/* (Fx Id) has persistent bits in status register */
+N			FX_spifiDeviceDataGetStatusS25FL032P,	/* (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* Fx* to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_S25FL016K
+X	#if 1 || 0
+N	/* Add support for S25FL016K */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"S25FL016K",
+N			{{0xef, 0x40, 0x15}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_FULLLOCK |
+X			((1 << 0) | (1 << 2) | (1 << 3) | (1 << 4) |
+N			 SPIFI_CAP_NOBLOCK | SPIFI_CAP_SUBBLKERASE),																							/* Capabilities */
+X			 (1 << 16) | (1 << 6)),																							 
+N			32,						/* # of blocks */
+N			0x10000,				/* block size */
+N			512,					/* # of sub-blocks  (Does NOT support full sub-block erase)*/
+N			0x1000,					/* sub-block size  0x1000 */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			80,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			80,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			80,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusNone,	/* (Fx Id) Does not have persistent status */
+N			FX_spifiDeviceDataGetStatusS25FL032P,	/* (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusS25FL032P,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit9,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommand	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	/* Begin Maxronix devices */
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_MX25L8035E
+X	#if 1 || 0
+N	/* Add support for MX25L8035E */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"MX25L8035E",
+N			{{0xC2, 0x20, 0x14}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_NOBLOCK |
+X			((1 << 0) | (1 << 2) | (1 << 3) | (1 << 16) |
+N			 SPIFI_CAP_SUBBLKERASE),																						/* capabilities */
+X			 (1 << 6)),																						 
+N			16,						/* # of blocks */
+N			0x10000,				/* block size */
+N			256,					/* # of sub-blocks */
+N			0x1000,					/* sub-block size */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			80,				/* max clock rate in MHz */
+N			108,				/* max read clock rate in MHz */
+N			108,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			104,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusNone,	/* (Fx Id) no persistent status */
+N			FX_spifiDeviceDataGetStatusMX25L3235E,	/* (Fx Id) getStatus */
+N			FX_spifiDeviceDataSetStatusMX25L3235E,	/* (Fx Id) setStatus */
+N			FX_spifiDeviceDataSetOptsQuadModeBit6,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommandMacronix	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_MX25L6435E
+X	#if 1 || 0
+N	/* Add support for MX25L6435E */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"MX25L6435E",
+N			{{0xC2, 0x20, 0x17}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_NOBLOCK |
+X			((1 << 0) | (1 << 2) | (1 << 3) | (1 << 16) |
+N			 SPIFI_CAP_SUBBLKERASE),																						/* capabilities */
+X			 (1 << 6)),																						 
+N			128,					/* # of blocks */
+N			0x10000,				/* block size */
+N			2048,					/* # of sub-blocks */
+N			0x1000,					/* sub-block size */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,					/* max single read bytes */
+X			16128,					 
+N			80,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			86,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			104,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusNone,	/* (Fx Id) no persistent status */
+N			FX_spifiDeviceDataGetStatusMX25L3235E,	/* (Fx Id) getStatus function */
+N			FX_spifiDeviceDataSetStatusMX25L3235E,	/* (Fx Id) setStatus function */
+N			FX_spifiDeviceDataSetOptsQuadModeBit6,		/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommandMacronix	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_MX25L3235E
+X	#if 1 || 0
+N	/* Add support for MX25L3235E */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"MX25L3235E",
+N			{{0xC2, 0x20, 0x16}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_NOBLOCK |
+X			((1 << 0) | (1 << 2) | (1 << 3) | (1 << 16) |
+N			 SPIFI_CAP_SUBBLKERASE),																						/* capabilities */
+X			 (1 << 6)),																						 
+N			64,						/* # of blocks */
+N			0x10000,				/* block size */
+N			1024,					/* # of sub-blocks */
+N			0x1000,					/* sub-block size */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,		/* max single read bytes */
+X			16128,		 
+N			80,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			86,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			104,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusNone,		/* (Fx Id) no persistent status */
+N			FX_spifiDeviceDataGetStatusMX25L3235E,	/* (Fx Id) getStatus function */
+N			FX_spifiDeviceDataSetStatusMX25L3235E,	/* (Fx Id) setStatus function */
+N			FX_spifiDeviceDataSetOptsQuadModeBit6,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommandMacronix	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N	#if SPIFI_DEVICE_ALL || SPIFI_DEVICE_MX25L1635E
+X	#if 1 || 0
+N	/* Add support for MX25L1635E */
+N	{
+N		static const SPIFI_DEVICE_DATA_T pData = {
+N			"MX25L1635E",
+N			{{0xC2, 0x25, 0x15}, 0, {0}},	/* JEDEC ID, extCount, ext data  */
+N			(SPIFI_CAP_DUAL_READ | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE | SPIFI_CAP_NOBLOCK |
+X			((1 << 0) | (1 << 2) | (1 << 3) | (1 << 16) |
+N			 SPIFI_CAP_SUBBLKERASE),																						/* capabilities */
+X			 (1 << 6)),																						 
+N			32,						/* # of blocks */
+N			0x10000,				/* block size */
+N			512,					/* # of sub-blocks */
+N			0x1000,					/* sub-block size */
+N			256,					/* page size */
+N			MAX_SINGLE_READ,		/* max single read bytes */
+X			16128,		 
+N			80,				/* max clock rate in MHz */
+N			104,				/* max read clock rate in MHz */
+N			86,				/* max high speed read clock rate in MHz */
+N			104,				/* max program clock rate in MHz */
+N			104,				/* max high speed program clock rate in MHz */
+N			FX_spifiDeviceDataInitDeinit,	/* (Fx Id) use generic deviceInit / deInit */
+N			FX_spifiDeviceDataClearStatusNone,		/* (Fx Id) no persistent status */
+N			FX_spifiDeviceDataGetStatusMX25L3235E,	/* (Fx Id) getStatus function */
+N			FX_spifiDeviceDataSetStatusMX25L3235E,	/* (Fx Id) setStatus function */
+N			FX_spifiDeviceDataSetOptsQuadModeBit6,	/* (Fx Id) to set/clr options */
+N			FX_spifiDeviceInitReadCommand,	/* (Fx Id) to get memoryMode Cmd */
+N			FX_spifiDeviceInitWriteCommandMacronix	/* (Fx Id) to get program Cmd */
+N		};
+N		static SPIFI_DEV_NODE_T data;			/* Create persistent node */
+N
+N		data.pDevData = &pData;					/* save the data in the node */
+N		spifiDevRegister(&devFamily, &data);	/* Register the new device */
+N	}
+N	#endif
+N
+N	/* finally return the family device structure */
+N	return &devFamily;
+N}

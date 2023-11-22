@@ -56,7 +56,7 @@ int8_t g_angle = 0;
 bool g_oldProtocol = false;
 static uint8_t g_state = 0;
 static Iserial *g_serial = 0;
-static uint8_t g_txBuf[SER_TXBUF_SIZE]; 
+static uint8_t g_txBuf[SER_TXBUF_SIZE];
 static uint8_t *g_tx;
 static uint16_t g_txReadIndex; // current read index
 static uint16_t g_txLen; // current length
@@ -342,6 +342,14 @@ void ser_sendResult(int32_t val, bool checksum)
 	*(int32_t *)txData = val; // write val
 			
 	ser_setTx(SER_TYPE_RESPONSE_RESULT, sizeof(int32_t), checksum);				
+}
+void ser_sendResults(uint8_t* vals, uint8_t len, bool checksum)
+{
+	uint8_t *txData;
+	ser_getTx(&txData);
+	for(uint8_t i = 0; i < len; i++) *(txData + i) = *(vals+i);
+			
+	ser_setTx(SER_TYPE_RESPONSE_RESULT, len * sizeof(uint8_t), checksum);				
 }
 
 void ser_sendError(int8_t error, bool checksum)

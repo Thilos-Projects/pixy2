@@ -24,6 +24,7 @@
 #define PROG_VIDEO_MAX_TYPE     0x7f
 
 #define TYPE_REQUEST_GETRGB   0x70
+#define TYPE_REQUEST_GETGRAYRECT   0x71
 
 #define VIDEO_RGB_SIZE    2
 
@@ -43,5 +44,6 @@ private:
 };
 
 uint32_t getRGB(uint16_t x, uint16_t y, uint8_t sat);
+void getGrayRect(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint8_t sat, uint8_t strideX, uint8_t strideY, uint8_t* data, uint8_t length);
 
 #endif

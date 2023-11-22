@@ -1,0 +1,2470 @@
+L 1 "src\spifilib_dev_common.c"
+N/*
+N * @brief LPCSPIFILIB driver functions and structures that are not visible
+N *
+N * @note
+N * Copyright(C) NXP Semiconductors, 2014
+N * All rights reserved.
+N *
+N * @par
+N * Software that is described herein is for illustrative purposes only
+N * which provides customers with programming information regarding the
+N * LPC products.  This software is supplied "AS IS" without any warranties of
+N * any kind, and NXP Semiconductors and its licenser disclaim any and
+N * all warranties, express or implied, including all implied warranties of
+N * merchantability, fitness for a particular purpose and non-infringement of
+N * intellectual property rights.  NXP Semiconductors assumes no responsibility
+N * or liability for the use of the software, conveys no license or rights under any
+N * patent, copyright, mask work right, or any other intellectual property rights in
+N * or to any products. NXP Semiconductors reserves the right to make changes
+N * in the software without notification. NXP Semiconductors also makes no
+N * representation or warranty that such application will be suitable for the
+N * specified use without further testing or modification.
+N *
+N * @par
+N * Permission to use, copy, modify, and distribute this software and its
+N * documentation is hereby granted, under NXP Semiconductors' and its
+N * licensor's relevant copyrights in the software, without fee, provided that it
+N * is used in conjunction with NXP Semiconductors microcontrollers.  This
+N * copyright, permission, and disclaimer notice must appear in all copies of
+N * this code.
+N */
+N
+N#include "spifilib_api.h"
+L 1 "inc\spifilib_api.h" 1
+N/*
+N * @brief LPCSPIFILIB driver definitions and functions
+N *
+N * @note
+N * Copyright(C) NXP Semiconductors, 2014
+N * All rights reserved.
+N *
+N * @par
+N * Software that is described herein is for illustrative purposes only
+N * which provides customers with programming information regarding the
+N * LPC products.  This software is supplied "AS IS" without any warranties of
+N * any kind, and NXP Semiconductors and its licenser disclaim any and
+N * all warranties, express or implied, including all implied warranties of
+N * merchantability, fitness for a particular purpose and non-infringement of
+N * intellectual property rights.  NXP Semiconductors assumes no responsibility
+N * or liability for the use of the software, conveys no license or rights under any
+N * patent, copyright, mask work right, or any other intellectual property rights in
+N * or to any products. NXP Semiconductors reserves the right to make changes
+N * in the software without notification. NXP Semiconductors also makes no
+N * representation or warranty that such application will be suitable for the
+N * specified use without further testing or modification.
+N *
+N * @par
+N * Permission to use, copy, modify, and distribute this software and its
+N * documentation is hereby granted, under NXP Semiconductors' and its
+N * licensor's relevant copyrights in the software, without fee, provided that it
+N * is used in conjunction with NXP Semiconductors microcontrollers.  This
+N * copyright, permission, and disclaimer notice must appear in all copies of
+N * this code.
+N */
+N
+N#ifndef __SPIFILIB_API_H_
+N#define __SPIFILIB_API_H_
+N
+N#include "spifilib_dev.h"
+L 1 "inc\spifilib_dev.h" 1
+N/*
+N * @brief LPCSPIFILIB FLASH library device specific functions
+N *
+N * @note
+N * Copyright(C) NXP Semiconductors, 2014
+N * All rights reserved.
+N *
+N * @par
+N * Software that is described herein is for illustrative purposes only
+N * which provides customers with programming information regarding the
+N * LPC products.  This software is supplied "AS IS" without any warranties of
+N * any kind, and NXP Semiconductors and its licenser disclaim any and
+N * all warranties, express or implied, including all implied warranties of
+N * merchantability, fitness for a particular purpose and non-infringement of
+N * intellectual property rights.  NXP Semiconductors assumes no responsibility
+N * or liability for the use of the software, conveys no license or rights under any
+N * patent, copyright, mask work right, or any other intellectual property rights in
+N * or to any products. NXP Semiconductors reserves the right to make changes
+N * in the software without notification. NXP Semiconductors also makes no
+N * representation or warranty that such application will be suitable for the
+N * specified use without further testing or modification.
+N *
+N * @par
+N * Permission to use, copy, modify, and distribute this software and its
+N * documentation is hereby granted, under NXP Semiconductors' and its
+N * licensor's relevant copyrights in the software, without fee, provided that it
+N * is used in conjunction with NXP Semiconductors microcontrollers.  This
+N * copyright, permission, and disclaimer notice must appear in all copies of
+N * this code.
+N */
+N
+N#ifndef __SPIFILIB_DEV_H_
+N#define __SPIFILIB_DEV_H_
+N
+N#include <stdint.h>
+L 1 "E:\Keil\Core\ARM\Arm_Compiler_5.06u7\Bin\..\include\stdint.h" 1
+N/* Copyright (C) ARM Ltd., 1999,2014 */
+N/* All rights reserved */
+N
+N/*
+N * RCS $Revision$
+N * Checkin $Date$
+N * Revising $Author: agrant $
+N */
+N
+N#ifndef __stdint_h
+N#define __stdint_h
+N#define __ARMCLIB_VERSION 5060044
+N
+N  #ifdef __INT64_TYPE__
+S    /* armclang predefines '__INT64_TYPE__' and '__INT64_C_SUFFIX__' */
+S    #define __INT64 __INT64_TYPE__
+N  #else
+N    /* armcc has builtin '__int64' which can be used in --strict mode */
+N    #define __INT64 __int64
+N    #define __INT64_C_SUFFIX__ ll
+N  #endif
+N  #define __PASTE2(x, y) x ## y
+N  #define __PASTE(x, y) __PASTE2(x, y)
+N  #define __INT64_C(x)  __ESCAPE__(__PASTE(x, __INT64_C_SUFFIX__))
+N  #define __UINT64_C(x)  __ESCAPE__(__PASTE(x ## u, __INT64_C_SUFFIX__))
+N  #if defined(__clang__) || (defined(__ARMCC_VERSION) && !defined(__STRICT_ANSI__))
+X  #if 0L || (1L && !0L)
+N    /* armclang and non-strict armcc allow 'long long' in system headers */
+N    #define __LONGLONG long long
+N  #else
+S    /* strict armcc has '__int64' */
+S    #define __LONGLONG __int64
+N  #endif
+N
+N  #ifndef __STDINT_DECLS
+N  #define __STDINT_DECLS
+N
+N    #undef __CLIBNS
+N
+N    #ifdef __cplusplus
+S      namespace std {
+S          #define __CLIBNS std::
+S          extern "C" {
+N    #else
+N      #define __CLIBNS
+N    #endif  /* __cplusplus */
+N
+N
+N/*
+N * 'signed' is redundant below, except for 'signed char' and if
+N * the typedef is used to declare a bitfield.
+N */
+N
+N    /* 7.18.1.1 */
+N
+N    /* exact-width signed integer types */
+Ntypedef   signed          char int8_t;
+Ntypedef   signed short     int int16_t;
+Ntypedef   signed           int int32_t;
+Ntypedef   signed       __INT64 int64_t;
+Xtypedef   signed       __int64 int64_t;
+N
+N    /* exact-width unsigned integer types */
+Ntypedef unsigned          char uint8_t;
+Ntypedef unsigned short     int uint16_t;
+Ntypedef unsigned           int uint32_t;
+Ntypedef unsigned       __INT64 uint64_t;
+Xtypedef unsigned       __int64 uint64_t;
+N
+N    /* 7.18.1.2 */
+N
+N    /* smallest type of at least n bits */
+N    /* minimum-width signed integer types */
+Ntypedef   signed          char int_least8_t;
+Ntypedef   signed short     int int_least16_t;
+Ntypedef   signed           int int_least32_t;
+Ntypedef   signed       __INT64 int_least64_t;
+Xtypedef   signed       __int64 int_least64_t;
+N
+N    /* minimum-width unsigned integer types */
+Ntypedef unsigned          char uint_least8_t;
+Ntypedef unsigned short     int uint_least16_t;
+Ntypedef unsigned           int uint_least32_t;
+Ntypedef unsigned       __INT64 uint_least64_t;
+Xtypedef unsigned       __int64 uint_least64_t;
+N
+N    /* 7.18.1.3 */
+N
+N    /* fastest minimum-width signed integer types */
+Ntypedef   signed           int int_fast8_t;
+Ntypedef   signed           int int_fast16_t;
+Ntypedef   signed           int int_fast32_t;
+Ntypedef   signed       __INT64 int_fast64_t;
+Xtypedef   signed       __int64 int_fast64_t;
+N
+N    /* fastest minimum-width unsigned integer types */
+Ntypedef unsigned           int uint_fast8_t;
+Ntypedef unsigned           int uint_fast16_t;
+Ntypedef unsigned           int uint_fast32_t;
+Ntypedef unsigned       __INT64 uint_fast64_t;
+Xtypedef unsigned       __int64 uint_fast64_t;
+N
+N    /* 7.18.1.4 integer types capable of holding object pointers */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+Stypedef   signed       __INT64 intptr_t;
+Stypedef unsigned       __INT64 uintptr_t;
+N#else
+Ntypedef   signed           int intptr_t;
+Ntypedef unsigned           int uintptr_t;
+N#endif
+N
+N    /* 7.18.1.5 greatest-width integer types */
+Ntypedef   signed     __LONGLONG intmax_t;
+Xtypedef   signed     long long intmax_t;
+Ntypedef unsigned     __LONGLONG uintmax_t;
+Xtypedef unsigned     long long uintmax_t;
+N
+N
+N#if !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS)
+X#if !0L || 0L
+N
+N    /* 7.18.2.1 */
+N
+N    /* minimum values of exact-width signed integer types */
+N#define INT8_MIN                   -128
+N#define INT16_MIN                -32768
+N#define INT32_MIN          (~0x7fffffff)   /* -2147483648 is unsigned */
+N#define INT64_MIN  __INT64_C(~0x7fffffffffffffff) /* -9223372036854775808 is unsigned */
+N
+N    /* maximum values of exact-width signed integer types */
+N#define INT8_MAX                    127
+N#define INT16_MAX                 32767
+N#define INT32_MAX            2147483647
+N#define INT64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of exact-width unsigned integer types */
+N#define UINT8_MAX                   255
+N#define UINT16_MAX                65535
+N#define UINT32_MAX           4294967295u
+N#define UINT64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.2 */
+N
+N    /* minimum values of minimum-width signed integer types */
+N#define INT_LEAST8_MIN                   -128
+N#define INT_LEAST16_MIN                -32768
+N#define INT_LEAST32_MIN          (~0x7fffffff)
+N#define INT_LEAST64_MIN  __INT64_C(~0x7fffffffffffffff)
+N
+N    /* maximum values of minimum-width signed integer types */
+N#define INT_LEAST8_MAX                    127
+N#define INT_LEAST16_MAX                 32767
+N#define INT_LEAST32_MAX            2147483647
+N#define INT_LEAST64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of minimum-width unsigned integer types */
+N#define UINT_LEAST8_MAX                   255
+N#define UINT_LEAST16_MAX                65535
+N#define UINT_LEAST32_MAX           4294967295u
+N#define UINT_LEAST64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.3 */
+N
+N    /* minimum values of fastest minimum-width signed integer types */
+N#define INT_FAST8_MIN           (~0x7fffffff)
+N#define INT_FAST16_MIN          (~0x7fffffff)
+N#define INT_FAST32_MIN          (~0x7fffffff)
+N#define INT_FAST64_MIN  __INT64_C(~0x7fffffffffffffff)
+N
+N    /* maximum values of fastest minimum-width signed integer types */
+N#define INT_FAST8_MAX             2147483647
+N#define INT_FAST16_MAX            2147483647
+N#define INT_FAST32_MAX            2147483647
+N#define INT_FAST64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of fastest minimum-width unsigned integer types */
+N#define UINT_FAST8_MAX            4294967295u
+N#define UINT_FAST16_MAX           4294967295u
+N#define UINT_FAST32_MAX           4294967295u
+N#define UINT_FAST64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.4 */
+N
+N    /* minimum value of pointer-holding signed integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define INTPTR_MIN INT64_MIN
+N#else
+N#define INTPTR_MIN INT32_MIN
+N#endif
+N
+N    /* maximum value of pointer-holding signed integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define INTPTR_MAX INT64_MAX
+N#else
+N#define INTPTR_MAX INT32_MAX
+N#endif
+N
+N    /* maximum value of pointer-holding unsigned integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define UINTPTR_MAX UINT64_MAX
+N#else
+N#define UINTPTR_MAX UINT32_MAX
+N#endif
+N
+N    /* 7.18.2.5 */
+N
+N    /* minimum value of greatest-width signed integer type */
+N#define INTMAX_MIN  __ESCAPE__(~0x7fffffffffffffffll)
+N
+N    /* maximum value of greatest-width signed integer type */
+N#define INTMAX_MAX  __ESCAPE__(9223372036854775807ll)
+N
+N    /* maximum value of greatest-width unsigned integer type */
+N#define UINTMAX_MAX __ESCAPE__(18446744073709551615ull)
+N
+N    /* 7.18.3 */
+N
+N    /* limits of ptrdiff_t */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define PTRDIFF_MIN INT64_MIN
+S#define PTRDIFF_MAX INT64_MAX
+N#else
+N#define PTRDIFF_MIN INT32_MIN
+N#define PTRDIFF_MAX INT32_MAX
+N#endif
+N
+N    /* limits of sig_atomic_t */
+N#define SIG_ATOMIC_MIN (~0x7fffffff)
+N#define SIG_ATOMIC_MAX   2147483647
+N
+N    /* limit of size_t */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define SIZE_MAX UINT64_MAX
+N#else
+N#define SIZE_MAX UINT32_MAX
+N#endif
+N
+N    /* limits of wchar_t */
+N    /* NB we have to undef and redef because they're defined in both
+N     * stdint.h and wchar.h */
+N#undef WCHAR_MIN
+N#undef WCHAR_MAX
+N
+N#if defined(__WCHAR32) || (defined(__ARM_SIZEOF_WCHAR_T) && __ARM_SIZEOF_WCHAR_T == 4)
+X#if 0L || (0L && __ARM_SIZEOF_WCHAR_T == 4)
+S  #define WCHAR_MIN   0
+S  #define WCHAR_MAX   0xffffffffU
+N#else
+N  #define WCHAR_MIN   0
+N  #define WCHAR_MAX   65535
+N#endif
+N
+N    /* limits of wint_t */
+N#define WINT_MIN (~0x7fffffff)
+N#define WINT_MAX 2147483647
+N
+N#endif /* __STDC_LIMIT_MACROS */
+N
+N#if !defined(__cplusplus) || defined(__STDC_CONSTANT_MACROS)
+X#if !0L || 0L
+N
+N    /* 7.18.4.1 macros for minimum-width integer constants */
+N#define INT8_C(x)   (x)
+N#define INT16_C(x)  (x)
+N#define INT32_C(x)  (x)
+N#define INT64_C(x)  __INT64_C(x)
+N
+N#define UINT8_C(x)  (x ## u)
+N#define UINT16_C(x) (x ## u)
+N#define UINT32_C(x) (x ## u)
+N#define UINT64_C(x) __UINT64_C(x)
+N
+N    /* 7.18.4.2 macros for greatest-width integer constants */
+N#define INTMAX_C(x)  __ESCAPE__(x ## ll)
+N#define UINTMAX_C(x) __ESCAPE__(x ## ull)
+N
+N#endif /* __STDC_CONSTANT_MACROS */
+N
+N    #ifdef __cplusplus
+S         }  /* extern "C" */
+S      }  /* namespace std */
+N    #endif /* __cplusplus */
+N  #endif /* __STDINT_DECLS */
+N
+N  #ifdef __cplusplus
+S    #ifndef __STDINT_NO_EXPORTS
+S      using ::std::int8_t;
+S      using ::std::int16_t;
+S      using ::std::int32_t;
+S      using ::std::int64_t;
+S      using ::std::uint8_t;
+S      using ::std::uint16_t;
+S      using ::std::uint32_t;
+S      using ::std::uint64_t;
+S      using ::std::int_least8_t;
+S      using ::std::int_least16_t;
+S      using ::std::int_least32_t;
+S      using ::std::int_least64_t;
+S      using ::std::uint_least8_t;
+S      using ::std::uint_least16_t;
+S      using ::std::uint_least32_t;
+S      using ::std::uint_least64_t;
+S      using ::std::int_fast8_t;
+S      using ::std::int_fast16_t;
+S      using ::std::int_fast32_t;
+S      using ::std::int_fast64_t;
+S      using ::std::uint_fast8_t;
+S      using ::std::uint_fast16_t;
+S      using ::std::uint_fast32_t;
+S      using ::std::uint_fast64_t;
+S      using ::std::intptr_t;
+S      using ::std::uintptr_t;
+S      using ::std::intmax_t;
+S      using ::std::uintmax_t;
+S    #endif
+N  #endif /* __cplusplus */
+N
+N#undef __INT64
+N#undef __LONGLONG
+N
+N#endif /* __stdint_h */
+N
+N/* end of stdint.h */
+L 36 "inc\spifilib_dev.h" 2
+N
+N#ifdef __cplusplus
+Sextern "C" {
+N#endif
+N
+N/* Define for inline functions */
+N#ifndef INLINE
+N#ifdef __CC_ARM
+N#define INLINE  __inline
+N#else
+S#define INLINE inline
+N#endif /* __CC_ARM */
+N#endif /* !INLINE */
+N
+N/** @defgroup LPCSPIFILIB_DEV LPCSPIFILIB device driver API functions
+N * @ingroup LPCSPIFILIB
+N * @{
+N */
+N/**
+N * @brief Possible error codes that can be returned from functions
+N */
+Ntypedef enum {
+N	SPIFI_ERR_NONE = 0,							/**< No error */
+N	SPIFI_ERR_BUSY,									/**< Device is busy */
+N	SPIFI_ERR_GEN,									/**< General error */
+N	SPIFI_ERR_NOTSUPPORTED,					/**< Capability not supported */
+N	SPIFI_ERR_ALIGNERR,							/**< Attempted to do an operation on an unaligned section of the device */
+N	SPIFI_ERR_LOCKED,								/**< Device was locked and a program/erase operation was attempted */
+N	SPIFI_ERR_PROGERR,							/**< Error programming device (blocking mode only) */
+N	SPIFI_ERR_ERASEERR,							/**< Erase error (blocking mode only) */
+N	SPIFI_ERR_NOTBLANK,							/**< Program operation on block that is not blank */
+N	SPIFI_ERR_PAGESIZE,							/**< PageProgram write size exceeds page size */
+N	SPIFI_ERR_VAL,									/**< Program operation failed validation or readback compare */
+N	SPIFI_ERR_RANGE,								/**< Range error, bad block number, address out of range, etc. */
+N	SPIFI_ERR_MEMMODE,							/**< Library calls not allowed while in memory mode. */
+N	/** @cond INTERNAL */
+N	SPIFI_ERR_LASTINDEX							/* Internal use to count number of errors */
+N	/** @endcond */
+N} SPIFI_ERR_T;
+N
+N/**
+N * @brief Possible device capabilities returned from getInfo()
+N */
+N#define SPIFI_CAP_DUAL_READ         (1 << 0)		/**< Supports DUAL read mode */
+N#define SPIFI_CAP_DUAL_WRITE        (1 << 1)		/**< Supports DUAL write mode */
+N#define SPIFI_CAP_QUAD_READ         (1 << 2)		/**< Supports QUAD read mode */
+N#define SPIFI_CAP_QUAD_WRITE        (1 << 3)		/**< Supports QUAD write mode */
+N#define SPIFI_CAP_FULLLOCK          (1 << 4)		/**< Full device lock supported */
+N#define SPIFI_CAP_BLOCKLOCK         (1 << 5)		/**< Individual block device lock supported */
+N#define SPIFI_CAP_SUBBLKERASE       (1 << 6)		/**< Sub-block erase supported */
+N#define SPIFI_CAP_4BYTE_ADDR		(1 << 7)		/**< Supports 4 Byte addressing */
+N#define SPIFI_CAP_NOBLOCK           (1 << 16)		/**< Non-blocking mode supported */
+N
+N/**
+N * @brief Possible driver options, may not be supported by all drivers
+N */
+N#define SPIFI_OPT_USE_DUAL      (3 << 0)			/**< Enable DUAL read / write if option is supported */
+N#define SPIFI_OPT_USE_QUAD      (3 << 2)			/**< Enable QUAD read / write if option is supported */
+N#define SPIFI_OPT_NOBLOCK       (1 << 16)			/**< Will not block on program and erase operations, poll device status manually */
+N
+N/**
+N * @brief Possible device statuses returned from getInfo()
+N */
+N#define SPIFI_STAT_BUSY     (1 << 0)			/**< Device is busy erasing or programming */
+N#define SPIFI_STAT_ISWP     (1 << 1)			/**< Device is write protected (software or hardware) */
+N#define SPIFI_STAT_FULLLOCK (1 << 2)			/**< Device is fully locked */
+N#define SPIFI_STAT_PARTLOCK (1 << 3)			/**< Device is partially locked (device specific) */
+N#define SPIFI_STAT_PROGERR  (1 << 4)			/**< Device status shows a program error (non-blocking mode only) */
+N#define SPIFI_STAT_ERASEERR (1 << 5)			/**< Device status shows a erase error (non-blocking mode only) */
+N
+N/**
+N * @brief Possible info lookup requests
+N */
+Ntypedef enum {
+N	SPIFI_INFO_BASE_ADDRESS = 0,				/**< Device physical memory address */
+N	SPIFI_INFO_DEVSIZE,							/**< Device size in Bytes */
+N	SPIFI_INFO_ERASE_BLOCKS,					/**< Number of erase blocks */
+N	SPIFI_INFO_ERASE_BLOCKSIZE,					/**< Size of erase blocks */
+N	SPIFI_INFO_ERASE_SUBBLOCKS,					/**< Number of erase sub-blocks */
+N	SPIFI_INFO_ERASE_SUBBLOCKSIZE,				/**< Size of erase sub-blocks */
+N	SPIFI_INFO_PAGESIZE,						/**< Size of a page, page write size limit */
+N	SPIFI_INFO_MAXREADSIZE,						/**< Maximum read size, read size limit in bytes */
+N	SPIFI_INFO_MAXCLOCK,						/**< Maximum device speed in Hz */
+N	SPIFI_INFO_MAX_READ_CLOCK,					/**< Maximum device speed for read cmd in Hz */
+N	SPIFI_INFO_MAX_HSREAD_CLOCK,				/**< Maximum device speed for quad / dual read cmd in Hz */
+N	SPIFI_INFO_MAX_PROG_CLOCK,					/**< Maximum device speed for program cmd in Hz */
+N	SPIFI_INFO_MAX_HSPROG_CLOCK,				/**< Maximum device speed for quad program cmd in Hz */
+N	SPIFI_INFO_CAPS,							/**< Device capabilities, OR'ed SPIFI_CAP_* values */
+N	SPIFI_INFO_STATUS,							/**< Or'ed SPIFI_STAT_xxx values. Any persistent hardware bits will be cleared  */
+N	SPIFI_INFO_STATUS_RETAIN,					/**< Or'ed SPIFI_STAT_xxx values. Any persistent hardware bits will be retained */
+N	SPIFI_INFO_OPTIONS,							/**< Device capabilities, Or'ed SPIFI_OPT_* values */
+N
+N	SPIFI_INFO_LASTINDEX
+N} SPIFI_INFO_ID_T;
+N
+N/**
+N * @brief SPIFI_INFO_QUADREAD_CLOCK Depricated! Do NOT use for new development
+N */
+N#define SPIFI_INFO_QUADREAD_CLOCK SPIFI_INFO_MAX_HSREAD_CLOCK
+N
+N/**
+N * @brief SPIFI_INFO_QUADPROG_CLOCK Depricated! Do NOT use for new development
+N */
+N#define SPIFI_INFO_QUADPROG_CLOCK SPIFI_INFO_MAX_HSPROG_CLOCK
+N/**
+N * @brief Possible device specific lock / un-lock commands
+N */
+Ntypedef enum {
+N	SPIFI_PCMD_UNLOCK_DEVICE = 0,			/**< unlock device */
+N	SPIFI_PCMD_LOCK_DEVICE,					/**< lock device */
+N	SPIFI_PCMD_UNLOCK_BLOCK,				/**< unlock specified block */
+N	SPIFI_PCMD_LOCK_BLOCK					/**< lock specified block */
+N
+N} SPIFI_PCMD_LOCK_UNLOCK_T;
+N
+N/**
+N * @brief Possible device specific sub-block commands
+N */
+Ntypedef enum {
+N	SPIFI_PCMD_ADDR_TO_SUB_BLOCK = 0,			/**< Convert address to a sub-block */
+N	SPIFI_PCMD_SUB_BLOCK_TO_ADDR,				/**< Convert sub-block to address */
+N	SPIFI_PCMD_BLOCK_TO_SUB_BLOCK				/**< Convert block to sub-block */
+N
+N} SPIFI_PCMD_SUBBLK_T;
+N
+N/**
+N * @brief Enumeration of device specific functions.
+N */
+Ntypedef enum {
+N	FX_spifiDeviceDataInitDeinit = 0,			/**< Generic device init / de-init function */
+N	FX_spifiDeviceDataInitDeinitS25FL164K,		/**< S25FL164K specific device init / de-init function */
+N
+N	FX_spifiDeviceDataClearStatusNone,			/**< General do nothing I.e no status bits to clear */
+N	FX_spifiDeviceDataClearStatusS25FL032P,		/**< S25FL032P (and similar) clear status bits function */
+N
+N	FX_spifiDeviceDataGetStatusS25FL032P,		/**< S25FL032P (and similar) get status function */
+N	FX_spifiDeviceDataGetStatusS25FL164K,		/**< S25FL164K (and similar) get status function */
+N	FX_spifiDeviceDataGetStatusMX25L3235E,		/**< MX25L3235E (and similar) get status function */
+N	FX_spifiDeviceDataGetStatusW25Q80BV,		/**< W25Q80BV (and similar) get status function */
+N
+N	FX_spifiDeviceDataSetStatusS25FL032P,		/**< S25FL032P (and similar) set status function */
+N	FX_spifiDeviceDataSetStatusS25FL164K,		/**< S25FL164K (and similar) set status function */
+N	FX_spifiDeviceDataSetStatusMX25L3235E,		/**< MX25L3235E (and similar) set sttus function */
+N
+N	FX_spifiDeviceDataSetOptsQuadModeBit9,		/**< Set bit 9 when enabling Quad mode */
+N	FX_spifiDeviceDataSetOptsQuadModeBit6,		/**< Set bit 6 when enabling Quad mode */
+N
+N	FX_spifiDeviceInitReadCommand,				/**< General return cmdReg value for read */
+N	FX_spifiDevice4BInitReadCommand,			/**< General return cmdReg value for read w/ 4Byte address */
+N
+N	FX_spifiDeviceInitWriteCommand,				/**< General return cmdReg value for write */
+N	FX_spifiDevice4BInitWriteCommand,			/**< General return cmdReg value for write w/ 4Byte address */
+N	FX_spifiDeviceInitWriteCommandMacronix		/**< Macronix return cmdReg value for write */
+N
+N} SPIFI_DEVFX_T;
+N
+N/* Forward type declaration */
+Nstruct SPIFI_HANDLE;
+N
+Nstruct SPIFI_DEVICE_DATA;
+N
+Nstruct SPIFI_FAM_DESC;
+N
+Nstruct SPIFI_DEVICE_ID;
+N
+N/**
+N * @brief LPCSPIFILIB family data.
+N */
+Ntypedef struct SPIFI_FAM_NODE {
+N	const struct SPIFI_FAM_DESC *pDesc;					/**< Pointer to device descriptor */
+N
+N	struct SPIFI_FAM_NODE *pNext;						/**< Reserved list pointer */
+N
+N} SPIFI_FAM_NODE_T;
+N
+N/**
+N * @brief LPCSPIFILIB family descriptor, used to describe devices to non-device specific functions
+N */
+Ntypedef struct SPIFI_FAM_DESC {
+N	const char              *pFamName;						/**< (required) Pointer to generic family name */
+N	struct SPIFI_DEV_NODE   *pDevList;						/**< (required) Pointer to device list */
+N
+N	uint32_t                prvContextSize;				/**< Number of bytes needed for driver context allocation */
+N	uint32_t                *pDevCount;						/**< (required) Pointer to device count */
+N	void (*pPrvDevGetID)(uint32_t baseAddr, struct SPIFI_DEVICE_ID *pID);								/**< (NULL allowed) Pointer to method that queries deviceID */
+N
+N	SPIFI_ERR_T (*pPrvDevSetup)(struct SPIFI_HANDLE *pHandle, uint32_t spifiCtrlAddr, uint32_t baseAddr);	/**< (required) Pointer to device specific device initialization */
+N
+N} SPIFI_FAM_DESC_T;
+N
+N/**
+N * @brief Register device data node
+N */
+Ntypedef struct SPIFI_DEV_NODE {
+N	const struct SPIFI_DEVICE_DATA *pDevData;	/**< (required) Pointer to device specific data */
+N
+N	struct SPIFI_DEV_NODE *pNext;				/**< Reserved */
+N
+N} SPIFI_DEV_NODE_T;
+N
+Ntypedef SPIFI_ERR_T (*deviceInitDeInitFx)(const struct SPIFI_HANDLE *, uint32_t);	/**< Fx* to handle init / de-init */
+N
+Ntypedef void (*devClearStatusFx)(const struct SPIFI_HANDLE *);						/**< Fx* to clear status */
+N
+Ntypedef uint32_t (*devGetStatusFx)(const struct SPIFI_HANDLE *);					/**< Fx* to get status */
+N
+Ntypedef void (*devSetStatusFx)(const struct SPIFI_HANDLE *, uint32_t);				/**< Fx* to set status */
+N
+Ntypedef SPIFI_ERR_T (*devSetOptsFx)(const struct SPIFI_HANDLE *, uint32_t, uint32_t);	/**< Fx* to set options */
+N
+Ntypedef void (*devGetReadCmdFx)(const struct SPIFI_HANDLE *, uint8_t, uint32_t *, uint32_t *);	/**< Fx* to return read commandReg value */
+N
+Ntypedef void (*devGetWriteCmdFx)(const struct SPIFI_HANDLE *, uint32_t *);			/**< Fx* to return write commandReg value */
+N
+N/**
+N * @brief Device specific function pointers
+N */
+Ntypedef struct SPIFI_FAM_FX {
+N	/* Device init and de-initialization */
+N
+N	SPIFI_ERR_T (*lockCmd)(const struct SPIFI_HANDLE *, SPIFI_PCMD_LOCK_UNLOCK_T, uint32_t);	/**< (required) Lock / unlock handler */
+N
+N	SPIFI_ERR_T (*eraseAll)(const struct SPIFI_HANDLE *);										/**< (required) Full device erase */
+N
+N	SPIFI_ERR_T (*eraseBlock)(const struct SPIFI_HANDLE *, uint32_t);							/**< (required) Erase a block by block number */
+N
+N	SPIFI_ERR_T (*eraseSubBlock)(const struct SPIFI_HANDLE *, uint32_t);						/**< (required) Erase a sub-block by block number */
+N
+N	SPIFI_ERR_T (*pageProgram)(const struct SPIFI_HANDLE *, uint32_t, const uint32_t *, uint32_t);	/**< (required) Program up to a page of data at an address */
+N
+N	SPIFI_ERR_T (*read)(const struct SPIFI_HANDLE *, uint32_t, uint32_t *, uint32_t);			/**< (required) Read an address range */
+N
+N	SPIFI_ERR_T (*reset)(const struct SPIFI_HANDLE *);										/**< (required) Reset SPIFI device */
+N
+N	/* Info query functions */
+N	uint32_t (*getStatus)(const struct SPIFI_HANDLE *, uint8_t);								/**< (required) Returns device status */
+N
+N	uint32_t (*subBlockCmd)(const struct SPIFI_HANDLE *, SPIFI_PCMD_SUBBLK_T, uint32_t);		/**< (NULL allowed) Performs specified cmd */
+N
+N	/* Device specific functions */
+N	deviceInitDeInitFx devInitDeInit;	/**< run-time assigned Fx* device init de-init */
+N	devClearStatusFx devClearStatus;	/**< run-time assigned Fx* to clear status */
+N	devGetStatusFx devGetStatus;		/**< run-time assigned Fx* to get status */
+N	devSetStatusFx devSetStatus;		/**< run-time assigned Fx* to set status */
+N	devSetOptsFx devSetOpts;			/**< run-time assigned Fx* to set quad mode */
+N	devGetReadCmdFx devGetReadCmd;		/**< run-time assigned Fx* to return read cmd */
+N	devGetWriteCmdFx devGetWriteCmd;	/**< run-time assigned Fx* to return write cmd */
+N} SPIFI_FAM_FX_T;
+N
+N/**
+N * @brief Device identification data
+N */
+Ntypedef struct SPIFI_DEVICE_ID {
+N	uint8_t mfgId[3];							/**< JEDEC ID data */
+N	uint8_t extCount;							/**< Number of extended bytes to check */
+N	uint8_t extId[8];							/**< extended data */
+N} SPIFI_DEVICE_ID_T;
+N
+N/**
+N * @brief Register device data.
+N */
+Ntypedef struct SPIFI_DEVICE_DATA {
+N	const char *pDevName;						/**< (required) Device friendly name */
+N	SPIFI_DEVICE_ID_T id;						/**< Device id structure */
+N	uint32_t caps;								/**< capabilities supported */
+N	uint16_t blks;								/**< # of blocks */
+N	uint32_t blkSize;							/**< size of block */
+N	uint16_t subBlks;							/**< # of sub-blocks */
+N	uint16_t subBlkSize;						/**< size of sub-block */
+N	uint16_t pageSize;							/**< page size */
+N	uint32_t maxReadSize;						/**< max read allowed in one operation */
+N	uint8_t maxClkRate;							/**< (in Mhz) maximum clock rate (max common speed) */
+N	uint8_t maxReadRate;						/**< (in Mhz) max clock rate for read (driver may utilize fast read) */
+N	uint8_t maxHSReadRate;						/**< (in Mhz) max clock rate for quad / dual read */
+N	uint8_t maxProgramRate;						/**< (in Mhz) max clock rate for program */
+N	uint8_t maxHSProgramRate;					/**< (in Mhz) max clock rate for quad program */
+N	uint8_t initDeInitFxId;					/**< init/DeInit fx_id */
+N	uint8_t clearStatusFxId;					/**< clearStatus fx_id */
+N	uint8_t getStatusFxId;					/**< getStatus fx_id */
+N	uint8_t setStatusFxId;					/**< setStatus fx_id */
+N	uint8_t setOptionsFxId;					/**< setOptions fx_id */
+N	uint8_t getReadCmdFxId;					/**< getReadCommand fx_id */
+N	uint8_t getWriteCmdFxId;					/**< getWriteCommand fx_id */
+N} SPIFI_DEVICE_DATA_T;
+N
+N/**
+N * @brief LPCSPIFILIB device handle, used with all device and info functions
+N */
+Ntypedef struct SPIFI_HANDLE {
+N	const struct SPIFI_FAM_FX *pFamFx;			/**< (required) Pointer to device specific functions */
+N
+N	struct SPIFI_INFODATA   *pInfoData;			/**< (required) Pointer to info data area */
+N
+N	void                    *pDevContext;		/**< (NULL allowed) Pointer to device context (used by device functions) */
+N} SPIFI_HANDLE_T;
+N
+N/**
+N * @brief Common data applicable to all devices
+N */
+Ntypedef struct SPIFI_INFODATA {
+N	uint32_t        spifiCtrlAddr;				/**< SPIFI controller base address */
+N	uint32_t        baseAddr;					/**< Physical base address for the device */
+N	uint32_t        numBlocks;					/**< Number of blocks on the device */
+N	uint32_t        blockSize;					/**< Size of blocks on the device */
+N	uint32_t        numSubBlocks;				/**< Number of sub-blocks on the device */
+N	uint32_t        subBlockSize;				/**< Size of sub-blocks on the device */
+N	uint32_t        pageSize;					/**< Size of a page, usually denotes maximum write size in bytes for a single write operation */
+N	uint32_t        maxReadSize;				/**< Maximum read size in bytes for a single read operation */
+N	const struct SPIFI_DEVICE_DATA *pDeviceData;	/**< (required) Pointer to device specific data */
+N
+N	uint32_t        opts;						/**< Device options of values SPIFI_OPT_* */
+N	const char      *pDevName;					/**< (required) Pointer to device name */
+N	SPIFI_ERR_T     lastErr;					/**< Last error for the driver */
+N	const SPIFI_DEVICE_ID_T *pId;				/**< (required) Device id structure (JEDEC ID etc) */
+N} SPIFI_INFODATA_T;
+N
+N/**
+N * @brief Context for enumerating devices
+N */
+Ntypedef struct SPIFI_DEV_ENUMERATOR {
+N	SPIFI_FAM_NODE_T *pFamily;					/**< pointer to family node  */
+N	SPIFI_DEV_NODE_T *pDevice;					/**< pointer to device structure */
+N} SPIFI_DEV_ENUMERATOR_T;
+N
+N/**
+N * @}
+N */
+N
+N/** @defgroup LPCSPIFILIB_REGISTERHELPER LPCSPIFILIB family registration functions
+N * @ingroup LPCSPIFILIB
+N * @{
+N */
+N
+N/**
+N * @brief	Family registration function
+N * @return	A pointer to a persistent SPIFI_DEV_FAMILY_T initialized for family.
+N * @note	This function constructs and returns a non-volitile SPIFI_DEV_FAMILY_T
+N * structure that contains family specific information needed to register family.
+N * This function MUST NOT be called directly and should only be passed to the
+N * registration function spifiRegisterFamily()
+N */
+NSPIFI_FAM_NODE_T *spifi_REG_FAMILY_CommonCommandSet(void);
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_Spansion_2Byte_PStatus Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_Spansion_2Byte_PStatus spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_Spansion_3Byte_Status Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_Spansion_3Byte_Status spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_Macronix_2Byte_Status Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_Macronix_2Byte_Status spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_SpansionS25FLP Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_SpansionS25FLP spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_SpansionS25FL1 Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_SpansionS25FL1 spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @brief SPIFI_REG_FAMILY_MacronixMX25L Depricated! Do NOT use for new development
+N */
+N#define SPIFI_REG_FAMILY_MacronixMX25L spifi_REG_FAMILY_CommonCommandSet
+N
+N/**
+N * @}
+N */
+N#ifdef __cplusplus
+S}
+N#endif
+N
+N#endif /* __SPIFILIB_DEV_H_ */
+L 36 "inc\spifilib_api.h" 2
+N
+N#ifdef __cplusplus
+Sextern "C" {
+N#endif
+N
+N/** @defgroup LPCSPIFILIB_API LPCSPIFILIB common API functions
+N * @ingroup LPCSPIFILIB
+N * These LPCSPIFILIB functions provide an abstracted interface to
+N * the LPCSPIFILIB functions. The device API is a private API which should
+N * only used to interface with the LPCSPIFILIB core library.
+N * @{
+N */
+N
+N/** @defgroup LPCSPIFILIB_CMNAPI LPCSPIFILIB library support functions
+N * Library support functions are not tied to any specific LPCSPIFILIB device.
+N * @{
+N */
+N
+N/**
+N * @brief	Report the SPIFILIB version
+N * @return	SPIFI library version in format MMmm where MM is major number
+N * and mm is minor number.
+N */
+Nuint16_t spifiGetLibVersion(void);
+N
+N/**
+N * @brief	Initialize the SPIFILIB driver
+N * @param	spifiCtrlAddr	: Base address of SPIFI controller
+N * @param	reset	: true to reset the SPIFI controller, or false to not reset
+N * @return	SPIFI library error code
+N * @note	This function should be called prior to any other SPIFILIB functions.
+N * In most cases, a reset isn't needed. Before calling this function, all board
+N * specific functions related to the SPIFI interface must be setup and the SPIFI
+N * clock must be enabled. If booting from SPIFI FLASH, this will already be done.
+N * If not booting from SPIFI FLASH, the SPIFI FLASH pin muxing and SPIFI controller
+N * clock need to be enabled prior to this call.
+N */
+NSPIFI_ERR_T spifiInit(uint32_t spifiCtrlAddr, uint8_t reset);
+N
+N/**
+N * @brief	Register a SPIFILIB family driver
+N * @param	regFx	: A function which returns persistent device specific data structure.
+N * @return	Handle to device specific data structure.
+N * @note	This function should be called prior to calling spifiGetHandleMemSize() or
+N * spifiInitDevice().
+N */
+NSPIFI_FAM_NODE_T *spifiRegisterFamily(SPIFI_FAM_NODE_T *(*regFx)(void));
+N
+N/**
+N * @brief	Converts a SPIFILIB error code into a meaningful string
+N * @param	errCode	: Error code to get string pointer to
+N * @return	Pointer to string for the passed error code
+N */
+Nconst char *spifiReturnErrString(SPIFI_ERR_T errCode);
+N
+N/**
+N * @brief	Return the number of registered device families in this driver
+N * @return	number of registered device families in this driver
+N */
+Nuint32_t spifiGetSuppFamilyCount(void);
+N
+N/**
+N * @brief	Return the driver device family name for a specific index
+N * @param	index	: Index (0 - n) where n = number of families returned
+N *                    by spifiGetSuppFamilyCount() -1
+N * @return	a string pointer to the generic device name
+N * @note	Can be used with the spifiGetSuppFamilyCount() to get a list of
+N * device families the library is configured for.
+N */
+Nconst char *spifiGetSuppFamilyName(uint32_t index);
+N
+N/**
+N * @brief	Detect and return memory needed for device handle at passed address
+N * @param	spifiCtrlAddr	: Base address of SPIFI controller
+N * @return	The size in bytes this device needs for the call to InitDevice().
+N * If no supported device is detected 0 will be returned.
+N * @note Selects the first matching device in the library.
+N */
+Nuint32_t spifiGetHandleMemSize(uint32_t spifiCtrlAddr);
+N
+N/**
+N * @brief	Initialize driver and hardware for a specific device
+N * @param	pMem		: Pointer to a 32-bit aligned buffer with a size returned from spifiGetHandleMemSize()
+N * @param	sizePMem	: Size of the buffer in bytes pass in pMem
+N * @param   spifiCtrlAddr : Base address of SPIFI controller
+N * @param	baseAddr	: Base address of device
+N * @return	Returns a pointer to a device handle if successful, or NULL on an error.
+N */
+NSPIFI_HANDLE_T *spifiInitDevice(void *pMem, uint32_t sizePMem, uint32_t spifiCtrlAddr, uint32_t baseAddr);
+N
+N/**
+N * @brief	Set or unset driver options
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @param	options	: Options to set or unset, an OR'ed value of SPIFI_OPT_xxx values
+N * (example #SPIFI_OPT_USE_QUAD | #SPIFI_OPT_NOBLOCK)
+N * @param	set		: true to set the passed options, false to clear them
+N * @return	Nothing
+N * @note	Only options that are supported in the capabilities of the driver can be
+N * set or unset.
+N */
+NSPIFI_ERR_T spifiDevSetOpts(SPIFI_HANDLE_T *pHandle, uint32_t options, uint8_t set);
+N
+N/**
+N * @}
+N */
+N
+N/** @defgroup LPCSPIFILIB_DEVAPI LPCSPIFILIB library device functions
+N * Device functions are used to perform LPCSPIFILIB device operations.
+N * @{
+N */
+N
+N/**
+N * @brief	Add device to family driver
+N * @param	pFamily	: Pointer to a SPIFI_DEV_FAMILY_T family handle
+N * @param	pDevData	: Pointer to a persistent SPIFI_DEV_DATA_T device structure
+N * @return	A SPIFI_ERR_T error code (SPIFI_ERR_NONE for no errors)
+N * @note	This function MUST be called prior to spifiGetHandleMemSize() or spifiInitDevice()
+N */
+NSPIFI_ERR_T spifiDevRegister(const SPIFI_FAM_NODE_T *pFamily, SPIFI_DEV_NODE_T *pDevData);
+N
+N/**
+N * @brief	Returns the number of supported devices within a family
+N * @param	pFamily	: Pointer to a SPIFI_DEV_FAMILY_T family handle
+N * @return	The number of registered devices.
+N */
+Nstatic INLINE uint32_t spifiDevGetCount(const SPIFI_FAM_NODE_T *pFamily)
+Xstatic __inline uint32_t spifiDevGetCount(const SPIFI_FAM_NODE_T *pFamily)
+N{
+N	return *(pFamily->pDesc->pDevCount);
+N}
+N
+N/**
+N * @brief	Enumerates the friendly names of supported devices
+N * @param	pContext	: Pointer to a SPIFI_DEV_ENUMERATOR_T context structure
+N * @param   reset       : 0 enumerates next device, 1 resets list to beginning and returns first device
+N * @return	A friendly string representing the device, NULL when list has been exhausted.
+N */
+Nconst char *spifiDevEnumerateName(SPIFI_DEV_ENUMERATOR_T *pContext, uint8_t reset);
+N
+N/**
+N * @brief	Initialize a detected LPCSPIFILIB device
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @return	A SPIFI_NO_* error code (SPIFI_ERR_NONE is no errors)
+N */
+NSPIFI_ERR_T spifiDevInit(const SPIFI_HANDLE_T *pHandle);
+N
+N/**
+N * @brief	De-initialize a detected LPCSPIFILIB device
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @return	A SPIFI_NO_* error code (SPIFI_ERR_NONE is no errors)
+N */
+NSPIFI_ERR_T spifiDevDeInit(const SPIFI_HANDLE_T *pHandle);
+N
+N/**
+N * @brief	Sets or clears memory mode
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @param	enMMode	: true to enable memory mode, false to disable
+N * @return	A SPIFI_NO_* error code (SPIFI_ERR_NONE is no errors)
+N * @note	Enter memory mode to enable direct read access for Execute in
+N * place code and memory mapped data. Memory mode must be disabled
+N * for most operations.
+N */
+NSPIFI_ERR_T spifiDevSetMemMode(const SPIFI_HANDLE_T *pHandle, uint8_t enMMode);
+N
+N/**
+N * @brief	Return status of memory mode
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	state of memory mode (false = off, true = on)
+N */
+Nuint8_t spifiDevGetMemoryMode(const SPIFI_HANDLE_T *pSpifi);
+N
+N/**
+N * @brief	Full LPCSPIFILIB device unlock
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @return	A SPIFI_NO_* error code (SPIFI_ERR_NONE is no errors)
+N */
+Nstatic INLINE SPIFI_ERR_T spifiDevUnlockDevice(const SPIFI_HANDLE_T *pHandle)
+Xstatic __inline SPIFI_ERR_T spifiDevUnlockDevice(const SPIFI_HANDLE_T *pHandle)
+N{
+N	return pHandle->pFamFx->lockCmd(pHandle, SPIFI_PCMD_UNLOCK_DEVICE, 0);
+N}
+N
+N/**
+N * @brief	Full LPCSPIFILIB device lock
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @return	A SPIFI_NO_* error code (SPIFI_ERR_NONE is no errors)
+N */
+Nstatic INLINE SPIFI_ERR_T spifiDevLockDevice(const SPIFI_HANDLE_T *pHandle)
+Xstatic __inline SPIFI_ERR_T spifiDevLockDevice(const SPIFI_HANDLE_T *pHandle)
+N{
+N	return pHandle->pFamFx->lockCmd(pHandle, SPIFI_PCMD_LOCK_DEVICE, 0);
+N}
+N
+N/**
+N * @brief	Unlock a single device block
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @param	block	: Block number to unlock
+N * @return	A SPIFI_NO_* error code (SPIFI_ERR_NONE is no errors)
+N */
+Nstatic INLINE SPIFI_ERR_T spifiDevUnlockBlock(const SPIFI_HANDLE_T *pHandle, uint32_t block)
+Xstatic __inline SPIFI_ERR_T spifiDevUnlockBlock(const SPIFI_HANDLE_T *pHandle, uint32_t block)
+N{
+N	return pHandle->pFamFx->lockCmd(pHandle, SPIFI_PCMD_UNLOCK_BLOCK, block);
+N}
+N
+N/**
+N * @brief	Lock a single device block
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @param	block	: Block number to lock
+N * @return	A SPIFI_NO_* error code (SPIFI_ERR_NONE is no errors)
+N */
+Nstatic INLINE SPIFI_ERR_T spifiDevLockBlock(const SPIFI_HANDLE_T *pHandle, uint32_t block)
+Xstatic __inline SPIFI_ERR_T spifiDevLockBlock(const SPIFI_HANDLE_T *pHandle, uint32_t block)
+N{
+N	return pHandle->pFamFx->lockCmd(pHandle, SPIFI_PCMD_LOCK_BLOCK, block);
+N}
+N
+N/**
+N * @brief	Full LPCSPIFILIB device erase
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @return	A SPIFI_NO_* error code (SPIFI_ERR_NONE is no errors)
+N */
+Nstatic INLINE SPIFI_ERR_T spifiDevEraseAll(const SPIFI_HANDLE_T *pHandle)
+Xstatic __inline SPIFI_ERR_T spifiDevEraseAll(const SPIFI_HANDLE_T *pHandle)
+N{
+N	return pHandle->pFamFx->eraseAll(pHandle);
+N}
+N
+N/**
+N * @brief	Erase a sub-block
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @param	blknum	: Sub-block number to erase
+N * @return	A SPIFI_NO_* error code (SPIFI_ERR_NONE is no errors)
+N */
+Nstatic INLINE SPIFI_ERR_T spifiDevEraseSubBlock(const SPIFI_HANDLE_T *pHandle, uint32_t blknum)
+Xstatic __inline SPIFI_ERR_T spifiDevEraseSubBlock(const SPIFI_HANDLE_T *pHandle, uint32_t blknum)
+N{
+N	return pHandle->pFamFx->eraseSubBlock(pHandle, blknum);
+N}
+N
+N/**
+N * @brief	Program up to a page of data at an address
+N * @param	pHandle		: Pointer to a LPCSPIFILIB device handle
+N * @param	addr		: LPCSPIFILIB device address to start write at
+N * @param	writeBuff	: Address of buffer to write, must be 32-bit aligned
+N * @param	bytes		: Number of bytes to write, must not exceed page length
+N * @return	A SPIFI_NO_* error code (SPIFI_ERR_NONE is no errors)
+N * @note	Only use this function to program data up to the page size.
+N */
+Nstatic INLINE SPIFI_ERR_T spifiDevPageProgram(const SPIFI_HANDLE_T *pHandle,
+Xstatic __inline SPIFI_ERR_T spifiDevPageProgram(const SPIFI_HANDLE_T *pHandle,
+N											  uint32_t addr,
+N											  uint32_t *writeBuff,
+N											  uint32_t bytes)
+N{
+N	return pHandle->pFamFx->pageProgram(pHandle, addr, writeBuff, bytes);
+N}
+N
+N/**
+N * @brief	Read data from a LPCSPIFILIB device
+N * @param	pHandle		: Pointer to a LPCSPIFILIB device handle
+N * @param	addr		: LPCSPIFILIB device address to read from
+N * @param	readBuff	: Address of buffer to fill, must be 32-bit aligned
+N * @param	bytes		: Number of bytes to read
+N * @return	A SPIFI_NO_* error code (SPIFI_ERR_NONE is no errors)
+N * @note	Maximum read size is limited to the max single read size
+N */
+Nstatic INLINE SPIFI_ERR_T spifiDevRead(const SPIFI_HANDLE_T *pHandle, uint32_t addr, uint32_t *readBuff, uint32_t bytes)
+Xstatic __inline SPIFI_ERR_T spifiDevRead(const SPIFI_HANDLE_T *pHandle, uint32_t addr, uint32_t *readBuff, uint32_t bytes)
+N{
+N	return pHandle->pFamFx->read(pHandle, addr, readBuff, bytes);
+N}
+N
+N/**
+N * @brief	Reset the device
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @return	Nothing
+N * @note	Will set the device into read mode
+N */
+Nstatic INLINE void spifiDevReset(const SPIFI_HANDLE_T *pHandle)
+Xstatic __inline void spifiDevReset(const SPIFI_HANDLE_T *pHandle)
+N{
+N	pHandle->pFamFx->reset(pHandle);
+N}
+N
+N/**
+N * @brief	Returns a string pointer to the generic device family name
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @return	a string pointer to the generic device family name
+N */
+Nstatic INLINE const char *spifiDevGetDeviceName(const SPIFI_HANDLE_T *pHandle)
+Xstatic __inline const char *spifiDevGetDeviceName(const SPIFI_HANDLE_T *pHandle)
+N{
+N	return pHandle->pInfoData->pDevName;
+N}
+N
+N#define spifiDevGetFamilyName spifiDevGetDeviceName	/**< Deprecated!  Do NOT use for new development */
+N
+N/**
+N * @brief	Returns information on the device
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @param	infoId	: Info to get about the device
+N * @return	Return value varies per selected function
+N */
+Nuint32_t spifiDevGetInfo(const SPIFI_HANDLE_T *pHandle, SPIFI_INFO_ID_T infoId);
+N
+N/**
+N * @}
+N */
+N
+N/** @defgroup LPCSPIFILIB_HELPAPI LPCSPIFILIB library helper functions
+N * @{
+N */
+N
+N/**
+N * @brief	Returns the starting address of a block number
+N * @param	pHandle		: Pointer to a LPCSPIFILIB device handle
+N * @param	blockNum	: Block number fo get starting address for
+N * @return	The starting address for the block, or 0xFFFFFFFF if the block number if invalid
+N */
+Nuint32_t spifiGetAddrFromBlock(const SPIFI_HANDLE_T *pHandle, uint32_t blockNum);
+N
+N/**
+N * @brief	Returns the starting address of a sub-block number
+N * @param	pHandle		: Pointer to a LPCSPIFILIB device handle
+N * @param	subBlockNum	: Sub-block number fo get starting address for
+N * @return	The starting address for the sub-block, or 0xFFFFFFFF if the block number if invalid
+N */
+Nuint32_t spifiGetAddrFromSubBlock(const SPIFI_HANDLE_T *pHandle, uint32_t subBlockNum);
+N
+N/**
+N * @brief	Returns the block number the passed address is located in
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @param	addr	: Address to get block number for
+N * @return	The block number the passed address is in, 0xFFFFFFFF is the address is invalid
+N */
+Nuint32_t spifiGetBlockFromAddr(const SPIFI_HANDLE_T *pHandle, uint32_t addr);
+N
+N/**
+N * @brief	Returns the sub-block number the passed address is located in
+N * @param	pHandle	: Pointer to a LPCSPIFILIB device handle
+N * @param	addr	: Address to get sub-block number for
+N * @return	The sub-block number the passed address is in, 0xFFFFFFFF is the address is invalid
+N */
+Nuint32_t spifiGetSubBlockFromAddr(const SPIFI_HANDLE_T *pHandle, uint32_t addr);
+N
+N/**
+N * @brief	Returns the first sub-block for a block
+N * @param	pHandle		: Pointer to a LPCSPIFILIB device handle
+N * @param	blockNum	: Block number to get first sub-block for
+N * @return	The first sub-block number in passed block, 0xFFFFFFFF if the block number if invalid
+N */
+Nuint32_t spifiGetSubBlockFromBlock(const SPIFI_HANDLE_T *pHandle, uint32_t blockNum);
+N
+N/**
+N * @brief	Program the device with the passed buffer
+N * @param	pHandle		: Pointer to a LPCSPIFILIB device handle
+N * @param	addr		: LPCSPIFILIB device address to start write at
+N * @param	writeBuff	: Address of buffer to write, must be 32-bit aligned
+N * @param	bytes		: Number of bytes to write
+N * @return	A SPIFI_ERR_xxx error code (SPIFI_ERR_NONE is no errors)
+N * @note	This function has no size limit. This function only works in blocking mode.
+N */
+NSPIFI_ERR_T spifiProgram(const SPIFI_HANDLE_T *pHandle, uint32_t addr, const uint32_t *writeBuff, uint32_t bytes);
+N
+N/**
+N * @brief	Read the device into the passed buffer
+N * @param	pHandle		: Pointer to a LPCSPIFILIB device handle
+N * @param	addr		: LPCSPIFILIB device address to start read at
+N * @param	readBuff	: Address of buffer to read into, must be 32-bit aligned
+N * @param	bytes		: Number of bytes to read
+N * @return	A SPIFI_ERR_xxx error code (SPIFI_ERR_NONE is no errors)
+N * @note	This function has no size limit. Optionally, the device can be placed into memory
+N * mode and accessed directly via memory mapped reads without using this function. This
+N * function only works in blocking mode.
+N */
+NSPIFI_ERR_T spifiRead(const SPIFI_HANDLE_T *pHandle, uint32_t addr, uint32_t *readBuff, uint32_t bytes);
+N
+N/**
+N * @brief	Erase multiple blocks
+N * @param	pHandle		: Pointer to a LPCSPIFILIB device handle
+N * @param	firstBlock	: First block number to erase
+N * @param	numBlocks	: Number of blocks to erase
+N * @return	A SPIFI_ERR_xxx error code (SPIFI_ERR_NONE is no errors)
+N * @note	If any of the specified params are invalid, the operation is aborted
+N * before any sectors are erased. This function only works in blocking mode.
+N */
+NSPIFI_ERR_T spifiErase(const SPIFI_HANDLE_T *pHandle, uint32_t firstBlock, uint32_t numBlocks);
+N
+N/**
+N * @brief	Erase multiple blocks by address range
+N * @param	pHandle		: Pointer to a LPCSPIFILIB device handle
+N * @param	firstAddr	: Starting address range for block erase
+N * @param	lastAddr	: Ending address range for block erase
+N * @return	A SPIFI_ERR_xxx error code (SPIFI_ERR_NONE is no errors)
+N * @note	This function will erase blocks inside the passed address
+N * range if and only if the address range is valid.
+N * This function only works in blocking mode.
+N */
+NSPIFI_ERR_T spifiEraseByAddr(const SPIFI_HANDLE_T *pHandle, uint32_t firstAddr, uint32_t lastAddr);
+N
+N/**
+N * @}
+N */
+N
+N/**
+N * @}
+N */
+N
+N#ifdef __cplusplus
+S}
+N#endif
+N
+N#endif /* __SPIFILIB_API_H_ */
+L 33 "src\spifilib_dev_common.c" 2
+N#include "spifilib_chiphw.h"
+L 1 "inc\spifilib_chiphw.h" 1
+N/*
+N * @brief LPCSPIFILIB hardware definitions and functions
+N *
+N * @note
+N * Copyright(C) NXP Semiconductors, 2014
+N * All rights reserved.
+N *
+N * @par
+N * Software that is described herein is for illustrative purposes only
+N * which provides customers with programming information regarding the
+N * LPC products.  This software is supplied "AS IS" without any warranties of
+N * any kind, and NXP Semiconductors and its licenser disclaim any and
+N * all warranties, express or implied, including all implied warranties of
+N * merchantability, fitness for a particular purpose and non-infringement of
+N * intellectual property rights.  NXP Semiconductors assumes no responsibility
+N * or liability for the use of the software, conveys no license or rights under any
+N * patent, copyright, mask work right, or any other intellectual property rights in
+N * or to any products. NXP Semiconductors reserves the right to make changes
+N * in the software without notification. NXP Semiconductors also makes no
+N * representation or warranty that such application will be suitable for the
+N * specified use without further testing or modification.
+N *
+N * @par
+N * Permission to use, copy, modify, and distribute this software and its
+N * documentation is hereby granted, under NXP Semiconductors' and its
+N * licensor's relevant copyrights in the software, without fee, provided that it
+N * is used in conjunction with NXP Semiconductors microcontrollers.  This
+N * copyright, permission, and disclaimer notice must appear in all copies of
+N * this code.
+N */
+N
+N#ifndef __SPIFILIB_CHIPHW_H_
+N#define __SPIFILIB_CHIPHW_H_
+N
+N#include <stdint.h>
+N
+N#ifdef __cplusplus
+Sextern "C" {
+N#endif
+N
+N/* Define for inline */
+N#ifndef INLINE
+S#ifdef __CC_ARM
+S#define INLINE  __inline
+S#else
+S#define INLINE inline
+S#endif /* __CC_ARM */
+N#endif /* !INLINE */
+N
+N#ifdef __CC_ARM
+N#pragma anon_unions
+N#endif
+N/** @defgroup LPCSPIFILIB_HW_API LPCSPIFILIB hardware definitions and API functions
+N * @ingroup LPCSPIFILIB
+N * @{
+N */
+N
+N/**
+N * @brief	SPIFI controller hardware register structure
+N */
+N
+Ntypedef struct LPC_SPIFI_CHIPHW {
+N	volatile    uint32_t CTRL;				/**< SPIFI control register */
+N	volatile    uint32_t CMD;					/**< SPIFI command register */
+N	volatile    uint32_t ADDR;				/**< SPIFI address register */
+N	volatile    uint32_t DATINTM;			/**< SPIFI intermediate data register */
+N	volatile    uint32_t CACHELIMIT;	/**< SPIFI cache limit register */
+N	union {
+N		volatile    uint8_t DAT8;				/**< SPIFI 8 bit data */
+N		volatile    uint16_t DAT16;			/**< SPIFI 16 bit data */
+N		volatile    uint32_t DAT32;			/**< SPIFI 32 bit data */
+N	};
+N
+N	volatile    uint32_t MEMCMD;			/**< SPIFI memory command register */
+N	volatile    uint32_t STAT;				/**< SPIFI status register */
+N} LPC_SPIFI_CHIPHW_T;
+N
+N/** @defgroup LPCSPIFILIB_HW_PRIM LPCSPIFILIB primative API functions
+N * @{
+N */
+N
+N/**
+N * @brief SPIFI controller control register bit definitions
+N */
+N#define SPIFI_CTRL_TO(t)        ((t) << 0)		/**< SPIFI timeout */
+N#define SPIFI_CTRL_CSHI(c)      ((c) << 16)		/**< SPIFI chip select minimum high time */
+N#define SPIFI_CTRL_DATA_PREFETCH_DISABLE(d) ((d) << 21)	/**< SPIFI memMode prefetch enable*/
+N#define SPIFI_CTRL_INTEN(i)     ((i) << 22)		/**< SPIFI cmdComplete irq enable */
+N#define SPIFI_CTRL_MODE3(m)     ((m) << 23)		/**< SPIFI mode3 config */
+N#define SPIFI_CTRL_PREFETCH_DISABLE(d) ((d) << 27)	/**< SPIFI cache prefetch enable */
+N#define SPIFI_CTRL_DUAL(d)      ((d) << 28)		/**< SPIFI enable dual */
+N#define SPIFI_CTRL_RFCLK(m)     ((m) << 29)		/**< SPIFI clock edge config */
+N#define SPIFI_CTRL_FBCLK(m)     ((m) << 30)		/**< SPIFI feedback clock select */
+N#define SPIFI_CTRL_DMAEN(m)     ((m) << 31)		/**< SPIFI dma enable */
+N
+N/**
+N * @brief	Write SPIFI controller control register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	ctrl	: Control value to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetCtrl(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t ctrl)
+Xstatic __inline void spifi_HW_SetCtrl(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t ctrl)
+N{
+N	pSpifi->CTRL = ctrl;
+N}
+N
+N/**
+N * @brief	Read SPIFI controller control register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	Current CTRL register values
+N */
+Nstatic INLINE uint32_t spifi_HW_GetCtrl(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint32_t spifi_HW_GetCtrl(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->CTRL;
+N}
+N
+N/**
+N * @brief SPIFI controller status register bit definitions
+N */
+N#define SPIFI_STAT_RESET        (1 << 4)		/**< SPIFI reset */
+N#define SPIFI_STAT_INTRQ        (1 << 5)		/**< SPIFI interrupt request */
+N#define SPIFI_STAT_CMD          (1 << 1)		/**< SPIFI command in progress */
+N#define SPIFI_STAT_MCINIT               (1)					/**< SPIFI MCINIT */
+N
+N/**
+N * @brief	Write SPIFI controller status register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	stat	: Status bits to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetStat(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t stat)
+Xstatic __inline void spifi_HW_SetStat(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t stat)
+N{
+N	pSpifi->STAT = stat;
+N}
+N
+N/**
+N * @brief	Read SPIFI controller status register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	Current STAT register values
+N */
+Nstatic INLINE uint32_t spifi_HW_GetStat(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint32_t spifi_HW_GetStat(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->STAT;
+N}
+N
+N/**
+N * @brief SPIFI controller command register bit definitions
+N */
+N#define SPIFI_CMD_DATALEN(l)    ((l) << 0)		/**< SPIFI bytes to send or receive */
+N#define SPIFI_CMD_POLLRS(p)     ((p) << 14)		/**< SPIFI enable poll */
+N#define SPIFI_CMD_DOUT(d)       ((d) << 15)		/**< SPIFI data direction is out */
+N#define SPIFI_CMD_INTER(i)      ((i) << 16)		/**< SPIFI intermediate bit length */
+N#define SPIFI_CMD_FIELDFORM(p)  ((p) << 19)		/**< SPIFI 2 bit data/cmd mode control */
+N#define SPIFI_CMD_FRAMEFORM(f)  ((f) << 21)		/**< SPIFI op and adr field config */
+N#define SPIFI_CMD_OPCODE(o)     ((uint32_t) (o) << 24)	/**< SPIFI 8-bit command code */
+N
+N/**
+N * @brief frame form definitions
+N */
+Ntypedef enum {
+N	SPIFI_FRAMEFORM_OP              = 1,
+N	SPIFI_FRAMEFORM_OP_1ADDRESS     = 2,
+N	SPIFI_FRAMEFORM_OP_2ADDRESS     = 3,
+N	SPIFI_FRAMEFORM_OP_3ADDRESS     = 4,
+N	SPIFI_FRAMEFORM_OP_4ADDRESS     = 5,
+N	SPIFI_FRAMEFORM_NOOP_3ADDRESS   = 6,
+N	SPIFI_FRAMEFORM_NOOP_4ADDRESS   = 7
+N} SPIFI_FRAMEFORM_T;
+N
+N/**
+N * @brief serial type definitions
+N */
+Ntypedef enum {
+N	SPIFI_FIELDFORM_ALL_SERIAL             = 0,
+N	SPIFI_FIELDFORM_SERIAL_OPCODE_ADDRESS  = 1,
+N	SPIFI_FIELDFORM_SERIAL_OPCODE          = 2,
+N	SPIFI_FIELDFORM_NO_SERIAL              = 3
+N} SPIFI_FIELDFORM_T;
+N
+N/**
+N * @brief	Read SPIFI controller command register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	32-bit value read from the command register
+N */
+Nstatic INLINE uint32_t spifi_HW_GetCmd(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint32_t spifi_HW_GetCmd(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->CMD;
+N}
+N
+N/**
+N * @brief	Write SPIFI controller command register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	cmd		: Command to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetCmd(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t cmd)
+Xstatic __inline void spifi_HW_SetCmd(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t cmd)
+N{
+N	pSpifi->CMD = cmd;
+N}
+N
+N/**
+N * @brief	Write SPIFI controller address register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	addr	: address (offset) to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetAddr(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t addr)
+Xstatic __inline void spifi_HW_SetAddr(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t addr)
+N{
+N	pSpifi->ADDR = addr;
+N}
+N
+N/**
+N * @brief	Read an 8-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	8-bit value read from the data register
+N */
+Nstatic INLINE uint8_t spifi_HW_GetData8(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint8_t spifi_HW_GetData8(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->DAT8;
+N}
+N
+N/**
+N * @brief	Read an 16-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	16-bit value read from the data register
+N */
+Nstatic INLINE uint16_t spifi_HW_GetData16(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint16_t spifi_HW_GetData16(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->DAT16;
+N}
+N
+N/**
+N * @brief	Read an 32-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	32-bit value read from the data register
+N */
+Nstatic INLINE uint32_t spifi_HW_GetData32(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline uint32_t spifi_HW_GetData32(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	return pSpifi->DAT32;
+N}
+N
+N/**
+N * @brief	Write an 8-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	data	: 8-bit data value to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetData8(LPC_SPIFI_CHIPHW_T *pSpifi, uint8_t data)
+Xstatic __inline void spifi_HW_SetData8(LPC_SPIFI_CHIPHW_T *pSpifi, uint8_t data)
+N{
+N	pSpifi->DAT8 = data;
+N}
+N
+N/**
+N * @brief	Write an 16-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	data	: 16-bit data value to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetData16(LPC_SPIFI_CHIPHW_T *pSpifi, uint16_t data)
+Xstatic __inline void spifi_HW_SetData16(LPC_SPIFI_CHIPHW_T *pSpifi, uint16_t data)
+N{
+N	pSpifi->DAT16 = data;
+N}
+N
+N/**
+N * @brief	Write an 32-bit value from the controller data register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	data	: 32-bit data value to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetData32(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t data)
+Xstatic __inline void spifi_HW_SetData32(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t data)
+N{
+N	pSpifi->DAT32 = data;
+N}
+N
+N/**
+N * @brief	Write IDATA register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	mode	: value to write. Used to specify value used for intermediate
+N                                    data value when enabled.
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetIDATA(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t mode)
+Xstatic __inline void spifi_HW_SetIDATA(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t mode)
+N{
+N	pSpifi->DATINTM = mode;
+N}
+N
+N/**
+N * @brief	Write MEMCMD register
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @param	cmd		: Command value to write
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_SetMEMCMD(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t cmd)
+Xstatic __inline void spifi_HW_SetMEMCMD(LPC_SPIFI_CHIPHW_T *pSpifi, uint32_t cmd)
+N{
+N	pSpifi->MEMCMD = cmd;
+N}
+N
+N/**
+N * @}
+N */
+N
+N/** @defgroup LPCSPIFILIB_HW_L2 LPCSPIFILIB hardware support API functions
+N * @{
+N */
+N
+N/**
+N * @brief	Reset SPIFI controller
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_ResetController(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline void spifi_HW_ResetController(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	pSpifi->STAT = SPIFI_STAT_RESET;
+X	pSpifi->STAT = (1 << 4);
+N	while ((pSpifi->STAT & SPIFI_STAT_RESET) != 0) {}
+X	while ((pSpifi->STAT & (1 << 4)) != 0) {}
+N}
+N
+N/**
+N * @brief	Wait for a command to complete
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_WaitCMD(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline void spifi_HW_WaitCMD(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	while ((spifi_HW_GetStat(pSpifi) & SPIFI_STAT_CMD) != 0) {}
+X	while ((spifi_HW_GetStat(pSpifi) & (1 << 1)) != 0) {}
+N}
+N
+N/**
+N * @brief	Wait for a RESET bit to clear
+N * @param	pSpifi	: Base address of SPIFI controller
+N * @return	Nothing
+N */
+Nstatic INLINE void spifi_HW_WaitRESET(LPC_SPIFI_CHIPHW_T *pSpifi)
+Xstatic __inline void spifi_HW_WaitRESET(LPC_SPIFI_CHIPHW_T *pSpifi)
+N{
+N	while ((spifi_HW_GetStat(pSpifi) & SPIFI_STAT_RESET) != 0) {}
+X	while ((spifi_HW_GetStat(pSpifi) & (1 << 4)) != 0) {}
+N}
+N
+N/**
+N * @}
+N */
+N
+N/**
+N * @}
+N */
+N
+N#ifdef __cplusplus
+S}
+N#endif
+N
+N#endif /* __SPIFILIB_CHIPHW_H_ */
+L 34 "src\spifilib_dev_common.c" 2
+N
+N/*****************************************************************************
+N * Private types/enumerations/variables
+N ****************************************************************************/
+N#ifndef NULL
+N#define NULL 0L
+N#endif
+N
+N/* Declare the version numbers */
+N#define LIBRARY_VERSION_MAJOR (1)
+N#define LIBRARY_VERSION_MINOR (03)
+N
+N/* device node count and linked list header */
+Nstatic uint32_t famCount = 0;
+Nstatic SPIFI_FAM_NODE_T famListHead = {0};
+N
+N/* Generic device OP Codes */
+N#define SPIFI_OP_CODE_RDID          0x9F
+N
+N/* Number of supported devices */
+N#define NUMSUPPDEVS (sizeof(pPrvDevs) / sizeof(SPIFI_DEVDESC_T *))
+N
+N/* Mapped error strings to error codes */
+Nstatic const char *spifiErrStrings[SPIFI_ERR_LASTINDEX] = {
+N	"No error",
+N	"Device is busy",
+N	"General error",
+N	"Capability not supported",
+N	"Alignment error",
+N	"Device is locked",
+N	"Program error",
+N	"Erase error",
+N	"Program region not blank",
+N	"Page size exceeded",
+N	"Validation error",
+N	"Range exceeded",
+N	"Not Allowed in Memory Mode"
+N};
+N
+Nstatic const char noName[] = "Invalid index";
+N
+N/*****************************************************************************
+N * Public types/enumerations/variables
+N ****************************************************************************/
+N
+N/*****************************************************************************
+N * Private functions
+N ****************************************************************************/
+Nstatic uint8_t spifiPrvCheckExtendedMatch(SPIFI_DEV_NODE_T *pNode, SPIFI_DEVICE_ID_T *pID)
+N{
+N	uint32_t x;
+N
+N	if (pID->extCount != pNode->pDevData->id.extCount) {
+N		return 0;
+N	}
+N
+N	if (pNode->pDevData->id.extCount) {
+N		for (x = 0; x < pID->extCount; ++x) {
+N			if (pNode->pDevData->id.extId[x] != pID->extId[x]) {
+N				return 0;
+N			}
+N		}
+N	}
+N
+N	return 1;
+N}
+N
+Nstatic SPIFI_DEV_NODE_T *spifiPrvFindDeviceMatch(SPIFI_DEV_NODE_T *pHead, SPIFI_DEVICE_ID_T *pID, uint8_t checkExtended)
+N{
+N	SPIFI_DEV_NODE_T *pNode;
+N
+N	/* search the list looking for a match. Skip over head node since
+N	     it is a dummy node and NEVER contains data */
+N	for (pNode = pHead->pNext; pNode != NULL; pNode = pNode->pNext) {
+X	for (pNode = pHead->pNext; pNode != 0L; pNode = pNode->pNext) {
+N		/* Manufacturer and part match? */
+N		if ((pID->mfgId[0] == pNode->pDevData->id.mfgId[0])  &&
+N			(pID->mfgId[1] == pNode->pDevData->id.mfgId[1]) &&
+N			(pID->mfgId[2] == pNode->pDevData->id.mfgId[2])) {
+N			/* If extended data check it */
+N			uint8_t matchFound = 1;
+N			if (checkExtended) {
+N				matchFound = spifiPrvCheckExtendedMatch(pNode, pID);
+N
+N			}
+N			/* Match, time to exit */
+N			if (matchFound) {
+N				return pNode;
+N			}
+N		}
+N	}
+N	return NULL;
+X	return 0L;
+N}
+N
+N/* Read Identification */
+Nstatic void spifiPrvDevGetID(uint32_t spifiAddr, SPIFI_DEVICE_ID_T *pID)
+N{
+N	uint8_t idx;
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) spifiAddr;
+N
+N	/* Read ID command, plus read 3 bytes on data */
+N	spifi_HW_SetCmd(pSpifiCtrlAddr,
+N					(SPIFI_CMD_OPCODE(SPIFI_OP_CODE_RDID) |
+X					(((uint32_t) (0x9F) << 24) |
+N					 SPIFI_CMD_DATALEN(3 + pID->extCount) |
+X					 ((3 + pID->extCount) << 0) |
+N					 SPIFI_CMD_FIELDFORM(SPIFI_FIELDFORM_ALL_SERIAL) |
+X					 ((SPIFI_FIELDFORM_ALL_SERIAL) << 19) |
+N					 SPIFI_CMD_FRAMEFORM(SPIFI_FRAMEFORM_OP)));
+X					 ((SPIFI_FRAMEFORM_OP) << 21)));
+N
+N	/* Get info from the device */
+N	pID->mfgId[0] = spifi_HW_GetData8(pSpifiCtrlAddr);	/* Manufacturers ID */
+N	pID->mfgId[1] = spifi_HW_GetData8(pSpifiCtrlAddr);	/* Memory Type */
+N	pID->mfgId[2] = spifi_HW_GetData8(pSpifiCtrlAddr);	/* Memmory Capacity */
+N
+N	/* Read the specified number of extended bytes */
+N	for (idx = 0; idx < pID->extCount; ++idx) {
+N		pID->extId[idx] = spifi_HW_GetData8(pSpifiCtrlAddr);
+N	}
+N
+N	spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N}
+N
+N/* Detect if this device exists at the passed base address, returns 0 if the
+N   device doesn't exist of the required memory allocation size for the device
+N   context if the device exists. */
+Nstatic SPIFI_DEV_NODE_T *spifiPrvDevDetect(uint32_t spifiCtrlAddr, SPIFI_FAM_NODE_T *familyNode)
+N{
+N	SPIFI_DEV_NODE_T *devNode;
+N	uint32_t idx;
+N	SPIFI_DEVICE_ID_T id;
+N	SPIFI_DEVICE_ID_T idVerify;
+N	void (*pPrvspifiPrvDevGetID)(uint32_t baseAddr, SPIFI_DEVICE_ID_T *pID) = spifiPrvDevGetID;
+N
+N	/* Do not ask for extended ID information yet */
+N	id.extCount = 0;
+N	idVerify.extCount = 0;
+N
+N	/* If the family has a specific readID routine, use it instead */
+N	if (familyNode->pDesc->pPrvDevGetID) {
+N		pPrvspifiPrvDevGetID = familyNode->pDesc->pPrvDevGetID;
+N	}
+N
+N	/* Read device ID three times to validate. First read on a hard reset isn't reliable */
+N	pPrvspifiPrvDevGetID(spifiCtrlAddr, &id);
+N	pPrvspifiPrvDevGetID(spifiCtrlAddr, &id);
+N	pPrvspifiPrvDevGetID(spifiCtrlAddr, &idVerify);
+N
+N	/* Compare both reads to make sure they match. If any byte doesn't compare, abort. */
+N	for (idx = 0; idx < sizeof(id.mfgId); ++idx) {
+N		if (id.mfgId[idx] != idVerify.mfgId[idx]) {
+N			return NULL;
+X			return 0L;
+N		}
+N	}
+N
+N	/* Find match for 3 bytes.  If found, check to see if there is extended id information */
+N	devNode = spifiPrvFindDeviceMatch(familyNode->pDesc->pDevList, &id, 0);
+N	if ((devNode) && (devNode->pDevData->id.extCount)) {
+N
+N		/* read ID + extended ID data */
+N		id.extCount = devNode->pDevData->id.extCount;
+N		pPrvspifiPrvDevGetID(spifiCtrlAddr, &id);
+N
+N		/* Now get the node that matches JEDEC and extended data */
+N		devNode = spifiPrvFindDeviceMatch(familyNode->pDesc->pDevList, &id, 1);
+N	}
+N
+N	return devNode;
+N}
+N
+N/* Detect first SPIFI FLASH device at the passed base address */
+Nstatic SPIFI_FAM_NODE_T *spifiPrvPartDetect(uint32_t spifiCtrlAddr, SPIFI_DEV_NODE_T * *devData)
+N{
+N	SPIFI_FAM_NODE_T *pNode;
+N
+N	/* Loop through the library and check for detected devices.
+N	     skip over head node because it is NEVER used. */
+N	for (pNode = famListHead.pNext; pNode != NULL; pNode = pNode->pNext) {
+X	for (pNode = famListHead.pNext; pNode != 0L; pNode = pNode->pNext) {
+N		/* Match at this index */
+N		if ((*devData = spifiPrvDevDetect(spifiCtrlAddr, pNode)) != NULL) {
+X		if ((*devData = spifiPrvDevDetect(spifiCtrlAddr, pNode)) != 0L) {
+N			return pNode;
+N		}
+N	}
+N
+N	return NULL;
+X	return 0L;
+N}
+N
+Nstatic uint32_t spifiPrvCalculateHandleSize(SPIFI_FAM_NODE_T *devData)
+N{
+N	/* This is the size needed for the device context instance by the driver */
+N	return sizeof(SPIFI_HANDLE_T) + sizeof(SPIFI_INFODATA_T) +
+N		   devData->pDesc->prvContextSize;
+N}
+N
+Nstatic void *spifiPrvMemset(void *bufPtr, uint8_t value, uint32_t count)
+N{
+N	uint8_t *dest = (uint8_t *) bufPtr;
+N	uint32_t index;
+N
+N	for (index = 0; index < count; ++index) {
+N		dest[index] = value;
+N	}
+N	return bufPtr;
+N}
+N
+Nstatic void spifiPrvInitContext(SPIFI_DEV_ENUMERATOR_T *pContext, SPIFI_FAM_NODE_T *pFamily)
+N{
+N	/* Save the new family passed */
+N	pContext->pFamily = pFamily;
+N
+N	/* Save pointer to device or NULL if No devices */
+N	if (pFamily) {
+N		pContext->pDevice = pFamily->pDesc->pDevList->pNext;
+N	}
+N	else {
+N		pContext->pDevice = NULL;
+X		pContext->pDevice = 0L;
+N	}
+N}
+N
+N/*****************************************************************************
+N * Public functions
+N ****************************************************************************/
+NSPIFI_FAM_NODE_T *spifiRegisterFamily(SPIFI_FAM_NODE_T *(*regFx)(void))
+N{
+N	SPIFI_FAM_NODE_T *pFam;
+N
+N	/* Get the family node from the user */
+N	pFam = regFx();
+N
+N	/* If not a valid family return NULL and don't process */
+N	if (!pFam) {
+N		return NULL;
+X		return 0L;
+N	}
+N
+N	/* Insert the node into the beginning of the list */
+N	pFam->pNext = famListHead.pNext;
+N	famListHead.pNext = pFam;
+N
+N	/* update the count of known families */
+N	++famCount;
+N
+N	/* Return handle */
+N	return pFam;
+N}
+N
+N/* register a device (i.e append to the list of known devices) */
+NSPIFI_ERR_T spifiDevRegister(const SPIFI_FAM_NODE_T *pDevFamily, SPIFI_DEV_NODE_T *pDevData)
+N{
+N	/* insert into the beginning of the list */
+N	pDevData->pNext = pDevFamily->pDesc->pDevList->pNext;
+N	pDevFamily->pDesc->pDevList->pNext = pDevData;
+N
+N	/* update the number of devices in the list */
+N	(*pDevFamily->pDesc->pDevCount) += 1;
+N
+N	/* Nothing to do here yet */
+N	return SPIFI_ERR_NONE;
+N}
+N
+N/* enumerate the friendly names of supported devices */
+Nconst char *spifiDevEnumerateName(SPIFI_DEV_ENUMERATOR_T *pContext, uint8_t reset)
+N{
+N	const char *retValue = NULL;
+X	const char *retValue = 0L;
+N
+N	/* If user requested reset, point back to the beginning of the list */
+N	if (reset) {
+N		/* Initialize the device list from new family */
+N		spifiPrvInitContext(pContext, famListHead.pNext);
+N	}
+N
+N	/* Now get the friendly name of the current device and increment to the next device. */
+N	if (pContext->pDevice) {
+N		/* Retrieve friendly name */
+N		retValue = pContext->pDevice->pDevData->pDevName;
+N
+N		/* Point at next device */
+N		pContext->pDevice = pContext->pDevice->pNext;
+N
+N		/* Point at next family if at end of device list */
+N		if (!pContext->pDevice) {
+N
+N			/* Initialize the device list from new family */
+N			spifiPrvInitContext(pContext, pContext->pFamily->pNext);
+N		}
+N	}
+N	return retValue;
+N}
+N
+N/* Report the library version number */
+Nuint16_t spifiGetLibVersion(void)
+N{
+N	return (LIBRARY_VERSION_MAJOR << 8) | LIBRARY_VERSION_MINOR;
+X	return ((1) << 8) | (03);
+N}
+N
+N/* Initialize the SPIFILIB driver */
+NSPIFI_ERR_T spifiInit(uint32_t spifiCtrlAddr, uint8_t reset)
+N{
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) spifiCtrlAddr;
+N
+N	if (reset) {
+N		/* Reset controller */
+N		spifi_HW_ResetController(pSpifiCtrlAddr);
+N
+N		/* Set intermediate data and memcmd registers. */
+N		spifi_HW_SetIDATA(pSpifiCtrlAddr, 0x0);
+N		spifi_HW_SetMEMCMD(pSpifiCtrlAddr, 0);
+N
+N		spifi_HW_ResetController(pSpifiCtrlAddr);
+N
+N		/* Setup SPIFI controller */
+N		spifi_HW_SetCtrl(pSpifiCtrlAddr,
+N						 (SPIFI_CTRL_TO(1000) |
+X						 (((1000) << 0) |
+N						  SPIFI_CTRL_CSHI(15) |
+X						  ((15) << 16) |
+N						  SPIFI_CTRL_RFCLK(1) |
+X						  ((1) << 29) |
+N						  SPIFI_CTRL_FBCLK(1)));
+X						  ((1) << 30)));
+N	}
+N
+N	/* Nothing to do here yet */
+N	return SPIFI_ERR_NONE;
+N}
+N
+N/* performs device specific initialization */
+NSPIFI_ERR_T spifiDevInit(const SPIFI_HANDLE_T *pHandle)
+N{
+N	SPIFI_ERR_T retValue = SPIFI_ERR_NONE;
+N
+N	/* call device specific initialization if provided */
+N	pHandle->pFamFx->devInitDeInit(pHandle, 1);
+N
+N	/* make sure the controller is not in memMode */
+N	spifiDevSetMemMode(pHandle, 0);
+N
+N	return retValue;
+N}
+N
+N/* performs device specific de-initialization */
+NSPIFI_ERR_T spifiDevDeInit(const SPIFI_HANDLE_T *pHandle)
+N{
+N	SPIFI_ERR_T retValue = SPIFI_ERR_NONE;
+N
+N	/* call device specific de-init if provided */
+N	pHandle->pFamFx->devInitDeInit(pHandle, 0);
+N
+N	/* make sure the controller is in memMode */
+N	spifiDevSetMemMode(pHandle, 1);
+N
+N	return retValue;
+N}
+N
+N/* Converts a SPIFILIB error code into a meaningful string */
+Nconst char *spifiReturnErrString(SPIFI_ERR_T errCode)
+N{
+N	if (((unsigned int) errCode) < SPIFI_ERR_LASTINDEX) {
+N		return spifiErrStrings[errCode];
+N	}
+N
+N	return noName;
+N}
+N
+N/* Returns information on the device */
+Nuint32_t spifiDevGetInfo(const SPIFI_HANDLE_T *pHandle, SPIFI_INFO_ID_T infoId)
+N{
+N	uint32_t val = 0;
+N
+N	/* Don't use switch statement to prevent including clib helpers */
+N	if (infoId == SPIFI_INFO_BASE_ADDRESS) {
+N		val = pHandle->pInfoData->baseAddr;
+N	}
+N	else if (infoId == SPIFI_INFO_DEVSIZE) {
+N		val = pHandle->pInfoData->numBlocks * pHandle->pInfoData->blockSize;
+N
+N	}
+N	else if (infoId == SPIFI_INFO_ERASE_BLOCKS) {
+N		val = pHandle->pInfoData->numBlocks;
+N
+N	}
+N	else if (infoId == SPIFI_INFO_ERASE_BLOCKSIZE) {
+N		val = pHandle->pInfoData->blockSize;
+N
+N	}
+N	else if (infoId == SPIFI_INFO_ERASE_SUBBLOCKS) {
+N		val = pHandle->pInfoData->numSubBlocks;
+N
+N	}
+N	else if (infoId == SPIFI_INFO_ERASE_SUBBLOCKSIZE) {
+N		val = pHandle->pInfoData->subBlockSize;
+N
+N	}
+N	else if (infoId == SPIFI_INFO_PAGESIZE) {
+N		val = pHandle->pInfoData->pageSize;
+N
+N	}
+N	else if (infoId == SPIFI_INFO_MAXREADSIZE) {
+N		val = pHandle->pInfoData->maxReadSize;
+N
+N	}
+N	else if (infoId == SPIFI_INFO_MAXCLOCK) {
+N		val = (pHandle->pInfoData->pDeviceData->maxClkRate * 1000000);
+N
+N	}
+N	else if (infoId == SPIFI_INFO_MAX_READ_CLOCK) {
+N		val = (pHandle->pInfoData->pDeviceData->maxReadRate * 1000000);
+N
+N	}
+N	else if (infoId == SPIFI_INFO_MAX_HSREAD_CLOCK) {
+N		val = (pHandle->pInfoData->pDeviceData->maxHSReadRate * 1000000);
+N
+N	}
+N	else if (infoId == SPIFI_INFO_MAX_PROG_CLOCK) {
+N		val = (pHandle->pInfoData->pDeviceData->maxProgramRate * 1000000);
+N
+N	}
+N	else if (infoId == SPIFI_INFO_MAX_HSPROG_CLOCK) {
+N		val = (pHandle->pInfoData->pDeviceData->maxHSProgramRate * 1000000);
+N
+N	}
+N	else if (infoId == SPIFI_INFO_CAPS) {
+N		val = pHandle->pInfoData->pDeviceData->caps;
+N
+N	}
+N	else if (infoId == SPIFI_INFO_STATUS) {
+N		val = pHandle->pFamFx->getStatus(pHandle, 1);
+N
+N	}
+N	else if (infoId == SPIFI_INFO_STATUS_RETAIN) {
+N		val = pHandle->pFamFx->getStatus(pHandle, 0);
+N
+N	}
+N	else if (infoId == SPIFI_INFO_OPTIONS) {
+N		val = pHandle->pInfoData->opts;
+N	}
+N
+N	return val;
+N}
+N
+N/* Returns status of memory mode */
+Nuint8_t spifiDevGetMemoryMode(const SPIFI_HANDLE_T *pHandle)
+N{
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	return (spifi_HW_GetStat(pSpifiCtrlAddr) & SPIFI_STAT_MCINIT) != 0;
+X	return (spifi_HW_GetStat(pSpifiCtrlAddr) & (1)) != 0;
+N}
+N
+NSPIFI_ERR_T spifiDevSetMemMode(const SPIFI_HANDLE_T *pHandle, uint8_t enMMode)
+N{
+N	uint32_t cmdValue;
+N	uint32_t iDataValue;
+N	uint32_t ctrlReg;
+N	LPC_SPIFI_CHIPHW_T *pSpifiCtrlAddr = (LPC_SPIFI_CHIPHW_T *) pHandle->pInfoData->spifiCtrlAddr;
+N
+N	/* RESET the memMode controller */
+N	spifi_HW_ResetController(pSpifiCtrlAddr);
+N
+N	/* Wait for HW to acknowledge the reset. */
+N	spifi_HW_WaitRESET(pSpifiCtrlAddr);
+N
+N	/* First off set the HW mode based on current option */
+N	ctrlReg = spifi_HW_GetCtrl(pSpifiCtrlAddr);
+N	if (pHandle->pInfoData->opts & SPIFI_CAP_QUAD_READ) {
+X	if (pHandle->pInfoData->opts & (1 << 2)) {
+N		ctrlReg &= ~(SPIFI_CTRL_DUAL(1));
+X		ctrlReg &= ~(((1) << 28));
+N	}
+N	else if (pHandle->pInfoData->opts & SPIFI_CAP_DUAL_READ) {
+X	else if (pHandle->pInfoData->opts & (1 << 0)) {
+N		ctrlReg |= SPIFI_CTRL_DUAL(1);
+X		ctrlReg |= ((1) << 28);
+N	}
+N	spifi_HW_SetCtrl(pSpifiCtrlAddr, ctrlReg);
+N
+N	if (enMMode) {
+N		/* Get the device specific memory mode command and iData values */
+N		pHandle->pFamFx->devGetReadCmd(pHandle, enMMode, &cmdValue, &iDataValue);
+N
+N		/* Specify the intermediate data byte. */
+N		spifi_HW_SetIDATA(pSpifiCtrlAddr, iDataValue);
+N
+N		/* Set the appropriate values in the command reg. */
+N		spifi_HW_SetCmd(pSpifiCtrlAddr, cmdValue);
+N		spifi_HW_WaitCMD(pSpifiCtrlAddr);
+N		spifi_HW_SetMEMCMD(pSpifiCtrlAddr, cmdValue);
+N	}
+N	else {
+N		spifi_HW_SetIDATA(pSpifiCtrlAddr, 0xFF);
+N		spifi_HW_SetMEMCMD(pSpifiCtrlAddr, 0);
+N
+N		/* RESET the memMode controller */
+N		spifi_HW_ResetController(pSpifiCtrlAddr);
+N
+N		/* Wait for HW to acknowledge the reset. */
+N		spifi_HW_WaitRESET(pSpifiCtrlAddr);
+N	}
+N	return SPIFI_ERR_NONE;
+N}
+N
+N/* Return the number of supported device families in this driver */
+Nuint32_t spifiGetSuppFamilyCount(void)
+N{
+N	/* return number of registered devices */
+N	return famCount;
+N}
+N
+N/* Return the driver family name for a specific index */
+Nconst char *spifiGetSuppFamilyName(uint32_t index)
+N{
+N	uint32_t idx;
+N	SPIFI_FAM_NODE_T *pNode;
+N
+N	if (index >= famCount) {
+N		return noName;
+N	}
+N
+N	/* cycle through the list of families skipping over head node since it
+N	   is NEVER used. Once we break out of this loop pNode should be
+N	   pointing at the correct node.  */
+N	pNode = famListHead.pNext;
+N	for (idx = 0; idx < index; ++idx) {
+N		pNode = pNode->pNext;
+N	}
+N
+N	return pNode->pDesc->pFamName;
+N}
+N
+N/* Detect and return memory needed for device handle at passed address */
+Nuint32_t spifiGetHandleMemSize(uint32_t spifiCtrlAddr)
+N{
+N	uint32_t bytesNeeded = 0;
+N	SPIFI_FAM_NODE_T *detectedPart;
+N	SPIFI_DEV_NODE_T *devData;
+N
+N	/* Find first device at the base address */
+N	detectedPart = spifiPrvPartDetect(spifiCtrlAddr, &devData);
+N	if (detectedPart) {
+N		/* This is the size needed for the device context instance by the driver */
+N		bytesNeeded = spifiPrvCalculateHandleSize(detectedPart);
+N	}
+N
+N	return bytesNeeded;
+N}
+N
+N/* Initialize driver and hardware for a specific device */
+NSPIFI_HANDLE_T *spifiInitDevice(void *pMem, uint32_t sizePMem, uint32_t spifiCtrlAddr, uint32_t baseAddr)
+N{
+N	SPIFI_FAM_NODE_T *detectedPart;
+N	SPIFI_DEV_NODE_T *devData;
+N	SPIFI_HANDLE_T *pSpifiHandle;
+N	uint32_t *pMem32 = (uint32_t *) pMem;
+N
+N	/* Is the passed buffer size aligned on a 32-bit boundary? */
+N	if (((uint32_t) pMem32 & 0x3) != 0) {
+N		return NULL;
+X		return 0L;
+N	}
+N
+N	/* Detect the device at at the base address and abort on error. */
+N	detectedPart = spifiPrvPartDetect(spifiCtrlAddr, &devData);
+N	if (!detectedPart) {
+N		return NULL;
+X		return 0L;
+N	}
+N
+N	/* Is passed memory space big enough? */
+N	if (spifiPrvCalculateHandleSize(detectedPart) > sizePMem) {
+N		return NULL;
+X		return 0L;
+N	}
+N
+N	/* Setup handle */
+N	pSpifiHandle = (SPIFI_HANDLE_T *) pMem;
+N
+N	/* Clear entire device context areas */
+N	spifiPrvMemset(pMem, 0, sizePMem);
+N
+N	/* Setup device info region */
+N	pMem32 += (sizeof(SPIFI_HANDLE_T) / sizeof(uint32_t));
+N	pSpifiHandle->pInfoData = (SPIFI_INFODATA_T *) pMem32;
+N
+N	/* Save ptr to the detected device specific data into the handle */
+N	pSpifiHandle->pInfoData->pId = &devData->pDevData->id;
+N
+N	/* Setup device private data region */
+N	pMem32 += (sizeof(SPIFI_INFODATA_T) / sizeof(uint32_t));
+N	pSpifiHandle->pDevContext = (void *) pMem32;
+N
+N	/* Setup device specific data */
+N	pSpifiHandle->pInfoData->spifiCtrlAddr = spifiCtrlAddr;
+N	pSpifiHandle->pInfoData->baseAddr = baseAddr;
+N	pSpifiHandle->pInfoData->numBlocks = devData->pDevData->blks;
+N	pSpifiHandle->pInfoData->blockSize = devData->pDevData->blkSize;
+N	pSpifiHandle->pInfoData->numSubBlocks = devData->pDevData->subBlks;
+N	pSpifiHandle->pInfoData->subBlockSize = devData->pDevData->subBlkSize;
+N	pSpifiHandle->pInfoData->pageSize = devData->pDevData->pageSize;
+N	pSpifiHandle->pInfoData->maxReadSize = devData->pDevData->maxReadSize;
+N	pSpifiHandle->pInfoData->pDeviceData = devData->pDevData;
+N	pSpifiHandle->pInfoData->pDevName = devData->pDevData->pDevName;
+N
+N	/* Call device setup */
+N	pSpifiHandle->pInfoData->lastErr = detectedPart->pDesc->pPrvDevSetup(pSpifiHandle, spifiCtrlAddr, baseAddr);
+N
+N	if (pSpifiHandle->pInfoData->lastErr != SPIFI_ERR_NONE) {
+N		return NULL;
+X		return 0L;
+N	}
+N
+N	/* Call the device specific init */
+N	pSpifiHandle->pInfoData->lastErr = spifiDevInit(pSpifiHandle);
+N	if (pSpifiHandle->pInfoData->lastErr != SPIFI_ERR_NONE) {
+N		return NULL;
+X		return 0L;
+N	}
+N
+N	return pSpifiHandle;
+N}
+N
+NSPIFI_ERR_T spifiDevSetOpts(SPIFI_HANDLE_T *pHandle, uint32_t options, uint8_t set)
+N{
+N	/* default to not supported */
+N	SPIFI_ERR_T retValue = SPIFI_ERR_NOTSUPPORTED;
+N
+N	/* If changing any of the high speed modes process seperately */
+N	if (options & (SPIFI_CAP_DUAL_READ | SPIFI_CAP_DUAL_WRITE | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE)) {
+X	if (options & ((1 << 0) | (1 << 1) | (1 << 2) | (1 << 3))) {
+N		uint32_t hsOptions;
+N		uint8_t memMode;
+N
+N		/* first get the current memory mode */
+N		memMode = spifiDevGetMemoryMode(pHandle);
+N
+N		/* First clear ALL high speed mode options */
+N		pHandle->pInfoData->opts &=
+N			~(SPIFI_CAP_DUAL_READ | SPIFI_CAP_DUAL_WRITE | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE);
+X			~((1 << 0) | (1 << 1) | (1 << 2) | (1 << 3));
+N
+N		/* sanitize the change list */
+N		hsOptions =  options &
+N					(pHandle->pInfoData->pDeviceData->caps &
+N					 (SPIFI_CAP_DUAL_READ | SPIFI_CAP_DUAL_WRITE | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE));
+X					 ((1 << 0) | (1 << 1) | (1 << 2) | (1 << 3)));
+N
+N		/* Now set the high speed options */
+N		if (set) {
+N			pHandle->pInfoData->opts |= hsOptions;
+N		}
+N
+N		/* Perform device specific setup for the option */
+N		retValue = pHandle->pFamFx->devSetOpts(pHandle, hsOptions, set);
+N
+N		/* remove so that it won't be interpreted as an error */
+N		options &= ~(SPIFI_CAP_DUAL_READ | SPIFI_CAP_DUAL_WRITE | SPIFI_CAP_QUAD_READ | SPIFI_CAP_QUAD_WRITE);
+X		options &= ~((1 << 0) | (1 << 1) | (1 << 2) | (1 << 3));
+N
+N		/* update memory mode when changing the high speed options */
+N		spifiDevSetMemMode(pHandle, memMode);
+N	}
+N
+N	/* If the remaining options are valid, process them */
+N	if ((options &  pHandle->pInfoData->pDeviceData->caps) == options) {
+N		retValue = SPIFI_ERR_NONE;
+N
+N		/* Set the option in the driver so other routines will act accordingly */
+N		if (set) {
+N			pHandle->pInfoData->opts |= options;
+N		}
+N		else {
+N			pHandle->pInfoData->opts &= ~options;
+N		}
+N
+N		/* Perform device specific setup for the option if defined */
+N		if (pHandle->pFamFx->devSetOpts) {
+N			retValue = pHandle->pFamFx->devSetOpts(pHandle, options, set);
+N		}
+N
+N	}
+N	return retValue;
+N}
+N
+N/* Returns the address mapped to an block number */
+Nuint32_t spifiGetAddrFromBlock(const SPIFI_HANDLE_T *pHandle, uint32_t blockNum)
+N{
+N	uint32_t baseAddr = 0xFFFFFFFF;
+N
+N	if (blockNum < pHandle->pInfoData->numBlocks) {
+N		baseAddr = pHandle->pInfoData->baseAddr + (blockNum * pHandle->pInfoData->blockSize);
+N	}
+N
+N	return baseAddr;
+N}
+N
+N/* Returns the starting address of a sub-block number */
+Nuint32_t spifiGetAddrFromSubBlock(const SPIFI_HANDLE_T *pHandle, uint32_t subBlockNum)
+N{
+N	uint32_t baseAddr = ~0UL;
+N
+N	/* If the device provides a specific method for calculating the address use it. */
+N	if (!pHandle->pFamFx->subBlockCmd) {
+N		/* If sub-blocks are not supported (.e numSubBlocks = 0) then return error */
+N		if (subBlockNum < pHandle->pInfoData->numSubBlocks) {
+N			baseAddr = pHandle->pInfoData->baseAddr + (subBlockNum * pHandle->pInfoData->subBlockSize);
+N		}
+N	}
+N	else {
+N		baseAddr = pHandle->pFamFx->subBlockCmd(pHandle, SPIFI_PCMD_SUB_BLOCK_TO_ADDR, subBlockNum);
+N	}
+N
+N	return baseAddr;
+N}
+N
+N/* Returns the block number the passedd= address is located in */
+Nuint32_t spifiGetBlockFromAddr(const SPIFI_HANDLE_T *pHandle, uint32_t addr)
+N{
+N	uint32_t block;
+N	block = (addr - pHandle->pInfoData->baseAddr) / pHandle->pInfoData->blockSize;
+N
+N	if (block >= pHandle->pInfoData->numBlocks) {
+N		return ~0UL;
+N	}
+N
+N	return block;
+N}
+N
+N/* Returns the sub-block number the passed address is located in */
+Nuint32_t spifiGetSubBlockFromAddr(const SPIFI_HANDLE_T *pHandle, uint32_t addr)
+N{
+N	uint32_t subBlock;
+N
+N	/* If device does not support sub-blocks return error */
+N	if (!pHandle->pInfoData->subBlockSize) {
+N		return ~0UL;
+N	}
+N
+N	if (!pHandle->pFamFx->subBlockCmd) {
+N		subBlock = (addr - pHandle->pInfoData->baseAddr) / pHandle->pInfoData->subBlockSize;
+N
+N		if (subBlock >= pHandle->pInfoData->numSubBlocks) {
+N			return ~0UL;
+N		}
+N	}
+N	else {
+N		subBlock = pHandle->pFamFx->subBlockCmd(pHandle, SPIFI_PCMD_ADDR_TO_SUB_BLOCK, addr);
+N	}
+N
+N	return subBlock;
+N}
+N
+N/* Returns the first sub-block in hte passed block */
+Nuint32_t spifiGetSubBlockFromBlock(const SPIFI_HANDLE_T *pHandle, uint32_t blockNum)
+N{
+N	uint32_t subBlock = ~0UL;
+N
+N	if (!pHandle->pFamFx->subBlockCmd) {
+N		/* If the blockNum passed is larger than this device,
+N		   or if sub-blocks are not supported report error */
+N		if ((blockNum >= pHandle->pInfoData->numBlocks) ||
+N			(!pHandle->pInfoData->subBlockSize)) {
+N			return subBlock;
+N		}
+N		/* Calculate the sub-block number based on detected params */
+N		subBlock = (blockNum * (pHandle->pInfoData->blockSize / pHandle->pInfoData->subBlockSize));
+N	}
+N	else {
+N
+N		subBlock = pHandle->pFamFx->subBlockCmd(pHandle, SPIFI_PCMD_BLOCK_TO_SUB_BLOCK, blockNum);
+N	}
+N
+N	return subBlock;
+N}
+N
+N/* Program the device with the passed buffer */
+NSPIFI_ERR_T spifiProgram(const SPIFI_HANDLE_T *pHandle, uint32_t addr, const uint32_t *writeBuff, uint32_t bytes)
+N{
+N	uint32_t sendBytes;
+N	SPIFI_ERR_T err = SPIFI_ERR_NONE;
+N
+N	/* Program using up to page size */
+N	while ((bytes > 0) && (err == SPIFI_ERR_NONE)) {
+N		sendBytes = bytes;
+N		if (sendBytes > pHandle->pInfoData->pageSize) {
+N			sendBytes = pHandle->pInfoData->pageSize;
+N		}
+N
+N		err = pHandle->pFamFx->pageProgram(pHandle, addr, writeBuff, sendBytes);
+N		addr += sendBytes;
+N		writeBuff += (sendBytes >> 2);
+N		bytes -= sendBytes;
+N	}
+N
+N	return err;
+N}
+N
+N/* Read the device into the passed buffer */
+NSPIFI_ERR_T spifiRead(const SPIFI_HANDLE_T *pHandle, uint32_t addr, uint32_t *readBuff, uint32_t bytes)
+N{
+N	uint32_t readBytes;
+N	SPIFI_ERR_T err = SPIFI_ERR_NONE;
+N
+N	/* Read using up to the maximum read size */
+N	while ((bytes > 0) && (err == SPIFI_ERR_NONE)) {
+N		readBytes = bytes;
+N		if (readBytes > pHandle->pInfoData->maxReadSize) {
+N			readBytes = pHandle->pInfoData->maxReadSize;
+N		}
+N
+N		err = pHandle->pFamFx->read(pHandle, addr, readBuff, readBytes);
+N		addr += readBytes;
+N		readBuff += (readBytes / sizeof(uint32_t));
+N		bytes -= readBytes;
+N	}
+N
+N	return err;
+N}
+N
+N/* Erase multiple blocks */
+NSPIFI_ERR_T spifiErase(const SPIFI_HANDLE_T *pHandle, uint32_t firstBlock, uint32_t numBlocks)
+N{
+N	SPIFI_ERR_T err = SPIFI_ERR_NONE;
+N
+N	if ((firstBlock + numBlocks) > pHandle->pInfoData->numBlocks) {
+N		return SPIFI_ERR_RANGE;
+N	}
+N
+N	/* Only perform erase if numBlocks is != 0 */
+N	for (; (numBlocks); ++firstBlock, --numBlocks) {
+N		err = pHandle->pFamFx->eraseBlock(pHandle, firstBlock);
+N		if (err != SPIFI_ERR_NONE) {
+N			break;
+N		}
+N	}
+N
+N	return err;
+N}
+N
+N/* Erase multiple blocks by address range */
+NSPIFI_ERR_T spifiEraseByAddr(const SPIFI_HANDLE_T *pHandle, uint32_t firstAddr, uint32_t lastAddr)
+N{
+N	uint32_t firstBlock, lastBlock;
+N	SPIFI_ERR_T err = SPIFI_ERR_RANGE;
+N
+N	/* Get block numbers for addresses */
+N	firstBlock = spifiGetBlockFromAddr(pHandle, firstAddr);
+N	lastBlock = spifiGetBlockFromAddr(pHandle, lastAddr);
+N
+N	/* Limit to legal address range */
+N	if ((firstBlock != ~0UL) && (lastBlock != ~0UL)) {
+N		err = spifiErase(pHandle, firstBlock, ((lastBlock - firstBlock) + 1));
+N	}
+N
+N	return err;
+N}

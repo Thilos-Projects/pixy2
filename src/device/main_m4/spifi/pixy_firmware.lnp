@@ -1,0 +1,26 @@
+--cpu=Cortex-M4.fp.sp
+".\spifi\analogdig.o"
+".\spifi\button.o"
+".\spifi\conncomp.o"
+".\spifi\exec.o"
+".\spifi\i2c.o"
+".\spifi\progblobs.o"
+".\spifi\progvideo.o"
+".\spifi\serial.o"
+".\spifi\spi.o"
+".\spifi\uart.o"
+".\spifi\main_m4.o"
+".\spifi\blob.o"
+".\spifi\blobs.o"
+".\spifi\colorlut.o"
+".\spifi\qqueue.o"
+".\spifi\progpt.o"
+".\spifi\progline.o"
+".\spifi\line.o"
+".\spifi\equeue.o"
+".\spifi\spi2.o"
+"..\libpixy_m4\libpixy_m4.lib"
+--strict --scatter ".\spifi.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\pixy_firmware.map" -o .\spifi\pixy_firmware.axf

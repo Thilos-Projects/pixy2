@@ -119,6 +119,37 @@ uint32_t getRGB(uint16_t x, uint16_t y, uint8_t sat)
 	else
 		return rgb;
 }
+void getGrayRect(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint8_t sat, uint8_t strideX, uint8_t strideY, uint8_t* data, uint8_t length)
+{	
+	uint16_t x, y, i, j, k, sum, d;
+	int16_t x_0, x_1, y_0, y_1;
+	uint8_t r, g, b;
+	uint8_t *p = (uint8_t *)SRAM1_LOC + CAM_PREBUF_LEN;
+	
+	x0 = MAX(2, MIN(x0, CAM_RES2_WIDTH - 3));
+	y0 = MAX(2, MIN(y0, CAM_RES2_HEIGHT- 3));
+	x1 = MAX(x0 + 1, MIN(x1, CAM_RES2_WIDTH -2));
+	y1 = MAX(y0 + 1, MIN(y1, CAM_RES2_HEIGHT-2));
+	
+	for(x = x0, i = 0; x < x1 && i < length; x += strideX){
+		for(y = y0; y < y1 && i < length; y += strideY, i++){
+			x_0 = x - g_rgbSize;			//x-2
+			y_0 = y - g_rgbSize;			//y-2
+			x_1 = x + g_rgbSize;			//x+2
+			y_1 = y + g_rgbSize;			//y+2
+			
+			for (j = y_0, d = sum = 0; j<y_1; j++)
+			{
+				for (k=x_0; k<x_1; k++, d++)
+				{
+					interpolate(p, k, j, CAM_RES2_WIDTH, &r, &g, &b);
+					sum += r + g + b;
+				}
+			}
+			data[i] = sum / (d * 3);
+		}
+	}
+}
 
 int ProgVideo::packet(uint8_t type, const uint8_t *data, uint8_t len, bool checksum)
 {
@@ -140,6 +171,34 @@ int ProgVideo::packet(uint8_t type, const uint8_t *data, uint8_t len, bool check
 
 		rgb = getRGB(x, y, saturate);
 		ser_sendResult(rgb, checksum);
+		
+		return 0;
+	}
+	if (type==TYPE_REQUEST_GETGRAYRECT)
+	{
+		uint16_t x0, y0, x1, y1;								//je 2 zusammen 8
+		uint8_t sat, strideX, strideY;					//je 1 zusammen 3
+																						//zusammen 11 byte
+
+		if (len!=11) {
+			ser_sendError(SER_ERROR_INVALID_REQUEST, checksum);
+			return 0;
+		}
+		
+		x0 = *(uint16_t *)(data+0);
+		y0 = *(uint16_t *)(data+2);
+		x1 = *(uint16_t *)(data+4);
+		y1 = *(uint16_t *)(data+6);
+		sat = *(data+8);
+		strideX = *(data+9);
+		strideY = *(data+10);
+		
+		uint8_t outData[256];
+		uint8_t length = MIN(((x1 - x0) / strideX) * ((y1 - y0) / strideY), 255);
+		getGrayRect(x0,y0,x1,y1,sat,strideX, strideY, outData, length);
+		
+		
+		ser_sendResults(outData, length, checksum);
 		
 		return 0;
 	}

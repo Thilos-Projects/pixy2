@@ -79,6 +79,7 @@ uint8_t ser_getTx(uint8_t **data);
 void ser_setTx(uint8_t type, uint8_t len, bool checksum);
 
 void ser_sendResult(int32_t val, bool checksum);
+void ser_sendResults(uint8_t* vals, uint8_t len, bool checksum);
 void ser_sendError(int8_t error, bool checksum);
 uint8_t ser_getByte(uint8_t *c);
 bool ser_newPacket();

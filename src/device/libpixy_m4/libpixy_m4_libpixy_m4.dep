@@ -1,0 +1,584 @@
+Dependencies for Project 'libpixy_m4', Target 'libpixy_m4': (DO NOT MODIFY !)
+CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\Arm_Compiler_5.06u7
+F (.\src\camera.cpp)(0x655B6977)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\camera.o --list_dir ".\\" --list --omf_browse .\camera.crf --depend .\camera.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\string.h)(0x5E8E9F32)
+I (inc\pixy_init.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\debug_frmwrk.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\debug.h)(0x6555EAEE)
+I (..\..\common\inc\chirp.hpp)(0x655B6977)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdlib.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdarg.h)(0x5E8E9F32)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_adc.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+I (..\common\inc\ipc_mbx.h)(0x6555EAEE)
+I (..\common\inc\platform_config.h)(0x6555EAEE)
+I (..\common\inc\master_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\slave_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\master_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\slave_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\pixyvals.h)(0x6555EAEE)
+I (inc\camera.h)(0x655B6977)
+I (inc\sccb.h)(0x6555EAEE)
+I (..\..\common\inc\pixytypes.h)(0x6555EAEE)
+I (..\common\inc\cameravals.h)(0x6555EAEE)
+I (inc\param.h)(0x6555EAEE)
+I (inc\misc.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\inttypes.h)(0x5E8E9F32)
+I (inc\exec.h)(0x6555EAEE)
+I (inc\smlink.hpp)(0x6555EAEE)
+F (.\src\flash.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\flash.o --list_dir ".\\" --list --omf_browse .\flash.crf --depend .\flash.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\string.h)(0x5E8E9F32)
+I (inc\pixy_init.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\debug_frmwrk.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\debug.h)(0x6555EAEE)
+I (..\..\common\inc\chirp.hpp)(0x655B6977)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdlib.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdarg.h)(0x5E8E9F32)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_adc.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+I (..\common\inc\ipc_mbx.h)(0x6555EAEE)
+I (..\common\inc\platform_config.h)(0x6555EAEE)
+I (..\common\inc\master_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\slave_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\master_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\slave_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\pixyvals.h)(0x6555EAEE)
+I (inc\flash.h)(0x6555EAEE)
+I (inc\spifilib_api.h)(0x6555EAEE)
+I (inc\spifilib_dev.h)(0x6555EAEE)
+F (.\src\fpu_init.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\fpu_init.o --list_dir ".\\" --list --omf_browse .\fpu_init.crf --depend .\fpu_init.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+F (.\src\led.cpp)(0x655B6977)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\led.o --list_dir ".\\" --list --omf_browse .\led.crf --depend .\led.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\math.h)(0x5E8E9F32)
+I (inc\pixy_init.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\debug_frmwrk.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\debug.h)(0x6555EAEE)
+I (..\..\common\inc\chirp.hpp)(0x655B6977)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdlib.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdarg.h)(0x5E8E9F32)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_adc.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+I (..\common\inc\ipc_mbx.h)(0x6555EAEE)
+I (..\common\inc\platform_config.h)(0x6555EAEE)
+I (..\common\inc\master_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\slave_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\master_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\slave_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\pixyvals.h)(0x6555EAEE)
+I (inc\misc.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\inttypes.h)(0x5E8E9F32)
+I (inc\led.h)(0x655B6977)
+F (.\src\misc.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\misc.o --list_dir ".\\" --list --omf_browse .\misc.crf --depend .\misc.d)
+I (inc\misc.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\inttypes.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\lpc43xx_adc.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (inc\pixy_init.h)(0x6555EAEE)
+I (..\common\inc\debug_frmwrk.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+I (..\common\inc\debug.h)(0x6555EAEE)
+I (..\..\common\inc\chirp.hpp)(0x655B6977)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdlib.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdarg.h)(0x5E8E9F32)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+I (..\common\inc\ipc_mbx.h)(0x6555EAEE)
+I (..\common\inc\platform_config.h)(0x6555EAEE)
+I (..\common\inc\master_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\slave_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\master_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\slave_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\pixyvals.h)(0x6555EAEE)
+I (inc\led.h)(0x655B6977)
+F (.\src\param.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\param.o --list_dir ".\\" --list --omf_browse .\param.crf --depend .\param.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\inttypes.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\string.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdio.h)(0x5E8E9F32)
+I (inc\param.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdarg.h)(0x5E8E9F32)
+I (..\..\common\inc\chirp.hpp)(0x655B6977)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdlib.h)(0x5E8E9F32)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (..\..\common\inc\pixytypes.h)(0x6555EAEE)
+I (inc\flash.h)(0x6555EAEE)
+I (inc\spifilib_api.h)(0x6555EAEE)
+I (inc\spifilib_dev.h)(0x6555EAEE)
+I (..\common\inc\debug.h)(0x6555EAEE)
+I (..\common\inc\debug_frmwrk.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (inc\pixy_init.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_adc.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+I (..\common\inc\ipc_mbx.h)(0x6555EAEE)
+I (..\common\inc\platform_config.h)(0x6555EAEE)
+I (..\common\inc\master_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\slave_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\master_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\slave_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\pixyvals.h)(0x6555EAEE)
+I (..\..\common\inc\simplevector.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\new)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stddef.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\exception)(0x5E8E9F32)
+I (inc\exec.h)(0x6555EAEE)
+F (.\src\pixy_init.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\pixy_init.o --list_dir ".\\" --list --omf_browse .\pixy_init.crf --depend .\pixy_init.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdio.h)(0x5E8E9F32)
+I (inc\pixy_init.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\debug_frmwrk.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\debug.h)(0x6555EAEE)
+I (..\..\common\inc\chirp.hpp)(0x655B6977)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdlib.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdarg.h)(0x5E8E9F32)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_adc.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+I (..\common\inc\ipc_mbx.h)(0x6555EAEE)
+I (..\common\inc\platform_config.h)(0x6555EAEE)
+I (..\common\inc\master_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\slave_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\master_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\slave_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\pixyvals.h)(0x6555EAEE)
+I (inc\smlink.hpp)(0x6555EAEE)
+I (inc\usblink.h)(0x6555EAEE)
+I (inc\param.h)(0x6555EAEE)
+I (inc\camera.h)(0x655B6977)
+I (inc\sccb.h)(0x6555EAEE)
+I (..\..\common\inc\pixytypes.h)(0x6555EAEE)
+I (..\common\inc\cameravals.h)(0x6555EAEE)
+I (inc\rcservo.h)(0x6555EAEE)
+I (inc\led.h)(0x655B6977)
+I (inc\power.h)(0x6555EAEE)
+I (inc\misc.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\inttypes.h)(0x5E8E9F32)
+I (inc\flash.h)(0x6555EAEE)
+I (inc\spifilib_api.h)(0x6555EAEE)
+I (inc\spifilib_dev.h)(0x6555EAEE)
+F (.\src\platform_config.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\platform_config.o --list_dir ".\\" --list --omf_browse .\platform_config.crf --depend .\platform_config.d)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\platform_config.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_scu.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_cgu.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_timer.h)(0x6555EAEE)
+F (.\src\power.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\power.o --list_dir ".\\" --list --omf_browse .\power.crf --depend .\power.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\math.h)(0x5E8E9F32)
+I (inc\pixy_init.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\debug_frmwrk.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\debug.h)(0x6555EAEE)
+I (..\..\common\inc\chirp.hpp)(0x655B6977)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdlib.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdarg.h)(0x5E8E9F32)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_adc.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+I (..\common\inc\ipc_mbx.h)(0x6555EAEE)
+I (..\common\inc\platform_config.h)(0x6555EAEE)
+I (..\common\inc\master_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\slave_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\master_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\slave_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\pixyvals.h)(0x6555EAEE)
+I (inc\misc.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\inttypes.h)(0x5E8E9F32)
+I (inc\power.h)(0x6555EAEE)
+F (.\src\rcservo.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\rcservo.o --list_dir ".\\" --list --omf_browse .\rcservo.crf --depend .\rcservo.d)
+I (inc\pixy_init.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\debug_frmwrk.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\debug.h)(0x6555EAEE)
+I (..\..\common\inc\chirp.hpp)(0x655B6977)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdlib.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdarg.h)(0x5E8E9F32)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_adc.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+I (..\common\inc\ipc_mbx.h)(0x6555EAEE)
+I (..\common\inc\platform_config.h)(0x6555EAEE)
+I (..\common\inc\master_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\slave_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\master_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\slave_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\pixyvals.h)(0x6555EAEE)
+I (inc\param.h)(0x6555EAEE)
+I (..\..\common\inc\pixytypes.h)(0x6555EAEE)
+I (inc\rcservo.h)(0x6555EAEE)
+F (.\src\sccb.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\sccb.o --list_dir ".\\" --list --omf_browse .\sccb.crf --depend .\sccb.d)
+I (inc\pixy_init.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\debug_frmwrk.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\debug.h)(0x6555EAEE)
+I (..\..\common\inc\chirp.hpp)(0x655B6977)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdlib.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdarg.h)(0x5E8E9F32)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_adc.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+I (..\common\inc\ipc_mbx.h)(0x6555EAEE)
+I (..\common\inc\platform_config.h)(0x6555EAEE)
+I (..\common\inc\master_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\slave_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\master_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\slave_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\pixyvals.h)(0x6555EAEE)
+I (inc\sccb.h)(0x6555EAEE)
+F (.\src\smlink.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\smlink.o --list_dir ".\\" --list --omf_browse .\smlink.crf --depend .\smlink.d)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (inc\misc.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\inttypes.h)(0x5E8E9F32)
+I (inc\smlink.hpp)(0x6555EAEE)
+I (..\common\inc\pixyvals.h)(0x6555EAEE)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\string.h)(0x5E8E9F32)
+F (.\src\startup_LPC43xx_m4.s)(0x6555EAEE)(--cpu Cortex-M4.fp.sp --li -g --apcs=interwork -IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 538" --pd "NO_CRP SETA 1"--list .\startup_lpc43xx_m4.lst --xref -o .\startup_lpc43xx_m4.o --depend .\startup_lpc43xx_m4.d)
+F (.\src\usbcore.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\usbcore.o --list_dir ".\\" --list --omf_browse .\usbcore.crf --depend .\usbcore.d)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbhw.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (inc\usbdesc.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+F (.\src\usbdesc.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\usbdesc.o --list_dir ".\\" --list --omf_browse .\usbdesc.crf --depend .\usbdesc.d)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbdesc.h)(0x6555EAEE)
+F (.\src\usbhw.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\usbhw.o --list_dir ".\\" --list --omf_browse .\usbhw.crf --depend .\usbhw.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\string.h)(0x5E8E9F32)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbhw.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_scu.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_cgu.h)(0x6555EAEE)
+F (.\src\usblink.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\usblink.o --list_dir ".\\" --list --omf_browse .\usblink.crf --depend .\usblink.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\string.h)(0x5E8E9F32)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\pixyvals.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usblink.h)(0x6555EAEE)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+I (inc\usbhw.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (inc\misc.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\inttypes.h)(0x5E8E9F32)
+F (.\src\usbuser.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\usbuser.o --list_dir ".\\" --list --omf_browse .\usbuser.crf --depend .\usbuser.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\string.h)(0x5E8E9F32)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (inc\usb.h)(0x6555EAEE)
+I (inc\usbcfg.h)(0x6555EAEE)
+I (inc\usbhw.h)(0x6555EAEE)
+I (inc\usbcore.h)(0x6555EAEE)
+I (inc\usbuser.h)(0x6555EAEE)
+I (..\common\inc\debug.h)(0x6555EAEE)
+I (..\common\inc\debug_frmwrk.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+F (..\common\src\debug_frmwrk.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\debug_frmwrk.o --list_dir ".\\" --list --omf_browse .\debug_frmwrk.crf --depend .\debug_frmwrk.d)
+I (..\common\inc\debug_frmwrk.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_scu.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdarg.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdio.h)(0x5E8E9F32)
+F (..\common\src\ipc_mbx.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\ipc_mbx.o --list_dir ".\\" --list --omf_browse .\ipc_mbx.crf --depend .\ipc_mbx.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (..\common\inc\platform_config.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\ipc_mbx.h)(0x6555EAEE)
+I (..\common\inc\master_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\slave_ipc_msg.h)(0x6555EAEE)
+I (..\common\inc\master_mbx_callbacks.h)(0x6555EAEE)
+I (..\common\inc\slave_mbx_callbacks.h)(0x6555EAEE)
+F (..\common\src\lpc43xx_adc.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\lpc43xx_adc.o --list_dir ".\\" --list --omf_browse .\lpc43xx_adc.crf --depend .\lpc43xx_adc.d)
+I (..\common\inc\lpc43xx_adc.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_cgu.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_libcfg_default.h)(0x6555EAEE)
+F (..\common\src\lpc43xx_cgu.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\lpc43xx_cgu.o --list_dir ".\\" --list --omf_browse .\lpc43xx_cgu.crf --depend .\lpc43xx_cgu.d)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\lpc43xx_scu.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_cgu.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+F (..\common\src\lpc43xx_i2c.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\lpc43xx_i2c.o --list_dir ".\\" --list --omf_browse .\lpc43xx_i2c.crf --depend .\lpc43xx_i2c.d)
+I (..\common\inc\lpc43xx_i2c.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_cgu.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_scu.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_libcfg_default.h)(0x6555EAEE)
+F (..\common\src\lpc43xx_scu.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\lpc43xx_scu.o --list_dir ".\\" --list --omf_browse .\lpc43xx_scu.crf --depend .\lpc43xx_scu.d)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_scu.h)(0x6555EAEE)
+F (..\common\src\lpc43xx_ssp.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\lpc43xx_ssp.o --list_dir ".\\" --list --omf_browse .\lpc43xx_ssp.crf --depend .\lpc43xx_ssp.d)
+I (..\common\inc\lpc43xx_ssp.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_cgu.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_libcfg_default.h)(0x6555EAEE)
+F (..\common\src\lpc43xx_uart.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\lpc43xx_uart.o --list_dir ".\\" --list --omf_browse .\lpc43xx_uart.crf --depend .\lpc43xx_uart.d)
+I (..\common\inc\lpc43xx_uart.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_cgu.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_libcfg_default.h)(0x6555EAEE)
+F (..\common\src\system_LPC43xx.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\system_lpc43xx.o --list_dir ".\\" --list --omf_browse .\system_lpc43xx.crf --depend .\system_lpc43xx.d)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_cgu.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+F (..\..\common\src\calc.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\calc.o --list_dir ".\\" --list --omf_browse .\calc.crf --depend .\calc.d)
+I (..\..\common\inc\calc.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\inttypes.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+F (..\..\common\src\chirp.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\chirp.o --list_dir ".\\" --list --omf_browse .\chirp.crf --depend .\chirp.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\string.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\new)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stddef.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\exception)(0x5E8E9F32)
+I (..\..\common\inc\chirp.hpp)(0x655B6977)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdlib.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdarg.h)(0x5E8E9F32)
+I (..\..\common\inc\link.h)(0x6555EAEE)
+I (..\..\common\inc\debuglog.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdio.h)(0x5E8E9F32)
+F (.\src\spifilib_dev_common.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\spifilib_dev_common.o --list_dir ".\\" --list --omf_browse .\spifilib_dev_common.crf --depend .\spifilib_dev_common.d)
+I (inc\spifilib_api.h)(0x6555EAEE)
+I (inc\spifilib_dev.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (inc\spifilib_chiphw.h)(0x6555EAEE)
+F (.\src\spifilib_fam_standard_cmd.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\spifilib_fam_standard_cmd.o --list_dir ".\\" --list --omf_browse .\spifilib_fam_standard_cmd.crf --depend .\spifilib_fam_standard_cmd.d)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\string.h)(0x5E8E9F32)
+I (inc\spifilib_dev.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (inc\spifilib_chiphw.h)(0x6555EAEE)
+F (.\src\exec.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\exec.o --list_dir ".\\" --list --omf_browse .\exec.crf --depend .\exec.d)
+I (inc\exec.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\inttypes.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdlib.h)(0x5E8E9F32)
+F (..\common\src\lpc43xx_timer.c)(0x6555EAEE)(-c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\" -I . -I ..\..\common\inc -I ..\common\inc -I inc-IE:\Keil\Core\ARM\RV31\INC-IE:\Keil\Core\ARM\CMSIS\Include-D__UVISION_VERSION="538" -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\lpc43xx_timer.o --list_dir ".\\" --list --omf_browse .\lpc43xx_timer.crf --depend .\lpc43xx_timer.d)
+I (..\common\inc\lpc43xx_timer.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx.h)(0x6555EAEE)
+I (inc\core_cm4.h)(0x6555EAEE)
+I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
+I (..\common\inc\core_cmInstr.h)(0x6555EAEE)
+I (..\common\inc\core_cmFunc.h)(0x6555EAEE)
+I (inc\core_cm4_simd.h)(0x6555EAEE)
+I (..\common\inc\system_LPC43xx.h)(0x6555EAEE)
+I (..\common\inc\lpc_types.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_cgu.h)(0x6555EAEE)
+I (..\common\inc\lpc43xx_libcfg_default.h)(0x6555EAEE)
+F (.\spifi_drv_M4.lib)(0x6555EAEE)()
