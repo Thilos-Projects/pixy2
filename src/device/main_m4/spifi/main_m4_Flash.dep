@@ -299,7 +299,7 @@ I (..\libpixy_m4\inc\rcservo.h)(0x6555EAEE)
 I (..\libpixy_m4\inc\smlink.hpp)(0x6555EAEE)
 I (inc\button.h)(0x6555EAEE)
 I (..\..\common\inc\calc.h)(0x6555EAEE)
-F (.\src\progvideo.cpp)(0x655E4D4C)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --asm --interleave --asm_dir ".\\" -I . -I inc -I ..\libpixy_m4\inc -I ..\..\common\inc -I ..\common\inc-I.\RTE\_Flash-IE:\Keil\Pack\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IE:\Keil\Pack\ARM\CMSIS\5.9.0\Device\ARM\ARMCM4\Include-D__UVISION_VERSION="538" -D_RTE_ -DARMCM4_FP -D_RTE_ -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\spifi\progvideo.o --list_dir ".\\" --list --omf_browse .\spifi\progvideo.crf --depend .\spifi\progvideo.d)
+F (.\src\progvideo.cpp)(0x6563B84F)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --asm --interleave --asm_dir ".\\" -I . -I inc -I ..\libpixy_m4\inc -I ..\..\common\inc -I ..\common\inc-I.\RTE\_Flash-IE:\Keil\Pack\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IE:\Keil\Pack\ARM\CMSIS\5.9.0\Device\ARM\ARMCM4\Include-D__UVISION_VERSION="538" -D_RTE_ -DARMCM4_FP -D_RTE_ -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\spifi\progvideo.o --list_dir ".\\" --list --omf_browse .\spifi\progvideo.crf --depend .\spifi\progvideo.d)
 I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdio.h)(0x5E8E9F32)
 I (inc\progvideo.h)(0x655E4CE7)
 I (inc\exec.h)(0x655B6977)
@@ -540,7 +540,7 @@ I (..\libpixy_m4\inc\param.h)(0x6555EAEE)
 I (inc\serial.h)(0x655E4CB9)
 I (inc\iserial.h)(0x6555EAEE)
 I (..\libpixy_m4\inc\rcservo.h)(0x6555EAEE)
-I (.\../main_m0/m0_image.c)(0x655E4D2C)
+I (.\../main_m0/m0_image.c)(0x65637D73)
 F (..\..\common\src\blob.cpp)(0x6555EAEE)(--cpp -c --cpu Cortex-M4.fp.sp --li -g -O1 --apcs=interwork --asm --interleave --asm_dir ".\\" -I . -I inc -I ..\libpixy_m4\inc -I ..\..\common\inc -I ..\common\inc-I.\RTE\_Flash-IE:\Keil\Pack\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IE:\Keil\Pack\ARM\CMSIS\5.9.0\Device\ARM\ARMCM4\Include-D__UVISION_VERSION="538" -D_RTE_ -DARMCM4_FP -D_RTE_ -DCORE_M4 -DIPC_MASTER -DPIXY -DKEIL-o .\spifi\blob.o --list_dir ".\\" --list --omf_browse .\spifi\blob.crf --depend .\spifi\blob.d)
 I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\new)(0x5E8E9F32)
 I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stddef.h)(0x5E8E9F32)
@@ -873,4 +873,4 @@ I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stddef.h)(0x5E8E9F32)
 I (..\common\inc\lpc43xx_scu.h)(0x6555EAEE)
 I (inc\lpc43xx_timer.h)(0x6555EAEE)
 I (inc\serial.h)(0x655E4CB9)
-F (..\libpixy_m4\libpixy_m4.lib)(0x655CF960)()
+F (..\libpixy_m4\libpixy_m4.lib)(0x65637D6C)()

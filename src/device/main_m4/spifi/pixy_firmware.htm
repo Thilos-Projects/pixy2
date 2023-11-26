@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\spifi\pixy_firmware.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\spifi\pixy_firmware.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Nov 22 19:49:54 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sun Nov 26 22:27:45 2023
 <BR><P>
 <H3>Maximum Stack Usage =       1680 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1601,8 +1601,8 @@ Global Symbols
 <LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ProgVideo::packet(unsigned char, const unsigned char*, unsigned char, bool)
 </UL>
 
-<P><STRONG><a name="[1f1]"></a>getGrayRect(unsigned short, unsigned short, unsigned short, unsigned short, unsigned char, unsigned char, unsigned char, unsigned char*, unsigned char)</STRONG> (Thumb, 314 bytes, Stack size 88 bytes, progvideo.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 108<LI>Call Chain = getGrayRect(unsigned short, unsigned short, unsigned short, unsigned short, unsigned char, unsigned char, unsigned char, unsigned char*, unsigned char) &rArr; interpolate(unsigned char*, unsigned short, unsigned short, unsigned short, unsigned char*, unsigned char*, unsigned char*)
+<P><STRONG><a name="[1f1]"></a>getGrayRect(unsigned short, unsigned short, unsigned short, unsigned short, unsigned char, unsigned char, unsigned char, unsigned char*, unsigned char)</STRONG> (Thumb, 200 bytes, Stack size 80 bytes, progvideo.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = getGrayRect(unsigned short, unsigned short, unsigned short, unsigned short, unsigned char, unsigned char, unsigned char, unsigned char*, unsigned char) &rArr; interpolate(unsigned char*, unsigned short, unsigned short, unsigned short, unsigned char*, unsigned char*, unsigned char*)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;interpolate(unsigned char*, unsigned short, unsigned short, unsigned short, unsigned char*, unsigned char*, unsigned char*)
 </UL>
@@ -1646,8 +1646,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> progvideo.o(.constdata__ZTV9ProgVideo)
 </UL>
-<P><STRONG><a name="[110]"></a>ProgVideo::packet(unsigned char, const unsigned char*, unsigned char, bool)</STRONG> (Thumb, 230 bytes, Stack size 312 bytes, progvideo.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 420<LI>Call Chain = ProgVideo::packet(unsigned char, const unsigned char*, unsigned char, bool) &rArr; getGrayRect(unsigned short, unsigned short, unsigned short, unsigned short, unsigned char, unsigned char, unsigned char, unsigned char*, unsigned char) &rArr; interpolate(unsigned char*, unsigned short, unsigned short, unsigned short, unsigned char*, unsigned char*, unsigned char*)
+<P><STRONG><a name="[110]"></a>ProgVideo::packet(unsigned char, const unsigned char*, unsigned char, bool)</STRONG> (Thumb, 174 bytes, Stack size 312 bytes, progvideo.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 416<LI>Call Chain = ProgVideo::packet(unsigned char, const unsigned char*, unsigned char, bool) &rArr; getRGB(unsigned short, unsigned short, unsigned char) &rArr; saturate(unsigned) &rArr; rgbUnpack(unsigned, unsigned*, unsigned*, unsigned*)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ser_sendError(signed char, bool)
 <LI><a href="#[1f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ser_sendResults(unsigned char*, unsigned char, bool)

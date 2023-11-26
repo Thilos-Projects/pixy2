@@ -21,10 +21,10 @@
 ;;;45     }
 ;;;46     
 000000  b5f8              PUSH     {r3-r7,lr}
-000002  49ff              LDR      r1,|L1.1024|
+000002  49ee              LDR      r1,|L1.956|
 000004  4604              MOV      r4,r0
 000006  6001              STR      r1,[r0,#0]
-000008  48fe              LDR      r0,|L1.1028|
+000008  48ed              LDR      r0,|L1.960|
 00000a  2500              MOVS     r5,#0
 00000c  2601              MOVS     r6,#1
 00000e  6801              LDR      r1,[r0,#0]  ; g_execArg
@@ -36,7 +36,7 @@
                   |L1.28|
 00001c  2001              MOVS     r0,#1
 00001e  f7fffffe          BL       _Z10exec_runM0h ; exec_runM0(unsigned char)
-000022  48f9              LDR      r0,|L1.1032|
+000022  48e8              LDR      r0,|L1.964|
 000024  8005              STRH     r5,[r0,#0]
 000026  1e80              SUBS     r0,r0,#2
 000028  7006              STRB     r6,[r0,#0]
@@ -54,7 +54,7 @@
 ;;;33     REGISTER_PROG(ProgVideo, PROG_NAME_VIDEO, "continuous stream of raw camera frames", PROG_VIDEO_MIN_TYPE, PROG_VIDEO_MAX_TYPE);
 000038  b510              PUSH     {r4,lr}
 00003a  4604              MOV      r4,r0
-00003c  49f3              LDR      r1,|L1.1036|
+00003c  49e2              LDR      r1,|L1.968|
 00003e  2004              MOVS     r0,#4
 000040  f7fffffe          BL       _ZnwjRKSt9nothrow_t ; operator new(unsigned, const std::nothrow_t&)
 000044  2800              CMP      r0,#0
@@ -78,7 +78,7 @@
 ;;;77     	uint16_t i, j, rsum, gsum, bsum, d;
 ;;;78     	int16_t x0, x1, y0, y1;
 ;;;79     	uint8_t *p = (uint8_t *)SRAM1_LOC + CAM_PREBUF_LEN;
-000058  4aed              LDR      r2,|L1.1040|
+000058  4adc              LDR      r2,|L1.972|
 00005a  9203              STR      r2,[sp,#0xc]
 ;;;80     	// average a square of size W
 ;;;81     	
@@ -97,7 +97,7 @@
                   |L1.110|
 ;;;86     	
 ;;;87     	x0 = x-g_rgbSize;
-00006e  4ae9              LDR      r2,|L1.1044|
+00006e  4ad8              LDR      r2,|L1.976|
 000070  7812              LDRB     r2,[r2,#0]  ; g_rgbSize
 000072  1a85              SUBS     r5,r0,r2
 000074  fa0ffa85          SXTH     r10,r5
@@ -219,7 +219,6 @@
 ;;;120    		return rgb;
 ;;;121    }
 000142  b00b              ADD      sp,sp,#0x2c
-                  |L1.324|
 000144  e8bd8ff0          POP      {r4-r11,pc}
 ;;;122    void getGrayRect(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint8_t sat, uint8_t strideX, uint8_t strideY, uint8_t* data, uint8_t length)
                           ENDP
@@ -227,190 +226,135 @@
                   _Z11getGrayRecttttthhhPhh PROC ; getGrayRect(unsigned short, unsigned short, unsigned short, unsigned short, unsigned char, unsigned char, unsigned char, unsigned char*, unsigned char)
 000148  e92d4fff          PUSH     {r0-r11,lr}
 ;;;123    {	
-00014c  b089              SUB      sp,sp,#0x24
-;;;124    	uint16_t x, y, i, j, k, sum, d;
-;;;125    	int16_t x_0, x_1, y_0, y_1;
-;;;126    	uint8_t r, g, b;
-;;;127    	uint8_t *p = (uint8_t *)SRAM1_LOC + CAM_PREBUF_LEN;
-00014e  4cb0              LDR      r4,|L1.1040|
-000150  9403              STR      r4,[sp,#0xc]
-;;;128    	
-;;;129    	x0 = MAX(2, MIN(x0, CAM_RES2_WIDTH - 3));
-000152  f44f749c          MOV      r4,#0x138
-000156  42a0              CMP      r0,r4
-000158  d803              BHI      |L1.354|
-00015a  2802              CMP      r0,#2
-00015c  d201              BCS      |L1.354|
-00015e  2002              MOVS     r0,#2
-000160  e003              B        |L1.362|
-                  |L1.354|
-000162  42a0              CMP      r0,r4
-000164  d901              BLS      |L1.362|
-000166  f2401039          MOV      r0,#0x139
+00014c  b087              SUB      sp,sp,#0x1c
+00014e  f8dd8060          LDR      r8,[sp,#0x60]
+;;;124    	uint16_t x, y, i, j, k, sum, d, x_0, x_1, y_0, y_1;
+;;;125    	uint8_t r, g, b;
+;;;126    	uint8_t *p = (uint8_t *)SRAM1_LOC + CAM_PREBUF_LEN;
+000152  4c9e              LDR      r4,|L1.972|
+000154  9403              STR      r4,[sp,#0xc]
+;;;127    	
+;;;128    	x0 = MAX(0, MIN(x0, CAM_RES2_WIDTH - 3));
+000156  f5b07f9c          CMP      r0,#0x138
+00015a  d901              BLS      |L1.352|
+00015c  f2401039          MOV      r0,#0x139
+                  |L1.352|
+;;;129    	y0 = MAX(0, MIN(y0, CAM_RES2_HEIGHT- 3));
+000160  29cd              CMP      r1,#0xcd
+000162  d201              BCS      |L1.360|
+000164  460f              MOV      r7,r1
+000166  e000              B        |L1.362|
+                  |L1.360|
+000168  27cd              MOVS     r7,#0xcd
                   |L1.362|
-;;;130    	y0 = MAX(2, MIN(y0, CAM_RES2_HEIGHT- 3));
-00016a  29cd              CMP      r1,#0xcd
-00016c  d203              BCS      |L1.374|
-00016e  2902              CMP      r1,#2
+;;;130    	x1 = MAX(x0 + 1, MIN(x1, CAM_RES2_WIDTH -2));
+00016a  f44f749d          MOV      r4,#0x13a
+00016e  42a2              CMP      r2,r4
 000170  d201              BCS      |L1.374|
-000172  2102              MOVS     r1,#2
-000174  e002              B        |L1.380|
+000172  4611              MOV      r1,r2
+000174  e000              B        |L1.376|
                   |L1.374|
-000176  29cd              CMP      r1,#0xcd
-000178  d300              BCC      |L1.380|
-00017a  21cd              MOVS     r1,#0xcd
-                  |L1.380|
-00017c  910a              STR      r1,[sp,#0x28]
-;;;131    	x1 = MAX(x0 + 1, MIN(x1, CAM_RES2_WIDTH -2));
-00017e  f44f749d          MOV      r4,#0x13a
+000176  4621              MOV      r1,r4
+                  |L1.376|
+000178  1c45              ADDS     r5,r0,#1
+00017a  42a9              CMP      r1,r5
+00017c  d201              BCS      |L1.386|
+00017e  1c42              ADDS     r2,r0,#1
+000180  e002              B        |L1.392|
+                  |L1.386|
 000182  42a2              CMP      r2,r4
-000184  d201              BCS      |L1.394|
-000186  4611              MOV      r1,r2
-000188  e000              B        |L1.396|
-                  |L1.394|
-00018a  4621              MOV      r1,r4
-                  |L1.396|
-00018c  1c45              ADDS     r5,r0,#1
-00018e  42a9              CMP      r1,r5
-000190  d201              BCS      |L1.406|
-000192  1c42              ADDS     r2,r0,#1
-000194  e002              B        |L1.412|
+000184  d300              BCC      |L1.392|
+000186  4622              MOV      r2,r4
+                  |L1.392|
+000188  b291              UXTH     r1,r2
+00018a  9109              STR      r1,[sp,#0x24]
+;;;131    	y1 = MAX(y0 + 1, MIN(y1, CAM_RES2_HEIGHT-2));
+00018c  2bce              CMP      r3,#0xce
+00018e  d201              BCS      |L1.404|
+000190  4619              MOV      r1,r3
+000192  e000              B        |L1.406|
+                  |L1.404|
+000194  21ce              MOVS     r1,#0xce
                   |L1.406|
-000196  42a2              CMP      r2,r4
-000198  d300              BCC      |L1.412|
-00019a  4622              MOV      r2,r4
-                  |L1.412|
-00019c  b291              UXTH     r1,r2
-00019e  910b              STR      r1,[sp,#0x2c]
-;;;132    	y1 = MAX(y0 + 1, MIN(y1, CAM_RES2_HEIGHT-2));
+000196  1c7a              ADDS     r2,r7,#1
+000198  4291              CMP      r1,r2
+00019a  d201              BCS      |L1.416|
+00019c  1c7b              ADDS     r3,r7,#1
+00019e  e002              B        |L1.422|
+                  |L1.416|
 0001a0  2bce              CMP      r3,#0xce
-0001a2  d201              BCS      |L1.424|
-0001a4  4619              MOV      r1,r3
-0001a6  e000              B        |L1.426|
-                  |L1.424|
-0001a8  21ce              MOVS     r1,#0xce
-                  |L1.426|
-0001aa  9a0a              LDR      r2,[sp,#0x28]
-0001ac  1c52              ADDS     r2,r2,#1
-0001ae  4291              CMP      r1,r2
-0001b0  d202              BCS      |L1.440|
-0001b2  9b0a              LDR      r3,[sp,#0x28]
-0001b4  1c5b              ADDS     r3,r3,#1
-0001b6  e002              B        |L1.446|
-                  |L1.440|
-0001b8  2bce              CMP      r3,#0xce
-0001ba  d300              BCC      |L1.446|
-0001bc  23ce              MOVS     r3,#0xce
-                  |L1.446|
-0001be  b299              UXTH     r1,r3
-0001c0  910c              STR      r1,[sp,#0x30]
-;;;133    	
-;;;134    	for(x = x0, i = 0; x < x1 && i < length; x += strideX){
-0001c2  4682              MOV      r10,r0
-0001c4  f04f0800          MOV      r8,#0
-0001c8  e053              B        |L1.626|
-                  |L1.458|
-;;;135    		for(y = y0; y < y1 && i < length; y += strideY, i++){
-0001ca  9d0a              LDR      r5,[sp,#0x28]
-0001cc  e047              B        |L1.606|
-                  |L1.462|
-;;;136    			x_0 = x - g_rgbSize;			//x-2
-0001ce  4891              LDR      r0,|L1.1044|
-0001d0  7800              LDRB     r0,[r0,#0]  ; g_rgbSize
-0001d2  ebaa0100          SUB      r1,r10,r0
-0001d6  b209              SXTH     r1,r1
-0001d8  9108              STR      r1,[sp,#0x20]
-;;;137    			y_0 = y - g_rgbSize;			//y-2
-0001da  1a29              SUBS     r1,r5,r0
-;;;138    			x_1 = x + g_rgbSize;			//x+2
-0001dc  eb0a0200          ADD      r2,r10,r0
-0001e0  fa0ffb82          SXTH     r11,r2
-;;;139    			y_1 = y + g_rgbSize;			//y+2
-0001e4  4428              ADD      r0,r0,r5
-0001e6  b200              SXTH     r0,r0
-0001e8  9007              STR      r0,[sp,#0x1c]
+0001a2  d300              BCC      |L1.422|
+0001a4  23ce              MOVS     r3,#0xce
+                  |L1.422|
+0001a6  fa1ff983          UXTH     r9,r3
+;;;132    	
+;;;133    	for(x = x0, i = 0; x < x1 && i < length; x += strideX){
+0001aa  4606              MOV      r6,r0
+0001ac  2400              MOVS     r4,#0
+0001ae  e029              B        |L1.516|
+                  |L1.432|
+;;;134    		for(y = y0; y < y1 && i < length; y += strideY, i++){
+0001b0  463d              MOV      r5,r7
+;;;135    			
+;;;136    			//x_0 = x - g_rgbSize;			//x-2
+;;;137    			//y_0 = y - g_rgbSize;			//y-2
+;;;138    			//x_1 = x + g_rgbSize;			//x+2
+;;;139    			//y_1 = y + g_rgbSize;			//y+2
 ;;;140    			
-;;;141    			for (j = y_0, d = sum = 0; j<y_1; j++)
-0001ea  fa1ff981          UXTH     r9,r1
-0001ee  2600              MOVS     r6,#0
-0001f0  4637              MOV      r7,r6
-0001f2  e023              B        |L1.572|
-                  |L1.500|
-;;;142    			{
-;;;143    				for (k=x_0; k<x_1; k++, d++)
-0001f4  9808              LDR      r0,[sp,#0x20]
-0001f6  b284              UXTH     r4,r0
-0001f8  e01a              B        |L1.560|
-                  |L1.506|
-;;;144    				{
-;;;145    					interpolate(p, k, j, CAM_RES2_WIDTH, &r, &g, &b);
-0001fa  a905              ADD      r1,sp,#0x14
-0001fc  aa06              ADD      r2,sp,#0x18
-0001fe  e9cd2100          STRD     r2,r1,[sp,#0]
-000202  a804              ADD      r0,sp,#0x10
-000204  9002              STR      r0,[sp,#8]
-000206  f44f739e          MOV      r3,#0x13c
-00020a  464a              MOV      r2,r9
-00020c  4621              MOV      r1,r4
-00020e  9803              LDR      r0,[sp,#0xc]
-000210  f7fffffe          BL       _Z11interpolatePhtttS_S_S_ ; interpolate(unsigned char*, unsigned short, unsigned short, unsigned short, unsigned char*, unsigned char*, unsigned char*)
-;;;146    					sum += r + g + b;
-000214  f89d0018          LDRB     r0,[sp,#0x18]
-000218  f89d1014          LDRB     r1,[sp,#0x14]
-00021c  4408              ADD      r0,r0,r1
-00021e  f89d1010          LDRB     r1,[sp,#0x10]
-000222  4408              ADD      r0,r0,r1
-000224  4438              ADD      r0,r0,r7
-000226  b287              UXTH     r7,r0
-000228  1c64              ADDS     r4,r4,#1              ;143
-00022a  b2a4              UXTH     r4,r4                 ;143
-00022c  1c76              ADDS     r6,r6,#1              ;143
-00022e  b2b6              UXTH     r6,r6                 ;143
-                  |L1.560|
-000230  455c              CMP      r4,r11                ;143
-000232  dbe2              BLT      |L1.506|
-000234  f1090901          ADD      r9,r9,#1              ;141
-000238  fa1ff989          UXTH     r9,r9                 ;141
-                  |L1.572|
-00023c  9807              LDR      r0,[sp,#0x1c]         ;141
-00023e  4581              CMP      r9,r0                 ;141
-000240  dbd8              BLT      |L1.500|
-;;;147    				}
-;;;148    			}
-;;;149    			data[i] = sum / (d * 3);
-000242  eb060046          ADD      r0,r6,r6,LSL #1
-000246  fbb7f0f0          UDIV     r0,r7,r0
-00024a  9919              LDR      r1,[sp,#0x64]
-00024c  f8010008          STRB     r0,[r1,r8]
-000250  9818              LDR      r0,[sp,#0x60]         ;135
-000252  4428              ADD      r0,r0,r5              ;135
-000254  b285              UXTH     r5,r0                 ;135
-000256  f1080801          ADD      r8,r8,#1              ;135
-00025a  fa1ff888          UXTH     r8,r8                 ;135
-                  |L1.606|
-00025e  980c              LDR      r0,[sp,#0x30]         ;135
-000260  4285              CMP      r5,r0                 ;135
-000262  d202              BCS      |L1.618|
-000264  981a              LDR      r0,[sp,#0x68]         ;135
-000266  4580              CMP      r8,r0                 ;135
-000268  d3b1              BCC      |L1.462|
-                  |L1.618|
-00026a  9817              LDR      r0,[sp,#0x5c]         ;134
-00026c  4450              ADD      r0,r0,r10             ;134
-00026e  fa1ffa80          UXTH     r10,r0                ;134
-                  |L1.626|
-000272  980b              LDR      r0,[sp,#0x2c]         ;134
-000274  4582              CMP      r10,r0                ;134
-000276  d202              BCS      |L1.638|
-000278  981a              LDR      r0,[sp,#0x68]         ;134
-00027a  4580              CMP      r8,r0                 ;134
-00027c  d3a5              BCC      |L1.458|
-                  |L1.638|
+;;;141    			//for (j = y_0, d = sum = 0; j < y_1; j++) {
+;;;142    			//	for (k=x_0; k < x_1; k++, d++) {
+;;;143    			//		interpolate(p, k, j, CAM_RES2_WIDTH, &r, &g, &b);
+;;;144    			//		sum += r + g + b;
+;;;145    			//	}
+;;;146    			//}
+;;;147    			
+;;;148    			interpolate(p, x, y, CAM_RES2_WIDTH, &r, &g, &b);
+0001b2  f10d0a10          ADD      r10,sp,#0x10
+0001b6  f10d0b14          ADD      r11,sp,#0x14
+0001ba  e01c              B        |L1.502|
+                  |L1.444|
+0001bc  e9cdba01          STRD     r11,r10,[sp,#4]
+0001c0  a806              ADD      r0,sp,#0x18
+0001c2  9000              STR      r0,[sp,#0]
+0001c4  f44f739e          MOV      r3,#0x13c
+0001c8  462a              MOV      r2,r5
+0001ca  4631              MOV      r1,r6
+0001cc  9803              LDR      r0,[sp,#0xc]
+0001ce  f7fffffe          BL       _Z11interpolatePhtttS_S_S_ ; interpolate(unsigned char*, unsigned short, unsigned short, unsigned short, unsigned char*, unsigned char*, unsigned char*)
+;;;149    			data[i] = (r + g + b) / 3;
+0001d2  f89d0018          LDRB     r0,[sp,#0x18]
+0001d6  f89d1014          LDRB     r1,[sp,#0x14]
+0001da  4408              ADD      r0,r0,r1
+0001dc  f89d1010          LDRB     r1,[sp,#0x10]
+0001e0  4401              ADD      r1,r1,r0
+0001e2  2003              MOVS     r0,#3
+0001e4  fbb1f1f0          UDIV     r1,r1,r0
+0001e8  9817              LDR      r0,[sp,#0x5c]
+0001ea  5501              STRB     r1,[r0,r4]
+0001ec  9816              LDR      r0,[sp,#0x58]         ;134
+0001ee  4428              ADD      r0,r0,r5              ;134
+0001f0  b285              UXTH     r5,r0                 ;134
+0001f2  1c64              ADDS     r4,r4,#1              ;134
+0001f4  b2a4              UXTH     r4,r4                 ;134
+                  |L1.502|
+0001f6  454d              CMP      r5,r9                 ;134
+0001f8  d201              BCS      |L1.510|
+0001fa  4544              CMP      r4,r8                 ;134
+0001fc  d3de              BCC      |L1.444|
+                  |L1.510|
+0001fe  9815              LDR      r0,[sp,#0x54]         ;133
+000200  4430              ADD      r0,r0,r6              ;133
+000202  b286              UXTH     r6,r0                 ;133
+                  |L1.516|
+000204  9809              LDR      r0,[sp,#0x24]         ;133
+000206  4286              CMP      r6,r0                 ;133
+000208  d29b              BCS      |L1.322|
+00020a  4544              CMP      r4,r8                 ;133
+00020c  d3d0              BCC      |L1.432|
 ;;;150    		}
 ;;;151    	}
 ;;;152    }
-00027e  b00d              ADD      sp,sp,#0x34
-000280  e760              B        |L1.324|
+00020e  e798              B        |L1.322|
 ;;;153    
                           ENDP
 
@@ -422,157 +366,157 @@
 ;;;49     	exec_stopM0();
 ;;;50     }
 ;;;51     
-000282  b510              PUSH     {r4,lr}
-000284  4604              MOV      r4,r0
-000286  485e              LDR      r0,|L1.1024|
-000288  6020              STR      r0,[r4,#0]
-00028a  f7fffffe          BL       _Z11exec_stopM0v ; exec_stopM0()
-00028e  4620              MOV      r0,r4
-000290  bd10              POP      {r4,pc}
+000210  b510              PUSH     {r4,lr}
+000212  4604              MOV      r4,r0
+000214  4869              LDR      r0,|L1.956|
+000216  6020              STR      r0,[r4,#0]
+000218  f7fffffe          BL       _Z11exec_stopM0v ; exec_stopM0()
+00021c  4620              MOV      r0,r4
+00021e  bd10              POP      {r4,pc}
                           ENDP
 
                   _ZN9ProgVideoD0Ev PROC ; ProgVideo::~ProgVideo__deallocating()
-000292  b510              PUSH     {r4,lr}               ;0
-000294  f7fffffe          BL       _ZN9ProgVideoD1Ev ; ProgVideo::~ProgVideo()
-000298  e8bd4010          POP      {r4,lr}               ;0
-00029c  f7ffbffe          B.W      _ZdlPv ; operator delete (void*)
+000220  b510              PUSH     {r4,lr}               ;0
+000222  f7fffffe          BL       _ZN9ProgVideoD1Ev ; ProgVideo::~ProgVideo()
+000226  e8bd4010          POP      {r4,lr}               ;0
+00022a  f7ffbffe          B.W      _ZdlPv ; operator delete (void*)
                           ENDP
 
                   _ZN9ProgVideo10sendCustomEh PROC ; ProgVideo::sendCustom(unsigned char)
-;;;210    
-;;;211    void ProgVideo::sendCustom(uint8_t renderFlags)
-0002a0  b538              PUSH     {r3-r5,lr}
-;;;212    {
-;;;213    	uint32_t fourcc;
-;;;214    
-;;;215    	// cooked mode
-;;;216    	if (g_execArg==1) 
-0002a2  4858              LDR      r0,|L1.1028|
-;;;217    		cam_sendFrame(g_chirpUsb, CAM_RES2_WIDTH, CAM_RES2_HEIGHT, RENDER_FLAG_FLUSH, FOURCC('C','M','V','2'));
-0002a4  f44f719e          MOV      r1,#0x13c
-0002a8  6802              LDR      r2,[r0,#0]  ; g_execArg
-0002aa  485b              LDR      r0,|L1.1048|
-0002ac  2a01              CMP      r2,#1                 ;216
-0002ae  6800              LDR      r0,[r0,#0]
-0002b0  d01d              BEQ      |L1.750|
-;;;218    	//  experimental mode, for new monmodules, etc.
-;;;219    	else if (100<=g_execArg && g_execArg<200) 
-0002b2  f1a20364          SUB      r3,r2,#0x64
-0002b6  2b64              CMP      r3,#0x64
-0002b8  d220              BCS      |L1.764|
-;;;220    	{
-;;;221    		fourcc = FOURCC('E','X',((g_execArg%100)/10 + '0'), ((g_execArg%10) + '0'));
-0002ba  2364              MOVS     r3,#0x64
-0002bc  fb92f4f3          SDIV     r4,r2,r3
-0002c0  fb032414          MLS      r4,r3,r4,r2
-0002c4  230a              MOVS     r3,#0xa
-0002c6  fb94f4f3          SDIV     r4,r4,r3
-0002ca  3430              ADDS     r4,r4,#0x30
-0002cc  f6450545          MOV      r5,#0x5845
-0002d0  eb054404          ADD      r4,r5,r4,LSL #16
-0002d4  fb92f5f3          SDIV     r5,r2,r3
-0002d8  fb032215          MLS      r2,r3,r5,r2
-0002dc  3230              ADDS     r2,r2,#0x30
-0002de  ea446202          ORR      r2,r4,r2,LSL #24
-;;;222    		cam_sendFrame(g_chirpUsb, CAM_RES2_WIDTH, CAM_RES2_HEIGHT, RENDER_FLAG_FLUSH, fourcc);
-0002e2  9200              STR      r2,[sp,#0]
-0002e4  2301              MOVS     r3,#1
-0002e6  22d0              MOVS     r2,#0xd0
-0002e8  f7fffffe          BL       _Z13cam_sendFrameP5Chirptthj ; cam_sendFrame(Chirp*, unsigned short, unsigned short, unsigned char, unsigned)
-;;;223    	}
-;;;224    	// undefined, just send plain raw frame (BA81)
-;;;225    	else 
-;;;226    		cam_sendFrame(g_chirpUsb, CAM_RES2_WIDTH, CAM_RES2_HEIGHT);
+;;;208    
+;;;209    void ProgVideo::sendCustom(uint8_t renderFlags)
+00022e  b538              PUSH     {r3-r5,lr}
+;;;210    {
+;;;211    	uint32_t fourcc;
+;;;212    
+;;;213    	// cooked mode
+;;;214    	if (g_execArg==1) 
+000230  4863              LDR      r0,|L1.960|
+;;;215    		cam_sendFrame(g_chirpUsb, CAM_RES2_WIDTH, CAM_RES2_HEIGHT, RENDER_FLAG_FLUSH, FOURCC('C','M','V','2'));
+000232  f44f719e          MOV      r1,#0x13c
+000236  6802              LDR      r2,[r0,#0]  ; g_execArg
+000238  4866              LDR      r0,|L1.980|
+00023a  2a01              CMP      r2,#1                 ;214
+00023c  6800              LDR      r0,[r0,#0]
+00023e  d01d              BEQ      |L1.636|
+;;;216    	//  experimental mode, for new monmodules, etc.
+;;;217    	else if (100<=g_execArg && g_execArg<200) 
+000240  f1a20364          SUB      r3,r2,#0x64
+000244  2b64              CMP      r3,#0x64
+000246  d220              BCS      |L1.650|
+;;;218    	{
+;;;219    		fourcc = FOURCC('E','X',((g_execArg%100)/10 + '0'), ((g_execArg%10) + '0'));
+000248  2364              MOVS     r3,#0x64
+00024a  fb92f4f3          SDIV     r4,r2,r3
+00024e  fb032414          MLS      r4,r3,r4,r2
+000252  230a              MOVS     r3,#0xa
+000254  fb94f4f3          SDIV     r4,r4,r3
+000258  3430              ADDS     r4,r4,#0x30
+00025a  f6450545          MOV      r5,#0x5845
+00025e  eb054404          ADD      r4,r5,r4,LSL #16
+000262  fb92f5f3          SDIV     r5,r2,r3
+000266  fb032215          MLS      r2,r3,r5,r2
+00026a  3230              ADDS     r2,r2,#0x30
+00026c  ea446202          ORR      r2,r4,r2,LSL #24
+;;;220    		cam_sendFrame(g_chirpUsb, CAM_RES2_WIDTH, CAM_RES2_HEIGHT, RENDER_FLAG_FLUSH, fourcc);
+000270  9200              STR      r2,[sp,#0]
+000272  2301              MOVS     r3,#1
+000274  22d0              MOVS     r2,#0xd0
+000276  f7fffffe          BL       _Z13cam_sendFrameP5Chirptthj ; cam_sendFrame(Chirp*, unsigned short, unsigned short, unsigned char, unsigned)
+;;;221    	}
+;;;222    	// undefined, just send plain raw frame (BA81)
+;;;223    	else 
+;;;224    		cam_sendFrame(g_chirpUsb, CAM_RES2_WIDTH, CAM_RES2_HEIGHT);
+;;;225    
+;;;226    }
+00027a  bd38              POP      {r3-r5,pc}
+                  |L1.636|
+00027c  4a56              LDR      r2,|L1.984|
+00027e  9200              STR      r2,[sp,#0]            ;215
+000280  2301              MOVS     r3,#1                 ;215
+000282  22d0              MOVS     r2,#0xd0              ;215
+000284  f7fffffe          BL       _Z13cam_sendFrameP5Chirptthj ; cam_sendFrame(Chirp*, unsigned short, unsigned short, unsigned char, unsigned)
+000288  bd38              POP      {r3-r5,pc}
+                  |L1.650|
+00028a  4a54              LDR      r2,|L1.988|
+00028c  9200              STR      r2,[sp,#0]            ;224
+00028e  2301              MOVS     r3,#1                 ;224
+000290  22d0              MOVS     r2,#0xd0              ;224
+000292  f7fffffe          BL       _Z13cam_sendFrameP5Chirptthj ; cam_sendFrame(Chirp*, unsigned short, unsigned short, unsigned char, unsigned)
+000296  bd38              POP      {r3-r5,pc}
 ;;;227    
-;;;228    }
-0002ec  bd38              POP      {r3-r5,pc}
-                  |L1.750|
-0002ee  4a4b              LDR      r2,|L1.1052|
-0002f0  9200              STR      r2,[sp,#0]            ;217
-0002f2  2301              MOVS     r3,#1                 ;217
-0002f4  22d0              MOVS     r2,#0xd0              ;217
-0002f6  f7fffffe          BL       _Z13cam_sendFrameP5Chirptthj ; cam_sendFrame(Chirp*, unsigned short, unsigned short, unsigned char, unsigned)
-0002fa  bd38              POP      {r3-r5,pc}
-                  |L1.764|
-0002fc  4a48              LDR      r2,|L1.1056|
-0002fe  9200              STR      r2,[sp,#0]            ;226
-000300  2301              MOVS     r3,#1                 ;226
-000302  22d0              MOVS     r2,#0xd0              ;226
-000304  f7fffffe          BL       _Z13cam_sendFrameP5Chirptthj ; cam_sendFrame(Chirp*, unsigned short, unsigned short, unsigned char, unsigned)
-000308  bd38              POP      {r3-r5,pc}
-;;;229    
                           ENDP
 
                   _ZN9ProgVideo4loopEPc PROC ; ProgVideo::loop(char*)
 ;;;51     
 ;;;52     int ProgVideo::loop(char *status)
-00030a  b5f8              PUSH     {r3-r7,lr}
+000298  b5f8              PUSH     {r3-r7,lr}
 ;;;53     {
-00030c  4606              MOV      r6,r0
+00029a  4606              MOV      r6,r0
 ;;;54     	while(SM_OBJECT->currentLine < CAM_RES2_HEIGHT-2)
-00030e  4d3e              LDR      r5,|L1.1032|
+00029c  4d49              LDR      r5,|L1.964|
 ;;;55     	{
 ;;;56     		if (SM_OBJECT->stream==0)
-000310  1eac              SUBS     r4,r5,#2
-000312  e004              B        |L1.798|
-                  |L1.788|
-000314  7821              LDRB     r1,[r4,#0]
-000316  b911              CBNZ     r1,|L1.798|
+00029e  1eac              SUBS     r4,r5,#2
+0002a0  e004              B        |L1.684|
+                  |L1.674|
+0002a2  7821              LDRB     r1,[r4,#0]
+0002a4  b911              CBNZ     r1,|L1.684|
 ;;;57     			printf("not streaming\n");
-000318  a042              ADR      r0,|L1.1060|
-00031a  f7fffffe          BL       lpc_printf
-                  |L1.798|
-00031e  8829              LDRH     r1,[r5,#0]            ;54
-000320  29ce              CMP      r1,#0xce              ;54
-000322  d3f7              BCC      |L1.788|
+0002a6  a04e              ADR      r0,|L1.992|
+0002a8  f7fffffe          BL       lpc_printf
+                  |L1.684|
+0002ac  8829              LDRH     r1,[r5,#0]            ;54
+0002ae  29ce              CMP      r1,#0xce              ;54
+0002b0  d3f7              BCC      |L1.674|
 ;;;58     	}
 ;;;59     	SM_OBJECT->stream = 0; // pause after frame grab is finished
-000324  2700              MOVS     r7,#0
-000326  7027              STRB     r7,[r4,#0]
+0002b2  2700              MOVS     r7,#0
+0002b4  7027              STRB     r7,[r4,#0]
 ;;;60     	
 ;;;61     	// send over USB 
 ;;;62     	if (g_execArg==0)
-000328  4836              LDR      r0,|L1.1028|
-00032a  6800              LDR      r0,[r0,#0]  ; g_execArg
-00032c  b140              CBZ      r0,|L1.832|
+0002b6  4842              LDR      r0,|L1.960|
+0002b8  6800              LDR      r0,[r0,#0]  ; g_execArg
+0002ba  b140              CBZ      r0,|L1.718|
 ;;;63     		cam_sendFrame(g_chirpUsb, CAM_RES2_WIDTH, CAM_RES2_HEIGHT);
 ;;;64     	else
 ;;;65     		sendCustom();
-00032e  2101              MOVS     r1,#1
-000330  4630              MOV      r0,r6
-000332  f7fffffe          BL       _ZN9ProgVideo10sendCustomEh ; ProgVideo::sendCustom(unsigned char)
-                  |L1.822|
+0002bc  2101              MOVS     r1,#1
+0002be  4630              MOV      r0,r6
+0002c0  f7fffffe          BL       _ZN9ProgVideo10sendCustomEh ; ProgVideo::sendCustom(unsigned char)
+                  |L1.708|
 ;;;66     	// resume streaming
 ;;;67     	SM_OBJECT->currentLine = 0;
-000336  802f              STRH     r7,[r5,#0]
+0002c4  802f              STRH     r7,[r5,#0]
 ;;;68     	SM_OBJECT->stream = 1; // resume streaming
-000338  2001              MOVS     r0,#1
-00033a  7020              STRB     r0,[r4,#0]
+0002c6  2001              MOVS     r0,#1
+0002c8  7020              STRB     r0,[r4,#0]
 ;;;69     
 ;;;70     	return 0;
-00033c  2000              MOVS     r0,#0
+0002ca  2000              MOVS     r0,#0
 ;;;71     }
-00033e  bdf8              POP      {r3-r7,pc}
-                  |L1.832|
-000340  4837              LDR      r0,|L1.1056|
-000342  9000              STR      r0,[sp,#0]            ;63
-000344  4834              LDR      r0,|L1.1048|
-000346  2301              MOVS     r3,#1                 ;63
-000348  22d0              MOVS     r2,#0xd0              ;63
-00034a  f44f719e          MOV      r1,#0x13c             ;63
-00034e  6800              LDR      r0,[r0,#0]            ;63  ; g_chirpUsb
-000350  f7fffffe          BL       _Z13cam_sendFrameP5Chirptthj ; cam_sendFrame(Chirp*, unsigned short, unsigned short, unsigned char, unsigned)
-000354  e7ef              B        |L1.822|
+0002cc  bdf8              POP      {r3-r7,pc}
+                  |L1.718|
+0002ce  4843              LDR      r0,|L1.988|
+0002d0  9000              STR      r0,[sp,#0]            ;63
+0002d2  4840              LDR      r0,|L1.980|
+0002d4  2301              MOVS     r3,#1                 ;63
+0002d6  22d0              MOVS     r2,#0xd0              ;63
+0002d8  f44f719e          MOV      r1,#0x13c             ;63
+0002dc  6800              LDR      r0,[r0,#0]            ;63  ; g_chirpUsb
+0002de  f7fffffe          BL       _Z13cam_sendFrameP5Chirptthj ; cam_sendFrame(Chirp*, unsigned short, unsigned short, unsigned char, unsigned)
+0002e2  e7ef              B        |L1.708|
 ;;;72     
                           ENDP
 
                   _ZN9ProgVideo6packetEhPKhhb PROC ; ProgVideo::packet(unsigned char, const unsigned char*, unsigned char, bool)
 ;;;153    
 ;;;154    int ProgVideo::packet(uint8_t type, const uint8_t *data, uint8_t len, bool checksum)
-000356  e92d47f0          PUSH     {r4-r10,lr}
+0002e4  e92d47f0          PUSH     {r4-r10,lr}
 ;;;155    {
-00035a  b0c6              SUB      sp,sp,#0x118
-00035c  9f4e              LDR      r7,[sp,#0x138]
+0002e8  b0c6              SUB      sp,sp,#0x118
+0002ea  9f4e              LDR      r7,[sp,#0x138]
 ;;;156    	if (type==TYPE_REQUEST_GETRGB)
 ;;;157    	{
 ;;;158    		uint16_t x, y;
@@ -582,9 +526,9 @@
 ;;;162    		if (len!=5)
 ;;;163    		{
 ;;;164    			ser_sendError(SER_ERROR_INVALID_REQUEST, checksum);
-00035e  f06f0002          MVN      r0,#2
-000362  2970              CMP      r1,#0x70              ;156
-000364  d005              BEQ      |L1.882|
+0002ec  f06f0002          MVN      r0,#2
+0002f0  2970              CMP      r1,#0x70              ;156
+0002f2  d005              BEQ      |L1.768|
 ;;;165    			return 0;
 ;;;166    		}
 ;;;167    		
@@ -598,173 +542,169 @@
 ;;;175    		return 0;
 ;;;176    	}
 ;;;177    	if (type==TYPE_REQUEST_GETGRAYRECT)
-000366  2971              CMP      r1,#0x71
-000368  d014              BEQ      |L1.916|
+0002f4  2971              CMP      r1,#0x71
+0002f6  d014              BEQ      |L1.802|
 ;;;178    	{
 ;;;179    		uint16_t x0, y0, x1, y1;								//je 2 zusammen 8
 ;;;180    		uint8_t sat, strideX, strideY;					//je 1 zusammen 3
 ;;;181    																						//zusammen 11 byte
-;;;182    
-;;;183    		if (len!=11) {
-;;;184    			ser_sendError(SER_ERROR_INVALID_REQUEST, checksum);
-;;;185    			return 0;
-;;;186    		}
-;;;187    		
-;;;188    		x0 = *(uint16_t *)(data+0);
-;;;189    		y0 = *(uint16_t *)(data+2);
-;;;190    		x1 = *(uint16_t *)(data+4);
-;;;191    		y1 = *(uint16_t *)(data+6);
-;;;192    		sat = *(data+8);
-;;;193    		strideX = *(data+9);
-;;;194    		strideY = *(data+10);
-;;;195    		
-;;;196    		uint8_t outData[256];
-;;;197    		uint8_t length = MIN(((x1 - x0) / strideX) * ((y1 - y0) / strideY), 255);
+;;;182    		if (len!=11) {
+;;;183    			ser_sendError(SER_ERROR_INVALID_REQUEST, checksum);
+;;;184    			return 0;
+;;;185    		}
+;;;186    		
+;;;187    		x0 = *(uint16_t *)(data+0);
+;;;188    		y0 = *(uint16_t *)(data+2);
+;;;189    		x1 = *(uint16_t *)(data+4);
+;;;190    		y1 = *(uint16_t *)(data+6);
+;;;191    		sat = *(data+8);
+;;;192    		strideX = *(data+9);
+;;;193    		strideY = *(data+10);
+;;;194    		
+;;;195    		uint8_t outData[256];
+;;;196    		uint8_t length = MIN(((x1 - x0) / strideX) * ((y1 - y0) / strideY), 255);
+;;;197    		
 ;;;198    		getGrayRect(x0,y0,x1,y1,sat,strideX, strideY, outData, length);
-;;;199    		
+;;;199    		ser_sendResults(outData, length, checksum);
 ;;;200    		
-;;;201    		ser_sendResults(outData, length, checksum);
-;;;202    		
-;;;203    		return 0;
-;;;204    	}
-;;;205    	
-;;;206    	// nothing rings a bell, return error
-;;;207    	return -1;
-00036a  1080              ASRS     r0,r0,#2
-                  |L1.876|
-;;;208    }
-00036c  b046              ADD      sp,sp,#0x118
-00036e  e8bd87f0          POP      {r4-r10,pc}
-                  |L1.882|
-000372  2b05              CMP      r3,#5                 ;162
-000374  d004              BEQ      |L1.896|
-000376  4639              MOV      r1,r7                 ;164
-000378  f7fffffe          BL       _Z13ser_sendErrorab ; ser_sendError(signed char, bool)
-00037c  2000              MOVS     r0,#0                 ;165
-00037e  e7f5              B        |L1.876|
-                  |L1.896|
-000380  8810              LDRH     r0,[r2,#0]            ;168
-000382  8851              LDRH     r1,[r2,#2]            ;169
-000384  7912              LDRB     r2,[r2,#4]            ;170
-000386  f7fffffe          BL       _Z6getRGBtth ; getRGB(unsigned short, unsigned short, unsigned char)
-00038a  4639              MOV      r1,r7                 ;173
-00038c  f7fffffe          BL       _Z14ser_sendResultib ; ser_sendResult(int, bool)
-000390  2000              MOVS     r0,#0                 ;175
-000392  e7eb              B        |L1.876|
-                  |L1.916|
-000394  2b0b              CMP      r3,#0xb               ;183
-000396  d004              BEQ      |L1.930|
-000398  4639              MOV      r1,r7                 ;184
-00039a  f7fffffe          BL       _Z13ser_sendErrorab ; ser_sendError(signed char, bool)
-00039e  2000              MOVS     r0,#0                 ;185
-0003a0  e7e4              B        |L1.876|
-                  |L1.930|
-0003a2  8810              LDRH     r0,[r2,#0]            ;188
-0003a4  8855              LDRH     r5,[r2,#2]            ;189
-0003a6  8896              LDRH     r6,[r2,#4]            ;190
-0003a8  88d3              LDRH     r3,[r2,#6]            ;191
-0003aa  f8928008          LDRB     r8,[r2,#8]            ;192
-0003ae  7a51              LDRB     r1,[r2,#9]            ;193
-0003b0  7a92              LDRB     r2,[r2,#0xa]          ;194
-0003b2  eba60c00          SUB      r12,r6,r0             ;197
-0003b6  1b5c              SUBS     r4,r3,r5              ;197
-0003b8  fb9cf9f1          SDIV     r9,r12,r1             ;197
-0003bc  fb94faf2          SDIV     r10,r4,r2             ;197
-0003c0  fb09f90a          MUL      r9,r9,r10             ;197
-0003c4  f1b90fff          CMP      r9,#0xff              ;197
-0003c8  da06              BGE      |L1.984|
-0003ca  fb9cfcf1          SDIV     r12,r12,r1            ;197
-0003ce  fb94f4f2          SDIV     r4,r4,r2              ;197
-0003d2  fb0cfc04          MUL      r12,r12,r4            ;197
-0003d6  e001              B        |L1.988|
-                  |L1.984|
-0003d8  f04f0cff          MOV      r12,#0xff             ;197
-                  |L1.988|
-0003dc  f00c04ff          AND      r4,r12,#0xff          ;197
-0003e0  f10d0c18          ADD      r12,sp,#0x18          ;198
-0003e4  e9cdc403          STRD     r12,r4,[sp,#0xc]      ;198
-0003e8  e9cd8100          STRD     r8,r1,[sp,#0]         ;198
-0003ec  9202              STR      r2,[sp,#8]            ;198
-0003ee  4632              MOV      r2,r6                 ;198
-0003f0  4629              MOV      r1,r5                 ;198
-0003f2  f7fffffe          BL       _Z11getGrayRecttttthhhPhh ; getGrayRect(unsigned short, unsigned short, unsigned short, unsigned short, unsigned char, unsigned char, unsigned char, unsigned char*, unsigned char)
-0003f6  463a              MOV      r2,r7                 ;201
-0003f8  4621              MOV      r1,r4                 ;201
-0003fa  a806              ADD      r0,sp,#0x18           ;201
-0003fc  e01a              B        |L1.1076|
-0003fe  0000              DCW      0x0000
-                  |L1.1024|
-                          DCD      _ZTV9ProgVideo+0x8 ; vtable for ProgVideo
-                  |L1.1028|
-                          DCD      g_execArg
-                  |L1.1032|
-                          DCD      0x2000fc02
-                  |L1.1036|
-                          DCD      _ZSt7nothrow ; std::nothrow
-                  |L1.1040|
-                          DCD      0x10080040
-                  |L1.1044|
-                          DCD      ||.data||
-                  |L1.1048|
-                          DCD      g_chirpUsb
-                  |L1.1052|
-                          DCD      0x32564d43
-                  |L1.1056|
-                          DCD      0x31384142
-                  |L1.1060|
-000424  6e6f7420          DCB      "not streaming\n",0
-000428  73747265
-00042c  616d696e
-000430  670a00  
-000433  00                DCB      0
-                  |L1.1076|
-000434  f7fffffe          BL       _Z15ser_sendResultsPhhb ; ser_sendResults(unsigned char*, unsigned char, bool)
-000438  2000              MOVS     r0,#0                 ;203
-00043a  e797              B        |L1.876|
-;;;209    
+;;;201    		return 0;
+;;;202    	}
+;;;203    	
+;;;204    	// nothing rings a bell, return error
+;;;205    	return -1;
+0002f8  1080              ASRS     r0,r0,#2
+                  |L1.762|
+;;;206    }
+0002fa  b046              ADD      sp,sp,#0x118
+0002fc  e8bd87f0          POP      {r4-r10,pc}
+                  |L1.768|
+000300  2b05              CMP      r3,#5                 ;162
+000302  d004              BEQ      |L1.782|
+000304  4639              MOV      r1,r7                 ;164
+000306  f7fffffe          BL       _Z13ser_sendErrorab ; ser_sendError(signed char, bool)
+00030a  2000              MOVS     r0,#0                 ;165
+00030c  e7f5              B        |L1.762|
+                  |L1.782|
+00030e  8810              LDRH     r0,[r2,#0]            ;168
+000310  8851              LDRH     r1,[r2,#2]            ;169
+000312  7912              LDRB     r2,[r2,#4]            ;170
+000314  f7fffffe          BL       _Z6getRGBtth ; getRGB(unsigned short, unsigned short, unsigned char)
+000318  4639              MOV      r1,r7                 ;173
+00031a  f7fffffe          BL       _Z14ser_sendResultib ; ser_sendResult(int, bool)
+00031e  2000              MOVS     r0,#0                 ;175
+000320  e7eb              B        |L1.762|
+                  |L1.802|
+000322  2b0b              CMP      r3,#0xb               ;182
+000324  d004              BEQ      |L1.816|
+000326  4639              MOV      r1,r7                 ;183
+000328  f7fffffe          BL       _Z13ser_sendErrorab ; ser_sendError(signed char, bool)
+00032c  2000              MOVS     r0,#0                 ;184
+00032e  e7e4              B        |L1.762|
+                  |L1.816|
+000330  8810              LDRH     r0,[r2,#0]            ;187
+000332  8855              LDRH     r5,[r2,#2]            ;188
+000334  8896              LDRH     r6,[r2,#4]            ;189
+000336  88d3              LDRH     r3,[r2,#6]            ;190
+000338  f8928008          LDRB     r8,[r2,#8]            ;191
+00033c  7a51              LDRB     r1,[r2,#9]            ;192
+00033e  7a92              LDRB     r2,[r2,#0xa]          ;193
+000340  eba60c00          SUB      r12,r6,r0             ;196
+000344  1b5c              SUBS     r4,r3,r5              ;196
+000346  fb9cf9f1          SDIV     r9,r12,r1             ;196
+00034a  fb94faf2          SDIV     r10,r4,r2             ;196
+00034e  fb09f90a          MUL      r9,r9,r10             ;196
+000352  f1b90fff          CMP      r9,#0xff              ;196
+000356  da06              BGE      |L1.870|
+000358  fb9cfcf1          SDIV     r12,r12,r1            ;196
+00035c  fb94f4f2          SDIV     r4,r4,r2              ;196
+000360  fb0cfc04          MUL      r12,r12,r4            ;196
+000364  e001              B        |L1.874|
+                  |L1.870|
+000366  f04f0cff          MOV      r12,#0xff             ;196
+                  |L1.874|
+00036a  f00c04ff          AND      r4,r12,#0xff          ;196
+00036e  f10d0c18          ADD      r12,sp,#0x18          ;198
+000372  e9cdc403          STRD     r12,r4,[sp,#0xc]      ;198
+000376  e9cd8100          STRD     r8,r1,[sp,#0]         ;198
+00037a  9202              STR      r2,[sp,#8]            ;198
+00037c  4632              MOV      r2,r6                 ;198
+00037e  4629              MOV      r1,r5                 ;198
+000380  f7fffffe          BL       _Z11getGrayRecttttthhhPhh ; getGrayRect(unsigned short, unsigned short, unsigned short, unsigned short, unsigned char, unsigned char, unsigned char, unsigned char*, unsigned char)
+000384  463a              MOV      r2,r7                 ;199
+000386  4621              MOV      r1,r4                 ;199
+000388  a806              ADD      r0,sp,#0x18           ;199
+00038a  f7fffffe          BL       _Z15ser_sendResultsPhhb ; ser_sendResults(unsigned char*, unsigned char, bool)
+00038e  2000              MOVS     r0,#0                 ;201
+000390  e7b3              B        |L1.762|
+;;;207    
                           ENDP
 
                   __sti___13_progvideo_cpp_827dad01 PROC
-00043c  b5f0              PUSH     {r4-r7,lr}            ;0
-00043e  2470              MOVS     r4,#0x70              ;0
-000440  a208              ADR      r2,|L1.1124|
-000442  a30a              ADR      r3,|L1.1132|
-000444  257f              MOVS     r5,#0x7f              ;0
-000446  f2af410f          ADR      r1,_Z15createProgVideoh + 1 ; createProgVideo(unsigned char)
-00044a  4f12              LDR      r7,|L1.1172|
-00044c  7838              LDRB     r0,[r7,#0]            ;0  ; _ZN13ProgTableUtil16m_progTableIndexE
-00044e  1c46              ADDS     r6,r0,#1              ;0
-000450  703e              STRB     r6,[r7,#0]            ;0
-000452  4e11              LDR      r6,|L1.1176|
-000454  eb061000          ADD      r0,r6,r0,LSL #4       ;0
-000458  6002              STR      r2,[r0,#0]            ;0
-00045a  6043              STR      r3,[r0,#4]            ;0
-00045c  7204              STRB     r4,[r0,#8]            ;0
-00045e  7245              STRB     r5,[r0,#9]            ;0
-000460  60c1              STR      r1,[r0,#0xc]          ;0
-000462  bdf0              POP      {r4-r7,pc}            ;0
+000392  b5f0              PUSH     {r4-r7,lr}            ;0
+000394  2470              MOVS     r4,#0x70              ;0
+000396  a216              ADR      r2,|L1.1008|
+000398  a317              ADR      r3,|L1.1016|
+00039a  257f              MOVS     r5,#0x7f              ;0
+00039c  f2af3167          ADR      r1,_Z15createProgVideoh + 1 ; createProgVideo(unsigned char)
+0003a0  4f1f              LDR      r7,|L1.1056|
+0003a2  7838              LDRB     r0,[r7,#0]            ;0  ; _ZN13ProgTableUtil16m_progTableIndexE
+0003a4  1c46              ADDS     r6,r0,#1              ;0
+0003a6  703e              STRB     r6,[r7,#0]            ;0
+0003a8  4e1e              LDR      r6,|L1.1060|
+0003aa  eb061000          ADD      r0,r6,r0,LSL #4       ;0
+0003ae  6002              STR      r2,[r0,#0]            ;0
+0003b0  6043              STR      r3,[r0,#4]            ;0
+0003b2  7204              STRB     r4,[r0,#8]            ;0
+0003b4  7245              STRB     r5,[r0,#9]            ;0
+0003b6  60c1              STR      r1,[r0,#0xc]          ;0
+0003b8  bdf0              POP      {r4-r7,pc}            ;0
                           ENDP
 
-                  |L1.1124|
-000464  76696465          DCB      "video",0
-000468  6f00    
-00046a  00                DCB      0
-00046b  00                DCB      0
-                  |L1.1132|
-00046c  636f6e74          DCB      "continuous stream of raw camera frames",0
-000470  696e756f
-000474  75732073
-000478  74726561
-00047c  6d206f66
-000480  20726177
-000484  2063616d
-000488  65726120
-00048c  6672616d
-000490  657300  
-000493  00                DCB      0
-                  |L1.1172|
+0003ba  0000              DCW      0x0000
+                  |L1.956|
+                          DCD      _ZTV9ProgVideo+0x8 ; vtable for ProgVideo
+                  |L1.960|
+                          DCD      g_execArg
+                  |L1.964|
+                          DCD      0x2000fc02
+                  |L1.968|
+                          DCD      _ZSt7nothrow ; std::nothrow
+                  |L1.972|
+                          DCD      0x10080040
+                  |L1.976|
+                          DCD      ||.data||
+                  |L1.980|
+                          DCD      g_chirpUsb
+                  |L1.984|
+                          DCD      0x32564d43
+                  |L1.988|
+                          DCD      0x31384142
+                  |L1.992|
+0003e0  6e6f7420          DCB      "not streaming\n",0
+0003e4  73747265
+0003e8  616d696e
+0003ec  670a00  
+0003ef  00                DCB      0
+                  |L1.1008|
+0003f0  76696465          DCB      "video",0
+0003f4  6f00    
+0003f6  00                DCB      0
+0003f7  00                DCB      0
+                  |L1.1016|
+0003f8  636f6e74          DCB      "continuous stream of raw camera frames",0
+0003fc  696e756f
+000400  75732073
+000404  74726561
+000408  6d206f66
+00040c  20726177
+000410  2063616d
+000414  65726120
+000418  6672616d
+00041c  657300  
+00041f  00                DCB      0
+                  |L1.1056|
                           DCD      _ZN13ProgTableUtil16m_progTableIndexE ; ProgTableUtil::m_progTableIndex
-                  |L1.1176|
+                  |L1.1060|
                           DCD      _ZN13ProgTableUtil11m_progTableE ; ProgTableUtil::m_progTable
 
                           AREA ||.ARM.exidx||, LINKORDER=||.text||, DATA, READONLY, SECTYPE={SHT_ARM_EXIDX}, ALIGN=2

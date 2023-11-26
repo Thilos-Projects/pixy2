@@ -26,4 +26,4 @@ F (.\src\equeue.c)(0x6555EAEE)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apc
 I (..\..\common\inc\equeue.h)(0x6555EAEE)
 I (E:\Keil\Core\ARM\Arm_Compiler_5.06u7\include\stdint.h)(0x5E8E9F32)
 I (..\common\inc\pixyvals.h)(0x6555EAEE)
-F (..\libpixy_m0\libpixy_m0.lib)(0x655CF966)()
+F (..\libpixy_m0\libpixy_m0.lib)(0x65637D70)()
